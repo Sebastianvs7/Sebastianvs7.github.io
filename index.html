@@ -1,55 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>John Doe - Portfolio</title>
-  <link rel="stylesheet" href="./style.css" />
-</head>
-<body>
-  <header>
-    <img src="profile.jpg" alt="John Doe" class="profile-img" />
-    <div class="intro-text">
-      <h1>Hi, I'm <span>John Doe</span></h1>
-      <p>I'm a software developer</p>
-      <a href="#about" class="button">About Me</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Developer Portfolio - Your Name</title>
+    <meta
+      name="description"
+      content="Portfolio of Your Name - Web Developer specializing in modern, scalable web applications."
+    />
+    <meta name="author" content="Your Name" />
+    <meta name="theme-color" content="#f5f0e6" />
+    <link rel="icon" href="favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <div
+      id="loading-screen"
+      style="
+        position: fixed;
+        inset: 0;
+        background: #f5f0e6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.5rem;
+        color: #7a6853;
+        z-index: 9999;
+        user-select: none;
+      "
+    >
+      <span id="loading-text"></span>
     </div>
-  </header>
 
-  <section id="about" class="boxed">
-    <h2>About Me</h2>
-    <p>
-      I’m a passionate software developer with experience in building web applications using modern technologies.
-      I enjoy tackling challenging problems and continuously improving my skills.
-    </p>
-  </section>
+    <template id="header-template">
+      <link rel="import" href="./components/header.html" />
+    </template>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project-grid">
-      <div class="project boxed">
-        <h3>Project One</h3>
-        <p>A short description of the project</p>
-      </div>
-      <div class="project boxed">
-        <h3>Project Two</h3>
-        <p>A short description of the project</p>
-      </div>
-      <div class="project boxed">
-        <h3>Project Three</h3>
-        <p>A short description of the project</p>
-      </div>
-      <div class="project boxed">
-        <h3>Project Four</h3>
-        <p>A short description of the project</p>
-      </div>
-    </div>
-  </section>
+    <main>
+      <template id="intro-template">
+        <link rel="import" href="./components/intro.html" />
+      </template>
 
-  <section id="contact" class="boxed">
-    <h2>Contact</h2>
-    <p>Feel free to reach out if you’d like to collaborate or have any questions.</p>
-    <p><a href="mailto:john.doe@example.com">john.doe@example.com</a></p>
-  </section>
-</body>
+      <template id="timeline-template">
+        <link rel="import" href="./components/timeline.html" />
+      </template>
+
+      <template id="contact-template">
+        <link rel="import" href="./components/contact.html" />
+      </template>
+    </main>
+
+    <footer>&copy; 2025 Your Name. All rights reserved.</footer>
+
+    <script src="./scripts/script.js"></script>
+  </body>
 </html>
