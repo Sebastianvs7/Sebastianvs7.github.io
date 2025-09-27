@@ -4,7 +4,7 @@ export const introComponent = (t) => `
   <section id="intro" tabindex="-1" aria-label="Introduction">
     <div class="intro-text">
       <h1>${t("intro.name")}</h1>
-      <p class="intro-subtitle">${t("intro.subtitle")}</p>
+      <h2 class="intro-subtitle">${t("intro.subtitle")}</h2>
       <h3>${t("intro.role")}</h3>
       <p>${t("intro.description")}</p>
 
