@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 2032 1787" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Artboard1" transform="matrix(0.293731,0,0,0.334408,17.5452,27.2828)">
+        <rect x="-59.732" y="-81.585" width="6914.52" height="5341.64" style="fill:none;"/>
+        <g id="Vrstva-1" serif:id="Vrstva 1" transform="matrix(14.1853,0,0,12.4598,-7950.46,-4889.85)">
+            <g transform="matrix(1,0,0,1,713.631,388.071)">
+                <path d="M0,425.197L-10.208,425.197L-121.913,13.211L-155.544,13.211L-155.544,0L-21.619,0L46.845,247.43L0,425.197ZM-58.255,411.986L-76.872,411.986C-84.679,411.986 -99.092,410.784 -99.092,385.559L-99.092,186.773L-112.306,136.326L-112.306,385.559C-112.306,410.784 -126.719,411.986 -134.526,411.986L-153.143,411.986L-153.143,425.197L-58.255,425.197L-58.255,411.986Z" style="fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,763.475,485.36)">
+                <path d="M0,230.619L5.406,216.801L78.675,216.801L83.477,230.619L0,230.619ZM106.296,327.908L106.296,314.698L141.131,314.698L34.833,27.025L81.677,-97.289L91.883,-97.289L249.232,314.698L279.261,314.698L279.261,327.908L106.296,327.908Z" style="fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </g>
+</svg>
