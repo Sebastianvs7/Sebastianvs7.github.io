@@ -8,7 +8,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: true,
     image: "./assets/images/biocultus-logo.svg",
-    gradientColors: ["#2d5016", "#1a2f0c"], // Dark green tones
   },
   {
     id: "koh-i-noor",
@@ -19,7 +18,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: true,
     image: "./assets/images/kin-logo.svg",
-    gradientColors: ["#8b0000", "#5c0000"], // Dark red tones
   },
   {
     id: "zoeto",
@@ -38,7 +36,6 @@ export const projectsData = [
     ],
     visible: true,
     image: "./assets/images/logo_zoetis.svg",
-    gradientColors: ["#1e3a5f", "#0f1d2f"], // Dark blue tones
   },
   {
     id: "furnatura",
@@ -49,7 +46,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: true,
     image: "./assets/images/furnatura-prague.svg",
-    gradientColors: ["#8B4513", "#5D2F0A"], // Dark brown tones
   },
   {
     id: "yogarden",
@@ -60,7 +56,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: true,
     image: "./assets/images/logo-yogarden.svg",
-    gradientColors: ["#4A5D23", "#2F3A16"], // Dark olive tones
   },
   {
     id: "elements",
@@ -71,7 +66,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: true,
     image: "./assets/images/logo-elements.svg",
-    gradientColors: ["#2F4F4F", "#1C2F2F"], // Dark slate tones
   },
   {
     id: "mobile-phone-museum",
@@ -82,7 +76,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: false, // Hidden by default
     image: "./assets/images/logo-mpm.svg",
-    gradientColors: ["#4B0082", "#2F0052"], // Dark purple tones
   },
   {
     id: "joalis",
@@ -93,7 +86,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: false,
     image: "./assets/images/logo-joalis.png",
-    gradientColors: ["#006400", "#004000"], // Dark green tones
   },
   {
     id: "shop8-cms",
@@ -104,7 +96,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: false,
     image: "./assets/images/logo-code8.svg",
-    gradientColors: ["#FF6B35", "#CC4A1A"], // Dark orange tones
   },
   {
     id: "moonwood",
@@ -115,7 +106,6 @@ export const projectsData = [
     linkText: "View Project",
     visible: false,
     image: "./assets/images/logo-moonwood.svg",
-    gradientColors: ["#8B4513", "#5D2F0A"], // Dark brown tones
   },
   {
     id: "magnus-art",
@@ -126,6 +116,5 @@ export const projectsData = [
     linkText: "View Project",
     visible: false,
     image: "./assets/images/MA_logo.svg",
-    gradientColors: ["#800080", "#4B0048"], // Dark purple tones
   },
 ];

@@ -149,6 +149,15 @@ function initializeShowMore() {
     } else {
       showMoreText.classList.remove("hidden");
       showLessText.classList.add("hidden");
+
+      // Scroll to top of projects section when showing less
+      const projectsSection = document.getElementById("projects");
+      if (projectsSection) {
+        projectsSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
     }
   });
 }

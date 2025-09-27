@@ -62,10 +62,6 @@ const renderProjectDescription = (description, projectId) => {
 
 // Helper function to render a single project card
 const renderProjectCard = (project, t) => {
-  const gradientOverlay = project.gradientColors
-    ? `background: linear-gradient(135deg, ${project.gradientColors[0]}CC, ${project.gradientColors[1]}CC);`
-    : "background: linear-gradient(135deg, #333C, #222C);";
-
   return `
     <div class="project-card ${!project.visible ? "hidden-project" : ""}">
       <div class="project-image">
@@ -81,7 +77,7 @@ const renderProjectCard = (project, t) => {
         `
             : ""
         }
-        <div class="image-gradient-overlay" style="${gradientOverlay}"></div>
+        <div class="image-gradient-overlay"></div>
       </div>
       <div class="project-content">
         <h3>${project.title}</h3>
