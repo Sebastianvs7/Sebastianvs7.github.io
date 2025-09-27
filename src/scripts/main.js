@@ -1,49 +1,41 @@
-// Initialize all functionality
-function initializeApp() {
-  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-  const body = document.body;
-  const storedTheme = localStorage.getItem("theme");
+import i18next from "i18next";
 
+// Initialize i18next
+async function initializeI18n() {
   // Get user's preferred language from browser/system
   const browserLang = navigator.language || navigator.languages[0];
   const preferredLang = browserLang.startsWith("cs") ? "cs" : "en";
   const storedLang = localStorage.getItem("language") || preferredLang;
 
+  // Load translation files
+  const [enTranslations, csTranslations] = await Promise.all([
+    fetch("./locales/en.json").then((res) => res.json()),
+    fetch("./locales/cs.json").then((res) => res.json()),
+  ]);
+
+  await i18next.init({
+    lng: storedLang,
+    fallbackLng: "en",
+    resources: {
+      en: { translation: enTranslations },
+      cs: { translation: csTranslations },
+    },
+  });
+}
+
+// Initialize all functionality
+async function initializeApp() {
+  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const body = document.body;
+  const storedTheme = localStorage.getItem("theme");
+
+  // Initialize i18next
+  await initializeI18n();
+
   console.log(
     "%cHey there, curious developer! 🕵️‍♂️ If you're reading this, you're officially awesome. 🚀",
     "color: #7a6853; font-size: 18px; font-weight: bold;"
   );
-
-  const translations = {
-    en: {
-      intro: "Intro",
-      projects: "Projects",
-      experience: "Experience",
-      contact: "Contact",
-      name: "Sebastian Šanda",
-      role: "Web Developer specializing in modern scalable web apps",
-      description:
-        "Passionate about building performant and accessible websites that bring ideas to life. Experienced in JavaScript, React, Node.js, and CSS.",
-      email: "📧 seba.vysin@seznam.cz",
-      github: "🐙 GitHub",
-      linkedin: "💼 LinkedIn",
-      footer: "© 2025 Sebastian Šanda. All rights reserved.",
-    },
-    cs: {
-      intro: "Úvod",
-      projects: "Projekty",
-      experience: "Zkušenosti",
-      contact: "Kontakt",
-      name: "Sebastian Šanda",
-      role: "Webový vývojář specializující se na moderní škálovatelné webové aplikace",
-      description:
-        "Vášnivý vývojář zaměřený na tvorbu výkonných a přístupných webových stránek, které oživují nápady. Zkušenosti s JavaScriptem, Reactem, Node.js a CSS.",
-      email: "📧 seba.vysin@seznam.cz",
-      github: "🐙 GitHub",
-      linkedin: "💼 LinkedIn",
-      footer: "© 2025 Sebastian Šanda. Všechna práva vyhrazena.",
-    },
-  };
 
   function applyTheme(theme) {
     if (theme === "dark") {
@@ -53,36 +45,52 @@ function initializeApp() {
     }
   }
 
-  function applyLanguage(lang) {
+  async function applyLanguage(lang) {
+    // Change i18next language
+    await i18next.changeLanguage(lang);
+
     // Update navigation
     const introLink = document.querySelector('a[href="#intro"]');
     const projectsLink = document.querySelector('a[href="#projects"]');
     const experiencesLink = document.querySelector('a[href="#experiences"]');
     const contactLink = document.querySelector('a[href="#contact"]');
 
-    if (introLink) introLink.textContent = translations[lang].intro;
-    if (projectsLink) projectsLink.textContent = translations[lang].projects;
+    if (introLink) introLink.textContent = i18next.t("navigation.intro");
+    if (projectsLink)
+      projectsLink.textContent = i18next.t("navigation.projects");
     if (experiencesLink)
-      experiencesLink.textContent = translations[lang].experience;
-    if (contactLink) contactLink.textContent = translations[lang].contact;
+      experiencesLink.textContent = i18next.t("navigation.experience");
+    if (contactLink) contactLink.textContent = i18next.t("navigation.contact");
 
     // Update intro section
     const introName = document.querySelector(".intro-text h1");
     const introRole = document.querySelector(".intro-text h3");
     const introDesc = document.querySelector(".intro-text p");
 
-    if (introName) introName.textContent = translations[lang].name;
-    if (introRole) introRole.textContent = translations[lang].role;
-    if (introDesc) introDesc.textContent = translations[lang].description;
+    if (introName) introName.textContent = i18next.t("intro.name");
+    if (introRole) introRole.textContent = i18next.t("intro.role");
+    if (introDesc) introDesc.textContent = i18next.t("intro.description");
 
     // Update section headers
     const projectsHeader = document.querySelector("#projects h2");
     const experiencesHeader = document.querySelector("#experiences h2");
+    const projectsSubtitle = document.querySelector(".projects-subtitle");
+    const experiencesSubtitle = document.querySelector(".experiences-subtitle");
 
     if (projectsHeader)
-      projectsHeader.textContent = translations[lang].projects;
+      projectsHeader.textContent = i18next.t("sections.projects");
     if (experiencesHeader)
-      experiencesHeader.textContent = translations[lang].experience;
+      experiencesHeader.textContent = i18next.t("sections.experience");
+    if (projectsSubtitle)
+      projectsSubtitle.textContent = i18next.t("projects.subtitle");
+    if (experiencesSubtitle)
+      experiencesSubtitle.textContent = i18next.t("experiences.subtitle");
+
+    // Update show more button text
+    const showMoreText = document.querySelector(".show-more-text");
+    const showLessText = document.querySelector(".show-less-text");
+    if (showMoreText) showMoreText.textContent = i18next.t("projects.showMore");
+    if (showLessText) showLessText.textContent = i18next.t("projects.showLess");
 
     // Update contact section
     const emailLink = document.querySelector(".contact-links a:nth-child(1)");
@@ -90,12 +98,12 @@ function initializeApp() {
       ".contact-links a:nth-child(2)"
     );
 
-    if (emailLink) emailLink.textContent = translations[lang].email;
-    if (linkedinLink) linkedinLink.textContent = translations[lang].linkedin;
+    if (emailLink) emailLink.textContent = i18next.t("contact.email");
+    if (linkedinLink) linkedinLink.textContent = i18next.t("contact.linkedin");
 
     // Update footer
     const footer = document.querySelector("footer");
-    if (footer) footer.textContent = translations[lang].footer;
+    if (footer) footer.textContent = i18next.t("footer");
 
     // Update language toggle buttons
     const langToggle = document.querySelector("#lang-toggle");
@@ -117,16 +125,16 @@ function initializeApp() {
   }
 
   // Apply initial language
-  applyLanguage(storedLang);
+  await applyLanguage(i18next.language);
 
   // Language toggle logic
   const langButtons = document.querySelectorAll(
     "#lang-toggle, #lang-toggle-mobile"
   );
   langButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const newLang = btn.textContent === "CS" ? "cs" : "en";
-      applyLanguage(newLang);
+      await applyLanguage(newLang);
     });
   });
 
@@ -227,7 +235,9 @@ function startApp() {
 
   // Fade out loading screen
   if (loadingScreen) {
-    loadingScreen.classList.add("fade-out");
+    setTimeout(() => {
+      loadingScreen.classList.add("fade-out");
+    }, 1000);
 
     setTimeout(() => {
       loadingScreen.style.display = "none";
@@ -241,7 +251,7 @@ function startApp() {
           section.style.transition = "opacity 1s ease-in-out";
         }
       });
-    }, 1000);
+    }, 2000);
   }
 }
 

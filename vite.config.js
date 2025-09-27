@@ -30,7 +30,10 @@ export default defineConfig({
         ),
       },
     },
+    copyPublicDir: true,
+    assetsDir: "assets",
   },
+  publicDir: false, // Disable default public dir
   css: {
     preprocessorOptions: {
       scss: {
@@ -51,6 +54,36 @@ export default defineConfig({
         },
       },
     }),
+    {
+      name: "copy-locales",
+      generateBundle() {
+        // Copy locales files to build output
+        const localesDir = resolve(
+          fileURLToPath(new URL(".", import.meta.url)),
+          "src/locales"
+        );
+        const enContent = fs.readFileSync(
+          resolve(localesDir, "en.json"),
+          "utf-8"
+        );
+        const csContent = fs.readFileSync(
+          resolve(localesDir, "cs.json"),
+          "utf-8"
+        );
+
+        this.emitFile({
+          type: "asset",
+          fileName: "locales/en.json",
+          source: enContent,
+        });
+
+        this.emitFile({
+          type: "asset",
+          fileName: "locales/cs.json",
+          source: csContent,
+        });
+      },
+    },
   ],
   server: {
     open: true,

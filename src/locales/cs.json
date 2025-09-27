@@ -1,0 +1,30 @@
+{
+  "navigation": {
+    "intro": "Úvod",
+    "projects": "Projekty",
+    "experience": "Zkušenosti",
+    "contact": "Kontakt"
+  },
+  "intro": {
+    "name": "Sebastian Šanda",
+    "role": "Webový vývojář specializující se na moderní škálovatelné webové aplikace",
+    "description": "Vášnivý vývojář zaměřený na tvorbu výkonných a přístupných webových stránek, které oživují nápady. Zkušenosti s JavaScriptem, Reactem, Node.js a CSS."
+  },
+  "sections": {
+    "projects": "Projekty",
+    "experience": "Pracovní zkušenosti"
+  },
+  "contact": {
+    "email": "📧 seba.vysin@seznam.cz",
+    "linkedin": "💼 LinkedIn"
+  },
+  "footer": "© 2025 Sebastian Šanda. Všechna práva vyhrazena.",
+  "projects": {
+    "subtitle": "Výběr mých nejnovějších prací.",
+    "showMore": "Zobrazit více projektů",
+    "showLess": "Zobrazit méně"
+  },
+  "experiences": {
+    "subtitle": "Moje profesní cesta."
+  }
+}
