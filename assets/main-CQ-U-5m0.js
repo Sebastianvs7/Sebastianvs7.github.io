@@ -41,7 +41,7 @@
   <section id="intro" tabindex="-1" aria-label="Introduction">
     <div class="intro-text">
       <h1>${a("intro.name")}</h1>
-      <p class="intro-subtitle">${a("intro.subtitle")}</p>
+      <h2 class="intro-subtitle">${a("intro.subtitle")}</h2>
       <h3>${a("intro.role")}</h3>
       <p>${a("intro.description")}</p>
 
