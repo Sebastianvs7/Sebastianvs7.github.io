@@ -31,7 +31,6 @@ export const experiencesComponent = (t) => `
   <section id="experiences" tabindex="-1" aria-label="Working Experiences">
     <div class="experiences-header">
       <h2>${t("sections.experience")}</h2>
-      <p class="experiences-subtitle">${t("experiences.subtitle")}</p>
     </div>
 
     <div class="experiences-timeline">

@@ -88,23 +88,14 @@ a {
     }
 
     &:nth-child(2) {
-      width: 70%;
-      height: 70%;
-      top: 18%;
-      left: 18%;
-      border-width: 1px;
+      width: 60%;
+      height: 60%;
+      top: 20%;
+      left: 20%;
+      border-width: 2px;
       animation-duration: 1.8s;
       animation-direction: reverse;
-      opacity: 0.6;
-    }
-
-    &:nth-child(3) {
-      width: 40%;
-      height: 40%;
-      top: 30%;
-      left: 30%;
-      animation-duration: 0.9s;
-      opacity: 0.4;
+      opacity: 0.7;
     }
   }
 }
@@ -117,8 +108,8 @@ body.dark-mode #loading-screen {
     border-top: 3px solid var(--color-accent-dark);
 
     &:nth-child(2) {
-      border: 1px solid rgba(212, 201, 179, 0.1);
-      border-top: 1px solid var(--color-accent-dark);
+      border: 2px solid rgba(212, 201, 179, 0.1);
+      border-top: 2px solid var(--color-accent-dark);
     }
   }
 }

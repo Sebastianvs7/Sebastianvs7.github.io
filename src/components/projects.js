@@ -26,27 +26,6 @@ const renderProjectLinks = (project, t) => {
   return "";
 };
 
-// Helper function to render contributions text
-const renderContributions = (contributions) => {
-  if (!contributions) return "";
-
-  const lines = contributions.split("\n").filter((line) => line.trim());
-  return `
-    <div class="project-contributions">
-      ${lines
-        .map((line) => {
-          if (line.trim().endsWith(":")) {
-            return `<h4>${line.trim()}</h4>`;
-          } else if (line.trim()) {
-            return `<p>${line.trim()}</p>`;
-          }
-          return "";
-        })
-        .join("")}
-    </div>
-  `;
-};
-
 // Helper function to render project description with truncation
 const renderProjectDescription = (description, projectId) => {
   return `
@@ -82,7 +61,6 @@ const renderProjectCard = (project, t) => {
       <div class="project-content">
         <h3>${project.title}</h3>
         ${renderProjectDescription(project.description, project.id)}
-        ${renderContributions(project.contributions)}
         ${renderProjectLinks(project, t)}
       </div>
     </div>
@@ -93,7 +71,6 @@ export const projectsComponent = (t) => `
   <section id="projects" tabindex="-1" aria-label="Projects">
     <div class="projects-header">
       <h2>${t("sections.projects")}</h2>
-      <p class="projects-subtitle">${t("projects.subtitle")}</p>
     </div>
 
     <div class="projects-grid" id="projects-grid">
