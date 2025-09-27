@@ -1,0 +1,143 @@
+#intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 5rem;
+
+  .intro-text {
+    flex: 1 1 350px;
+    max-width: 550px;
+
+    h3 {
+      font-size: 1.5rem;
+      color: var(--color-accent);
+      margin-top: 0.5rem;
+    }
+
+    p {
+      font-size: 1.15rem;
+      margin-top: 0.7rem;
+      line-height: 1.5;
+      max-width: 520px;
+    }
+  }
+
+  .intro-img {
+    flex: 0 0 220px;
+    text-align: center;
+    user-select: none;
+
+    img {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: box-shadow 0.3s ease;
+      background-color: #f5f5f5;
+
+      &:hover,
+      &:focus {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        outline: none;
+      }
+    }
+  }
+
+  #fun-shapes {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-top: 2rem;
+    height: 100px;
+
+    .shape {
+      width: 50px;
+      height: 50px;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      cursor: default;
+    }
+
+    /* Circle */
+    .circle {
+      border: 3px solid #7a6853;
+      border-radius: 50%;
+      animation-name: bounceColorRotate;
+      animation-duration: 2.5s;
+    }
+
+    /* Square */
+    .square {
+      background-color: #7a6853;
+      animation-name: bounceFillRotate;
+      animation-duration: 4.3s;
+    }
+
+    /* Triangle */
+    .triangle {
+      width: 0;
+      height: 0;
+      border-left: 25px solid transparent;
+      border-right: 25px solid transparent;
+      border-bottom: 50px solid #7a6853;
+      animation-name: bounceRotate;
+      animation-duration: 2.5s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-timing-function: ease-in-out;
+      animation-delay: 0.5s;
+    }
+  }
+}
+
+body.dark-mode .intro-text h3 {
+  color: var(--color-accent-dark);
+}
+
+/* Animations */
+@keyframes bounceRotate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(15deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes bounceFillRotate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    background-color: #7a6853;
+  }
+  50% {
+    transform: translateY(-30px) rotate(-15deg);
+    background-color: #bfa46f;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+    background-color: #7a6853;
+  }
+}
+
+@keyframes bounceColorRotate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    border-color: #7a6853;
+  }
+  50% {
+    transform: translateY(-30px) rotate(15deg);
+    border-color: #bfa46f;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+    border-color: #7a6853;
+  }
+}

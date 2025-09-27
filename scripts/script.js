@@ -156,8 +156,6 @@ function initializeApp() {
     document.querySelector(".contact-links a:nth-child(1)").textContent =
       translations[lang].email;
     document.querySelector(".contact-links a:nth-child(2)").textContent =
-      translations[lang].github;
-    document.querySelector(".contact-links a:nth-child(3)").textContent =
       translations[lang].linkedin;
 
     // Update footer
@@ -303,49 +301,40 @@ function initializeApp() {
   });
 }
 
-// Initialize loading screen
-const loadingText = "Summoning code magic… 🧙‍♂️✨";
-const loadingElement = document.getElementById("loading-text");
-const loadingScreen = document.getElementById("loading-screen");
-let index = 0;
-
-function typeLoading() {
-  if (index < loadingText.length) {
-    loadingElement.textContent += loadingText.charAt(index);
-    index++;
-    setTimeout(typeLoading, 100); // typing speed
-  } else {
-    setTimeout(() => {
-      loadingScreen.style.opacity = "0";
-      loadingScreen.style.transition = "opacity 0.5s ease";
-      setTimeout(() => {
-        loadingScreen.style.display = "none";
-        // Fade in intro section immediately after loading screen disappears
-        const introSection = document.querySelector("#intro");
-        if (introSection) {
-          introSection.style.opacity = "1";
-          introSection.style.transition = "opacity 0.5s ease-in-out";
-        }
-      }, 500);
-    }, 700);
-  }
-}
-
 // Start the application
 async function startApp() {
-  // Temporarily disable fade-in observer until loading done
-  document
-    .querySelectorAll("section")
-    .forEach((section) => section.classList.remove("visible"));
-
-  // Start loading animation
-  typeLoading();
+  const loadingScreen = document.getElementById("loading-screen");
 
   // Load components
   await loadComponents();
 
   // Initialize app functionality
   initializeApp();
+
+  // Fade out loading screen
+  if (loadingScreen) {
+    // Remove loading screen from DOM after fade out completes
+    setTimeout(() => {
+      loadingScreen.style.display = "none";
+      loadingScreen.classList.add("fade-out");
+      const introSection = document.querySelector("#intro");
+
+      if (introSection) {
+        introSection.style.opacity = "1";
+        introSection.style.transition = "opacity 1s ease-in-out";
+      }
+      const timelineSection = document.querySelector("#timeline-section");
+      if (timelineSection) {
+        timelineSection.style.opacity = "1";
+        timelineSection.style.transition = "opacity 1s ease-in-out";
+      }
+      const contactSection = document.querySelector("#contact");
+      if (contactSection) {
+        contactSection.style.opacity = "1";
+        contactSection.style.transition = "opacity 1s ease-in-out";
+      }
+    }, 500); // Match the CSS transition duration
+  }
 }
 
 // Start the application

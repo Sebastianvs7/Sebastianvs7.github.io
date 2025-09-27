@@ -1,20 +1,12 @@
 {
-  "name": "sebastianvs7.github.io",
+  "name": "portfolio-website",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Personal portfolio website",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sass": "sass styles/sass/main.scss styles/style.css --watch",
+    "sass:build": "sass styles/sass/main.scss styles/style.css --style compressed"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Sebastianvs7/Sebastianvs7.github.io.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Sebastianvs7/Sebastianvs7.github.io/issues"
-  },
-  "homepage": "https://github.com/Sebastianvs7/Sebastianvs7.github.io#readme"
+  "devDependencies": {
+    "sass": "^1.69.5"
+  }
 }
