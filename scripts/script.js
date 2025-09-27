@@ -56,16 +56,6 @@ function initializeApp() {
       timeline: {
         projects: "Projects",
         experience: "Experience",
-        project1: {
-          title: "Project One",
-          description:
-            "A responsive web app that helps users track their habits and progress.",
-        },
-        project2: {
-          title: "Project Two",
-          description:
-            "A full-stack app to manage tasks and collaborate with teams.",
-        },
       },
       email: "📧 seba.vysin@seznam.cz",
       github: "🐙 GitHub",
@@ -84,16 +74,6 @@ function initializeApp() {
       timeline: {
         projects: "Projekty",
         experience: "Zkušenosti",
-        project1: {
-          title: "Projekt První",
-          description:
-            "Responzivní webová aplikace pomáhající uživatelům sledovat jejich návyky a pokrok.",
-        },
-        project2: {
-          title: "Projekt Druhý",
-          description:
-            "Full-stack aplikace pro správu úkolů a týmovou spolupráci.",
-        },
       },
       email: "📧 seba.vysin@seznam.cz",
       github: "🐙 GitHub",
@@ -140,7 +120,7 @@ function initializeApp() {
     ).textContent = translations[lang].timeline.experience;
 
     // Update projects timeline
-    const projectItems = document.querySelectorAll(
+    /*  const projectItems = document.querySelectorAll(
       "#projects-timeline .timeline-item"
     );
     projectItems[0].querySelector("h3").textContent =
@@ -150,7 +130,7 @@ function initializeApp() {
     projectItems[1].querySelector("h3").textContent =
       translations[lang].timeline.project2.title;
     projectItems[1].querySelector("p").textContent =
-      translations[lang].timeline.project2.description;
+      translations[lang].timeline.project2.description; */
 
     // Update contact section
     document.querySelector(".contact-links a:nth-child(1)").textContent =
