@@ -2,9 +2,9 @@
 node_modules/
 package-lock.json
 
-# SASS generated files
+# SASS generated files (keep Vite-processed CSS)
 *.css.map
-*.css
+/styles/style.css
 
 # IDE and editor files
 .vscode/

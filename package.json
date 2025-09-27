@@ -2,11 +2,17 @@
   "name": "portfolio-website",
   "version": "1.0.0",
   "description": "Personal portfolio website",
+  "type": "module",
   "scripts": {
-    "sass": "sass styles/sass/main.scss styles/style.css --watch",
-    "sass:build": "sass styles/sass/main.scss styles/style.css --style compressed"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "devDependencies": {
-    "sass": "^1.69.5"
+    "vite": "^5.0.0",
+    "sass": "^1.69.5",
+    "gh-pages": "^6.1.0",
+    "vite-plugin-html": "^3.2.0"
   }
 }
