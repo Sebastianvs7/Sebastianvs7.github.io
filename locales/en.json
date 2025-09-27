@@ -1,0 +1,30 @@
+{
+  "navigation": {
+    "intro": "Intro",
+    "projects": "Projects",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+  "intro": {
+    "name": "Sebastian Šanda",
+    "role": "Web Developer specializing in modern scalable web apps",
+    "description": "Passionate about building performant and accessible websites that bring ideas to life. Experienced in JavaScript, React, Node.js, and CSS."
+  },
+  "sections": {
+    "projects": "Projects",
+    "experience": "Working Experiences"
+  },
+  "contact": {
+    "email": "📧 seba.vysin@seznam.cz",
+    "linkedin": "💼 LinkedIn"
+  },
+  "footer": "© 2025 Sebastian Šanda. All rights reserved.",
+  "projects": {
+    "subtitle": "A selection of my recent work.",
+    "showMore": "Show More Projects",
+    "showLess": "Show Less"
+  },
+  "experiences": {
+    "subtitle": "My professional journey."
+  }
+}
