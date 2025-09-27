@@ -3,16 +3,19 @@
     "intro": "Intro",
     "projects": "Projects",
     "experience": "Experience",
+    "about": "About",
     "contact": "Contact"
   },
   "intro": {
     "name": "Sebastian Šanda",
+    "subtitle": "Frontend Developer | React & Next.js | WordPress",
     "role": "Web Developer specializing in modern scalable web apps",
     "description": "Passionate about building performant and accessible websites that bring ideas to life. Experienced in JavaScript, React, Node.js, and CSS."
   },
   "sections": {
     "projects": "Projects",
-    "experience": "Working Experiences"
+    "experience": "Working Experiences",
+    "about": "About Me"
   },
   "contact": {
     "email": "📧 seba.vysin@seznam.cz",
@@ -22,9 +25,13 @@
   "projects": {
     "subtitle": "A selection of my recent work.",
     "showMore": "Show More Projects",
-    "showLess": "Show Less"
+    "showLess": "Show Less",
+    "viewProject": "View Project"
   },
   "experiences": {
     "subtitle": "My professional journey."
+  },
+  "about": {
+    "content": "Jsem frontend developer se zaměřením na React, Next.js a WordPress. Rád pracuji na moderních webech a aplikacích, které kombinují čistý design a funkčnost. Mám více než 7 let zkušeností s vývojem a neustále se učím nové technologie.\nVe volném čase se věnuji fotografii, grafice, videu a s nadšením zkoumám i vývoj her v Roblox Studiu."
   }
 }

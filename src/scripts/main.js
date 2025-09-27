@@ -1,11 +1,17 @@
 import i18next from "i18next";
+import { headerComponent } from "../components/header.js";
+import { introComponent } from "../components/intro.js";
+import { projectsComponent } from "../components/projects.js";
+import { experiencesComponent } from "../components/experiences.js";
+import { aboutComponent } from "../components/about.js";
+import { contactComponent } from "../components/contact.js";
 
 // Initialize i18next
 async function initializeI18n() {
   // Get user's preferred language from browser/system
   const browserLang = navigator.language || navigator.languages[0];
-  const preferredLang = browserLang.startsWith("cs") ? "cs" : "en";
-  const storedLang = localStorage.getItem("language") || preferredLang;
+  const preferredLang = browserLang.startsWith("cs") ? "cs" : "en"; // Allow both Czech and English
+  const storedLang = localStorage.getItem("language") || preferredLang; // Use browser preference or Czech as fallback
 
   // Load translation files
   const [enTranslations, csTranslations] = await Promise.all([
@@ -23,117 +29,38 @@ async function initializeI18n() {
   });
 }
 
-// Initialize all functionality
-async function initializeApp() {
-  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-  const body = document.body;
-  const storedTheme = localStorage.getItem("theme");
+// Render all components with current language
+function renderComponents() {
+  const t = (key) => i18next.t(key);
+  const currentLang = i18next.language;
 
-  // Initialize i18next
-  await initializeI18n();
+  // Find containers and inject components
+  const headerContainer = document.querySelector("header") || document.body;
+  const mainContainer = document.querySelector("main") || document.body;
 
-  console.log(
-    "%cHey there, curious developer! 🕵️‍♂️ If you're reading this, you're officially awesome. 🚀",
-    "color: #7a6853; font-size: 18px; font-weight: bold;"
-  );
+  // Replace header with current language
+  headerContainer.outerHTML = headerComponent(t, currentLang);
 
-  function applyTheme(theme) {
-    if (theme === "dark") {
-      body.classList.add("dark-mode");
-    } else {
-      body.classList.remove("dark-mode");
-    }
-  }
+  // Replace main content
+  mainContainer.innerHTML = `
+    ${introComponent(t)}
+    ${projectsComponent(t)}
+    ${experiencesComponent(t)}
+    ${aboutComponent(t)}
+    ${contactComponent(t)}
+  `;
+}
 
-  async function applyLanguage(lang) {
-    // Change i18next language
-    await i18next.changeLanguage(lang);
-
-    // Update navigation
-    const introLink = document.querySelector('a[href="#intro"]');
-    const projectsLink = document.querySelector('a[href="#projects"]');
-    const experiencesLink = document.querySelector('a[href="#experiences"]');
-    const contactLink = document.querySelector('a[href="#contact"]');
-
-    if (introLink) introLink.textContent = i18next.t("navigation.intro");
-    if (projectsLink)
-      projectsLink.textContent = i18next.t("navigation.projects");
-    if (experiencesLink)
-      experiencesLink.textContent = i18next.t("navigation.experience");
-    if (contactLink) contactLink.textContent = i18next.t("navigation.contact");
-
-    // Update intro section
-    const introName = document.querySelector(".intro-text h1");
-    const introRole = document.querySelector(".intro-text h3");
-    const introDesc = document.querySelector(".intro-text p");
-
-    if (introName) introName.textContent = i18next.t("intro.name");
-    if (introRole) introRole.textContent = i18next.t("intro.role");
-    if (introDesc) introDesc.textContent = i18next.t("intro.description");
-
-    // Update section headers
-    const projectsHeader = document.querySelector("#projects h2");
-    const experiencesHeader = document.querySelector("#experiences h2");
-    const projectsSubtitle = document.querySelector(".projects-subtitle");
-    const experiencesSubtitle = document.querySelector(".experiences-subtitle");
-
-    if (projectsHeader)
-      projectsHeader.textContent = i18next.t("sections.projects");
-    if (experiencesHeader)
-      experiencesHeader.textContent = i18next.t("sections.experience");
-    if (projectsSubtitle)
-      projectsSubtitle.textContent = i18next.t("projects.subtitle");
-    if (experiencesSubtitle)
-      experiencesSubtitle.textContent = i18next.t("experiences.subtitle");
-
-    // Update show more button text
-    const showMoreText = document.querySelector(".show-more-text");
-    const showLessText = document.querySelector(".show-less-text");
-    if (showMoreText) showMoreText.textContent = i18next.t("projects.showMore");
-    if (showLessText) showLessText.textContent = i18next.t("projects.showLess");
-
-    // Update contact section
-    const emailLink = document.querySelector(".contact-links a:nth-child(1)");
-    const linkedinLink = document.querySelector(
-      ".contact-links a:nth-child(2)"
-    );
-
-    if (emailLink) emailLink.textContent = i18next.t("contact.email");
-    if (linkedinLink) linkedinLink.textContent = i18next.t("contact.linkedin");
-
-    // Update footer
-    const footer = document.querySelector("footer");
-    if (footer) footer.textContent = i18next.t("footer");
-
-    // Update language toggle buttons
-    const langToggle = document.querySelector("#lang-toggle");
-    const langToggleMobile = document.querySelector("#lang-toggle-mobile");
-
-    if (langToggle) langToggle.textContent = lang === "en" ? "CS" : "EN";
-    if (langToggleMobile)
-      langToggleMobile.textContent = lang === "en" ? "CS" : "EN";
-
-    // Save language preference
-    localStorage.setItem("language", lang);
-  }
-
-  // Apply theme
-  if (storedTheme) {
-    applyTheme(storedTheme);
-  } else {
-    applyTheme(prefersDarkScheme.matches ? "dark" : "light");
-  }
-
-  // Apply initial language
-  await applyLanguage(i18next.language);
-
+// Initialize event listeners
+function initializeEventListeners() {
   // Language toggle logic
   const langButtons = document.querySelectorAll(
     "#lang-toggle, #lang-toggle-mobile"
   );
   langButtons.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      const newLang = btn.textContent === "CS" ? "cs" : "en";
+      // If button shows "CS", switch to Czech. If button shows "EN", switch to English.
+      const newLang = btn.textContent.trim() === "CS" ? "cs" : "en";
       await applyLanguage(newLang);
     });
   });
@@ -167,41 +94,6 @@ async function initializeApp() {
   window.addEventListener("scroll", revealOnScroll);
   window.addEventListener("load", revealOnScroll);
 
-  // Show more projects functionality
-  function initializeShowMore() {
-    const showMoreBtn = document.getElementById("show-more-projects");
-    const hiddenProjects = document.querySelectorAll(".hidden-project");
-    const showMoreText = showMoreBtn?.querySelector(".show-more-text");
-    const showLessText = showMoreBtn?.querySelector(".show-less-text");
-
-    if (!showMoreBtn || hiddenProjects.length === 0) return;
-
-    let isExpanded = false;
-
-    showMoreBtn.addEventListener("click", () => {
-      isExpanded = !isExpanded;
-
-      hiddenProjects.forEach((project, index) => {
-        if (isExpanded) {
-          setTimeout(() => {
-            project.classList.add("show");
-          }, index * 100);
-        } else {
-          project.classList.remove("show");
-        }
-      });
-
-      // Toggle button text
-      if (isExpanded) {
-        showMoreText.classList.add("hidden");
-        showLessText.classList.remove("hidden");
-      } else {
-        showMoreText.classList.remove("hidden");
-        showLessText.classList.add("hidden");
-      }
-    });
-  }
-
   // Handle smooth scrolling for navigation links
   document.querySelectorAll('nav a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
@@ -220,9 +112,142 @@ async function initializeApp() {
   // Initialize show more functionality
   initializeShowMore();
 
+  // Initialize description show more functionality with delay
+  setTimeout(() => {
+    initializeDescriptionShowMore();
+  }, 100);
+}
+
+// Show more projects functionality
+function initializeShowMore() {
+  const showMoreBtn = document.getElementById("show-more-projects");
+  const hiddenProjects = document.querySelectorAll(".hidden-project");
+  const showMoreText = showMoreBtn?.querySelector(".show-more-text");
+  const showLessText = showMoreBtn?.querySelector(".show-less-text");
+
+  if (!showMoreBtn || hiddenProjects.length === 0) return;
+
+  let isExpanded = false;
+
+  showMoreBtn.addEventListener("click", () => {
+    isExpanded = !isExpanded;
+
+    hiddenProjects.forEach((project, index) => {
+      if (isExpanded) {
+        setTimeout(() => {
+          project.classList.add("show");
+        }, index * 100);
+      } else {
+        project.classList.remove("show");
+      }
+    });
+
+    // Toggle button text
+    if (isExpanded) {
+      showMoreText.classList.add("hidden");
+      showLessText.classList.remove("hidden");
+    } else {
+      showMoreText.classList.remove("hidden");
+      showLessText.classList.add("hidden");
+    }
+  });
+}
+
+// Show more description functionality
+function initializeDescriptionShowMore() {
+  const showMoreBtns = document.querySelectorAll(".show-more-desc-btn");
+
+  showMoreBtns.forEach((btn, index) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const container = btn.closest(".project-description-container");
+      const description = container?.querySelector(".project-description");
+      const showMoreText = btn.querySelector(".show-more-desc-text");
+      const showLessText = btn.querySelector(".show-less-desc-text");
+
+      if (description && showMoreText && showLessText) {
+        const isExpanded = description.classList.contains("expanded");
+
+        if (isExpanded) {
+          // Switch to truncated
+          description.classList.remove("expanded");
+          description.classList.add("truncated");
+          showMoreText.classList.remove("hidden");
+          showLessText.classList.add("hidden");
+        } else {
+          // Switch to expanded
+          description.classList.remove("truncated");
+          description.classList.add("expanded");
+          showMoreText.classList.add("hidden");
+          showLessText.classList.remove("hidden");
+        }
+      }
+    });
+  });
+}
+
+// Apply language function (global scope)
+async function applyLanguage(lang) {
+  await i18next.changeLanguage(lang);
+  renderComponents();
+
+  // Re-initialize event listeners after re-rendering
+  initializeEventListeners();
+
+  // Update footer
+  const footer = document.querySelector("footer");
+  if (footer) footer.textContent = i18next.t("footer");
+
+  // Save language preference
+  localStorage.setItem("language", lang);
+}
+
+// Initialize all functionality
+async function initializeApp() {
+  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const body = document.body;
+  const storedTheme = localStorage.getItem("theme");
+
+  // Initialize i18next
+  await initializeI18n();
+
+  console.log(
+    "%cHey there, curious developer! 🕵️‍♂️ If you're reading this, you're officially awesome. 🚀",
+    "color: #7a6853; font-size: 18px; font-weight: bold;"
+  );
+
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      body.classList.add("dark-mode");
+    } else {
+      body.classList.remove("dark-mode");
+    }
+  }
+
+  // Apply theme
+  if (storedTheme) {
+    applyTheme(storedTheme);
+  } else {
+    applyTheme(prefersDarkScheme.matches ? "dark" : "light");
+  }
+
+  // Initial render
+  renderComponents();
+
+  // Apply initial language
+  await applyLanguage(i18next.language);
+
   // Immediately reveal sections on load
   setTimeout(() => {
-    revealOnScroll();
+    const sections = document.querySelectorAll("main section:not(#intro)");
+    const triggerBottom = window.innerHeight * 0.85;
+    sections.forEach((section) => {
+      const sectionTop = section.getBoundingClientRect().top;
+      if (sectionTop < triggerBottom) {
+        section.classList.add("visible");
+      }
+    });
   }, 100);
 }
 
@@ -243,7 +268,13 @@ function startApp() {
       loadingScreen.style.display = "none";
 
       // Ensure all sections are visible
-      const sections = ["#intro", "#projects", "#experiences", "#contact"];
+      const sections = [
+        "#intro",
+        "#projects",
+        "#experiences",
+        "#about",
+        "#contact",
+      ];
       sections.forEach((selector) => {
         const section = document.querySelector(selector);
         if (section) {

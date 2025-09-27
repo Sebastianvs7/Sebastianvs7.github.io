@@ -1,21 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import { createHtmlPlugin } from "vite-plugin-html";
 import fs from "fs";
 import { fileURLToPath, URL } from "node:url";
-
-// Helper function to read HTML files
-const readHtmlFile = (path) => {
-  try {
-    return fs.readFileSync(
-      resolve(fileURLToPath(new URL(".", import.meta.url)), path),
-      "utf-8"
-    );
-  } catch (error) {
-    console.warn(`Could not read file: ${path}`);
-    return "";
-  }
-};
 
 export default defineConfig({
   root: "src",
@@ -42,18 +28,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    createHtmlPlugin({
-      minify: false, // Disable minify for development
-      inject: {
-        data: {
-          header: readHtmlFile("src/components/header.html"),
-          intro: readHtmlFile("src/components/intro.html"),
-          projects: readHtmlFile("src/components/projects.html"),
-          experiences: readHtmlFile("src/components/experiences.html"),
-          contact: readHtmlFile("src/components/contact.html"),
-        },
-      },
-    }),
     {
       name: "copy-locales",
       generateBundle() {

@@ -22,7 +22,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 0rem;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
@@ -76,6 +76,23 @@
         var(--color-accent-dark)
       );
       position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        max-width: 80%;
+        object-position: center;
+        margin: 0 auto;
+        display: block;
+        transition: transform 0.3s ease;
+        max-height: 60%;
+        z-index: 1;
+      }
 
       &::after {
         content: "";
@@ -85,10 +102,28 @@
         opacity: 0;
         transition: opacity 0.3s ease;
       }
+
+      .image-gradient-overlay {
+        position: absolute;
+        inset: 0;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
     }
 
-    &:hover .project-image::after {
-      opacity: 1;
+    &:hover .project-image {
+      img {
+        transform: scale(1.05);
+      }
+
+      &::after {
+        opacity: 1;
+      }
+
+      .image-gradient-overlay {
+        opacity: 0.6;
+      }
     }
 
     .project-content {
@@ -104,12 +139,79 @@
         margin: 0 0 0.5rem 0;
       }
 
-      p {
-        color: #666;
-        font-size: 0.875rem;
-        line-height: 1.5;
-        margin: 0 0 1.5rem 0;
-        flex: 1;
+      // Removed standalone .project-description rule to avoid conflicts
+
+      .project-description-container {
+        margin-bottom: 1rem;
+
+        .project-description {
+          color: #666;
+          font-size: 0.875rem;
+          line-height: 1.5;
+          margin: 0 0 0.5rem 0;
+          transition: max-height 0.3s ease;
+
+          &.truncated {
+            max-height: 4.5em; /* 3 lines * 1.5 line-height = 4.5em */
+            overflow: hidden;
+          }
+
+          &.expanded {
+            max-height: 1000px; /* Large enough to show all content */
+            overflow: visible;
+          }
+        }
+
+        .show-more-desc-btn {
+          background: none;
+          border: none;
+          color: var(--color-accent);
+          font-size: 0.8rem;
+          font-weight: 600;
+          cursor: pointer;
+          padding: 0.25rem 0;
+          text-decoration: underline;
+          transition: color 0.3s ease;
+          display: block; // Always visible for now
+
+          &:hover {
+            color: #6b5a47;
+          }
+
+          .hidden {
+            display: none;
+          }
+        }
+      }
+
+      .project-contributions {
+        margin-bottom: 1.5rem;
+
+        h4 {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--color-accent);
+          margin: 0 0 0.75rem 0;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        p {
+          color: #666;
+          font-size: 0.8rem;
+          line-height: 1.4;
+          margin: 0 0 0.5rem 0;
+          padding-left: 1rem;
+          position: relative;
+
+          &::before {
+            content: "•";
+            color: var(--color-accent);
+            position: absolute;
+            left: 0;
+            top: 0;
+          }
+        }
       }
 
       .project-links {
@@ -200,8 +302,36 @@ body.dark-mode #projects {
         color: var(--color-text-dark);
       }
 
-      p {
+      .project-description {
         color: #999;
+      }
+
+      .project-description-container {
+        .project-description {
+          color: #999;
+        }
+
+        .show-more-desc-btn {
+          color: var(--color-accent-dark);
+
+          &:hover {
+            color: #f0e6d2;
+          }
+        }
+      }
+
+      .project-contributions {
+        h4 {
+          color: var(--color-accent-dark);
+        }
+
+        p {
+          color: #999;
+
+          &::before {
+            color: var(--color-accent-dark);
+          }
+        }
       }
 
       .project-link {
