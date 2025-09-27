@@ -7,7 +7,7 @@ export const projectsData = [
     link: "https://www.biocultus.com/cs",
     linkText: "View Project",
     visible: true,
-    image: "/assets/images/biocultus-logo.svg",
+    image: "./assets/images/biocultus-logo.svg",
     gradientColors: ["#2d5016", "#1a2f0c"], // Dark green tones
   },
   {

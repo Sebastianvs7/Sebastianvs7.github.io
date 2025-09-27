@@ -29,7 +29,7 @@ export default defineConfig({
   },
   plugins: [
     {
-      name: "copy-locales",
+      name: "copy-assets",
       generateBundle() {
         // Copy locales files to build output
         const localesDir = resolve(
@@ -56,6 +56,26 @@ export default defineConfig({
           fileName: "locales/cs.json",
           source: csContent,
         });
+
+        // Copy assets/images folder
+        const assetsDir = resolve(
+          fileURLToPath(new URL(".", import.meta.url)),
+          "src/assets/images"
+        );
+
+        if (fs.existsSync(assetsDir)) {
+          const files = fs.readdirSync(assetsDir);
+          files.forEach((file) => {
+            const filePath = resolve(assetsDir, file);
+            const content = fs.readFileSync(filePath);
+
+            this.emitFile({
+              type: "asset",
+              fileName: `assets/images/${file}`,
+              source: content,
+            });
+          });
+        }
       },
     },
   ],
