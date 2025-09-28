@@ -12,16 +12,12 @@ export const introData = {
   ],
   ctaButtons: [
     {
-      text: "Kontaktujte mě",
       href: "mailto:seba.vysin@seznam.cz",
       type: "email",
-      ariaLabel: "Kontaktujte mě přes email",
     },
     {
-      text: "LinkedIn",
       href: "https://linkedin.com/in/sebastian-sanda",
       type: "linkedin",
-      ariaLabel: "Navštivte můj LinkedIn profil",
     },
   ],
 };

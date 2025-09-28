@@ -2,22 +2,18 @@ export const experiencesData = [
   {
     id: "code8",
     company: "Frontend Developer | Code 8",
-    // role: "Frontend development, Project management, IT support",
     period: "2020 - Present",
     position: "right",
-    role: "Vývoj a údržba webových aplikací a interních systémů v React, Next.js, TypeScript a Angular.\nPráce v prostředí monorepo (Nx) pro správu rozsáhlejších projektů.\nIntegrace REST API a GraphQL pro efektivní práci s daty.\nVývoj mobilních aplikací v React Native (Expo, Firebase, push notifikace).\nOptimalizace výkonu a SEO; testování pomocí Cypress, konfigurace Webpacku a ESlint.",
   },
   {
     id: "mcled",
     company: "Webmaster | MCLED S.R.O.",
-    role: "Správa a rozvoj firemního e-shopu.\nKódování HTML, CSS a JavaScript, implementace nových funkcí.\nZpracování produktové fotografie a úprava obsahu pro web.\nPráce s CRM a logistickými systémy v souvislosti s e-shopem.",
     period: "2018 - 2020",
     position: "left",
   },
   {
     id: "kristian",
     company: "Webdesigner, Grafik, Kodér | Kristián S.R.O.",
-    role: "Návrh a realizace webů a microsites.\nKódování HTML, CSS a JavaScript.\nPráce s October CMS při tvorbě webů a funkcionalit.\nSpolupráce s grafickým oddělením na tvorbě vizuální identity.",
     period: "2017 - 2018",
     position: "right",
   },

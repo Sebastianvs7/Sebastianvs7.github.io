@@ -37,6 +37,7 @@ function renderComponents() {
   // Find containers and inject components
   const headerContainer = document.querySelector("header") || document.body;
   const mainContainer = document.querySelector("main") || document.body;
+  const footerContainer = document.querySelector("#year") || document.body;
 
   // Replace header with current language
   headerContainer.outerHTML = headerComponent(t, currentLang);
@@ -49,6 +50,10 @@ function renderComponents() {
     ${aboutComponent(t)}
     ${contactComponent(t)}
   `;
+
+  // Replace footer with current language
+  const year = new Date().getFullYear();
+  footerContainer.textContent = year;
 }
 
 // Initialize event listeners
@@ -103,6 +108,12 @@ function initializeEventListeners() {
       if (targetElement) {
         targetElement.scrollIntoView({ behavior: "smooth" });
         setTimeout(() => {
+          const menuToggle = document.getElementById("menu-toggle");
+          const mobileMenu = document.getElementById("mobile-menu");
+          menuToggle.setAttribute("aria-expanded", false);
+          menuToggle.classList.toggle("open");
+          mobileMenu.classList.toggle("open");
+          mobileMenu.setAttribute("aria-hidden", false);
           window.location.hash = this.getAttribute("href");
         }, 100);
       }
@@ -205,7 +216,7 @@ async function applyLanguage(lang) {
   initializeEventListeners();
 
   // Update footer
-  const footer = document.querySelector("footer");
+  const footer = document.querySelector("#footer-text");
   if (footer) footer.textContent = i18next.t("footer");
 
   // Save language preference

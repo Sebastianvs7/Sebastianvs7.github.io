@@ -14,11 +14,11 @@ const renderExperienceRole = (role) => {
 };
 
 // Helper function to render a single experience item
-const renderExperienceItem = (experience) => `
+const renderExperienceItem = (experience, t) => `
   <div class="experience-item">
     <div class="experience-content ${experience.position}">
       <h3>${experience.company}</h3>
-      ${renderExperienceRole(experience.role)}
+      ${renderExperienceRole(t(`experiences.roles.${experience.id}`))}
       <p class="experience-date">${experience.period}</p>
     </div>
     <div class="timeline-dot">
@@ -36,7 +36,7 @@ export const experiencesComponent = (t) => `
     <div class="experiences-timeline">
       <div class="timeline-line"></div>
       ${experiencesData
-        .map((experience) => renderExperienceItem(experience))
+        .map((experience) => renderExperienceItem(experience, t))
         .join("")}
     </div>
   </section>

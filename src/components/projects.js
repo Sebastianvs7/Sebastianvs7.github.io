@@ -9,7 +9,7 @@ const renderProjectLinks = (project, t) => {
           .map(
             (link) => `
             <a href="${link.url}" target="_blank" class="project-link">
-              ${link.text}
+              ${`${link.text}`}
             </a>
           `
           )
@@ -27,13 +27,15 @@ const renderProjectLinks = (project, t) => {
 };
 
 // Helper function to render project description with truncation
-const renderProjectDescription = (description, projectId) => {
+const renderProjectDescription = (description, projectId, t) => {
   return `
     <div class="project-description-container" data-project="${projectId}">
       <p class="project-description truncated">${description}</p>
       <button class="show-more-desc-btn" data-project="${projectId}">
-        <span class="show-more-desc-text">Zobrazit více</span>
-        <span class="show-less-desc-text hidden">Zobrazit méně</span>
+        <span class="show-more-desc-text">${t("projects.showMore")}</span>
+        <span class="show-less-desc-text hidden">${t(
+          "projects.showLess"
+        )}</span>
       </button>
     </div>
   `;
@@ -60,7 +62,7 @@ const renderProjectCard = (project, t) => {
       </div>
       <div class="project-content">
         <h3>${project.title}</h3>
-        ${renderProjectDescription(project.description, project.id)}
+        ${renderProjectDescription(project.description, project.id, t)}
         ${renderProjectLinks(project, t)}
       </div>
     </div>
@@ -83,8 +85,10 @@ export const projectsComponent = (t) => `
         class="show-more-btn"
         aria-label="Show more projects"
       >
-        <span class="show-more-text">${t("projects.showMore")}</span>
-        <span class="show-less-text hidden">${t("projects.showLess")}</span>
+        <span class="show-more-text">${t("projects.showMoreButton")}</span>
+        <span class="show-less-text hidden">${t(
+          "projects.showLessButton"
+        )}</span>
       </button>
     </div>
   </section>

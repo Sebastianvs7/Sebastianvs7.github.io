@@ -9,8 +9,10 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  z-index: 1000;
+  z-index: 1100;
   transition: background-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 body.dark-mode header {
   background: rgba(30, 30, 30, 0.85);
@@ -112,6 +114,7 @@ body.dark-mode #lang-toggle-mobile:focus {
   cursor: pointer;
   margin-left: 1rem;
   z-index: 1100;
+  padding: 0;
 
   @media (max-width: 768px) {
     display: flex;
@@ -133,13 +136,13 @@ body.dark-mode #menu-toggle div {
   background: var(--color-accent-dark);
 }
 #menu-toggle.open div:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+  transform: rotate(45deg) translate(6px, 5px);
 }
 #menu-toggle.open div:nth-child(2) {
   opacity: 0;
 }
 #menu-toggle.open div:nth-child(3) {
-  transform: rotate(-45deg) translate(3px, -3px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 nav.mobile-menu {
@@ -150,17 +153,18 @@ nav.mobile-menu {
   top: 79px;
   right: 0;
   background-color: var(--color-bg-light);
-  width: 200px;
+  width: 100%;
+  max-width: calc(100vw - 2rem);
   padding: 1rem 2rem;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
   flex-direction: column;
   border-left: 1px solid #ddd;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 79px);
   overflow-y: auto;
   z-index: 1050;
+  transform: translateX(100%);
   transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease,
     visibility 0.3s ease;
-  transform: translateX(100%);
 
   @media (min-width: 769px) {
     display: none !important;
@@ -178,5 +182,4 @@ nav.mobile-menu.open {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-  transition: background-color 0.3s ease, transform 0.3s ease;
 }

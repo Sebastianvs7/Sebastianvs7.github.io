@@ -10,7 +10,13 @@
     "name": "Sebastian Šanda",
     "subtitle": "Frontend Developer | React & Next.js | WordPress",
     "role": "Web Developer specializing in modern scalable web apps",
-    "description": "Passionate about building performant and accessible websites that bring ideas to life. Experienced in JavaScript, React, Node.js, and CSS."
+    "description": "Passionate about building performant and accessible websites that bring ideas to life. Experienced in JavaScript, React, Node.js, and CSS.",
+    "cta": {
+      "email": "Contact Me",
+      "emailLabel": "Send email to Sebastian Šanda",
+      "linkedin": "LinkedIn",
+      "linkedinLabel": "Visit LinkedIn profile"
+    }
   },
   "sections": {
     "projects": "Projects",
@@ -21,16 +27,58 @@
     "email": "📧 seba.vysin@seznam.cz",
     "linkedin": "💼 LinkedIn"
   },
-  "footer": "© 2025 Sebastian Šanda. All rights reserved.",
+  "footer": "Sebastian Šanda. All rights reserved.",
   "projects": {
-    "showMore": "Show More Projects",
+    "showMore": "Show More",
     "showLess": "Show Less",
-    "viewProject": "View Project"
+    "viewProject": "View Project",
+    "showMoreButton": "Show More Projects",
+    "showLessButton": "Show Less",
+    "project": {
+      "biocultus": {
+        "description": "Biocultus is a Czech company based in Sušice that produces eco-friendly composting toilets without the need for water, electricity, or sewage systems."
+      },
+      "koh-i-noor": {
+        "description": "KOH-I-NOOR Deutschland GmbH is the German branch of the renowned Czech company KOH-I-NOOR Hardtmuth, specializing in high-quality writing and art supplies. It offers a wide range of products for artists, students, and offices, including special offers and new arrivals."
+      },
+      "zoeto": {
+        "description": "The Zoeto application is a mobile tool developed by Zoetis Inc. for veterinary professionals. It provides access to a product catalog with detailed information on medicines, including composition, indications, packaging, and prices. Users can easily place orders, manage delivery addresses, and view order history. The app is available free of charge for both iOS and Android devices."
+      },
+      "furnatura": {
+        "description": "Furnatura is a Czech brand of natural cosmetics for dogs, specializing in gentle care for pets’ coats and skin. The products are handmade in the Czech Republic from purely natural ingredients such as plant extracts, Dead Sea minerals, and nourishing oils. They contain no sulfates, silicones, parabens, or microplastics, and are not tested on animals."
+      },
+      "yogarden": {
+        "description": "Yogarden is a modern yoga studio in Prague’s Letná district, offering a wide variety of classes for all levels – from beginners to advanced practitioners. The studio focuses on connecting body and mind through different yoga styles, including Hatha Yoga, Vinyasa Flow, Yin Yoga, Somatic Yoga, Pilates, and Yoga Nidra."
+      },
+      "elements": {
+        "description": "Elements Tatranská Lomnica is a modern mountain resort located in the heart of the High Tatras, directly beneath Lomnický Peak. Its unique concept is inspired by the five natural elements – fire, water, wood, metal, and earth – based on feng shui principles. This design approach combines top-level comfort with respect for nature."
+      },
+      "mobile-phone-museum": {
+        "description": "The Mobile Phone Museum is an online non-profit museum dedicated to the history of mobile phones. Founded in 2021 by experts Ben Wood and Matt Chatterley, it aims to preserve and showcase the evolution of mobile technology through a collection of over 2,800 unique devices from more than 200 manufacturers."
+      },
+      "joalis": {
+        "description": "Joalis is a Czech company founded in 1999, specializing in the development and production of natural dietary supplements focused on body detoxification."
+      },
+      "shop8-cms": {
+        "description": "Shop 8 is a Czech company specializing in custom e-commerce solutions for medium-sized businesses that have outgrown standard template-based platforms. Their goal is to deliver flexible and scalable online stores that grow alongside their clients’ businesses."
+      },
+      "moonwood": {
+        "description": "Moonwood is a Czech company focused on the distribution of high-quality English and foreign-language children’s books across Europe."
+      },
+      "magnus-art": {
+        "description": "Magnus Art Gallery is a Prague-based gallery dedicated to presenting high-quality Czech and international art."
+      }
+    }
   },
   "experiences": {
-    "showLess": "Show Less"
+    "showLess": "Show Less",
+    "roles": {
+      "code8": "Development and maintenance of web applications and internal systems using React, Next.js, TypeScript, and Angular.\nWorking in a monorepo environment (Nx) for managing large-scale projects.\nIntegration of REST API and GraphQL for efficient data handling.\nDevelopment of mobile applications in React Native (Expo, Firebase, push notifications).\nPerformance and SEO optimization; testing with Cypress, configuration of Webpack and ESlint.",
+      "mcled": "Management and development of the company’s e-commerce store.\nCoding in HTML, CSS, and JavaScript, implementation of new features.\nProduct photography and content editing for the website.\nWorking with CRM and logistics systems in connection with the e-shop.",
+      "kristian": "Design and development of websites and microsites.\nCoding in HTML, CSS, and JavaScript.\nWorking with October CMS to build websites and functionalities.\nCollaboration with the graphic design department on visual identity creation."
+    }
   },
   "about": {
-    "content": "Jsem frontend developer se zaměřením na React, Next.js a WordPress. Rád pracuji na moderních webech a aplikacích, které kombinují čistý design a funkčnost. Mám více než 7 let zkušeností s vývojem a neustále se učím nové technologie.\nVe volném čase se věnuji fotografii, grafice, videu a s nadšením zkoumám i vývoj her v Roblox Studiu."
+    "content": "I am a frontend developer specializing in React, Next.js, and WordPress. I enjoy working on modern websites and applications that combine clean design with functionality. With more than 7 years of development experience, I am continuously learning and exploring new technologies.\nIn my free time, I focus on photography, graphic design, and video production, and I also enjoy exploring game development in Roblox Studio with great enthusiasm."
   }
 }

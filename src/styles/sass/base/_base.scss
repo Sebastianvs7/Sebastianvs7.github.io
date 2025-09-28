@@ -26,6 +26,7 @@ body {
   color: var(--color-text-light);
   margin: 0;
   line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
 
   &.dark-mode {
     background-color: var(--color-bg-dark);

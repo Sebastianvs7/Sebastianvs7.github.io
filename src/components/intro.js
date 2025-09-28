@@ -16,14 +16,14 @@ export const introComponent = (t) => `
               <a 
                 href="${button.href}" 
                 class="cta-button cta-${button.type}"
-                aria-label="${button.ariaLabel}"
+                aria-label="${t(`intro.cta.${button.type}Label`)}"
                 ${
                   button.type === "linkedin"
                     ? 'target="_blank" rel="noopener noreferrer"'
                     : ""
                 }
               >
-                ${button.text}
+                ${t(`intro.cta.${button.type}`)}
               </a>
             `
             )

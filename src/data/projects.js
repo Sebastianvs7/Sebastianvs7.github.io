@@ -5,7 +5,6 @@ export const projectsData = [
     description:
       "Biocultus je česká firma ze Sušice, která vyrábí ekologické kompostovací toalety bez potřeby vody, elektřiny či kanalizace.",
     link: "https://www.biocultus.com/cs",
-    linkText: "View Project",
     visible: true,
     image: "./assets/images/biocultus-logo.svg",
   },
@@ -15,7 +14,6 @@ export const projectsData = [
     description:
       "KOH-I-NOOR Deutschland GmbH je německá pobočka renomované české společnosti KOH-I-NOOR Hardtmuth, která se specializuje na kvalitní psací a výtvarné potřeby. Nabízí široký sortiment produktů pro umělce, studenty a kanceláře, včetně akčních nabídek a novinek.",
     link: "https://www.kohinoordeutschland.de",
-    linkText: "View Project",
     visible: true,
     image: "./assets/images/kin-logo.svg",
   },
@@ -43,7 +41,6 @@ export const projectsData = [
     description:
       "Furnatura je česká značka přírodní kosmetiky pro psy, která se specializuje na šetrnou péči o srst a pokožku domácích mazlíčků. Produkty jsou vyráběny ručně v České republice z čistě přírodních surovin, jako jsou rostlinné extrakty, minerály z Mrtvého moře a výživné oleje. Neobsahují sulfáty, silikony, parabeny ani mikroplasty, a nejsou testovány na zvířatech.",
     link: "https://furnatura.com/en-US/",
-    linkText: "View Project",
     visible: true,
     image: "./assets/images/furnatura-prague.svg",
   },
@@ -53,7 +50,6 @@ export const projectsData = [
     description:
       "Yogarden je moderní jógové studio v pražské Letné, které nabízí širokou škálu lekcí pro všechny úrovně – od začátečníků po pokročilé. Studio se zaměřuje na propojení těla a mysli prostřednictvím různých jógových stylů, včetně Hatha jógy, Vinyasa Flow, Yin jógy, Somatic jógy, Pilates a Yoga Nidra.",
     link: "https://www.yogarden.cz/cz",
-    linkText: "View Project",
     visible: true,
     image: "./assets/images/logo-yogarden.svg",
   },
@@ -63,7 +59,6 @@ export const projectsData = [
     description:
       "Elements Tatranská Lomnica je moderní horský resort situovaný v srdci Vysokých Tater, přímo pod Lomnickým štítem. Jeho unikátní koncept vychází z pěti přírodních živlů – ohně, vody, dřeva, kovu a země – inspirovaných teorií feng-šuej. Tento designový přístup spojuje špičkový komfort s respektem k přírodě.",
     link: "https://www.elementslomnica.sk/en",
-    linkText: "View Project",
     visible: true,
     image: "./assets/images/logo-elements.svg",
   },
@@ -73,7 +68,6 @@ export const projectsData = [
     description:
       "Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců.",
     link: "https://www.mobilephonemuseum.com",
-    linkText: "View Project",
     visible: false, // Hidden by default
     image: "./assets/images/logo-mpm.svg",
   },
@@ -83,7 +77,6 @@ export const projectsData = [
     description:
       "Joalis je česká firma založená v roce 1999, specializující se na vývoj a výrobu přírodních doplňků stravy zaměřených na detoxikaci organismu.",
     link: "https://www.joalis.cz",
-    linkText: "View Project",
     visible: false,
     image: "./assets/images/logo-joalis.png",
   },
@@ -93,7 +86,6 @@ export const projectsData = [
     description:
       "Shop 8 je česká firma specializující se na vývoj e-commerce řešení na míru pro středně velké firmy, které již překonaly limity standardních šablonových platforem. Jejich cílem je poskytovat flexibilní a škálovatelné e-shopy, které rostou spolu s byznysem klienta.",
     link: "https://www.shop8.cz",
-    linkText: "View Project",
     visible: false,
     image: "./assets/images/logo-code8.svg",
   },
@@ -103,7 +95,6 @@ export const projectsData = [
     description:
       "Moonwood je česká společnost zaměřená na distribuci kvalitních anglických a cizojazyčných dětských knih po celé Evropě.",
     link: "https://moonwood.com",
-    linkText: "View Project",
     visible: false,
     image: "./assets/images/logo-moonwood.svg",
   },
@@ -113,7 +104,6 @@ export const projectsData = [
     description:
       "Galerie Magnus Art je pražská galerie zaměřená na prezentaci kvalitního českého i světového umění.",
     link: "https://magnusart.cz",
-    linkText: "View Project",
     visible: false,
     image: "./assets/images/MA_logo.svg",
   },

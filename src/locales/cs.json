@@ -10,7 +10,13 @@
     "name": "Sebastian Šanda",
     "subtitle": "Frontend vývojář | React & Next.js | WordPress",
     "role": "Webový vývojář specializující se na moderní škálovatelné webové aplikace",
-    "description": "Vytvářím moderní weby a aplikace s důrazem na rychlost, použitelnost a čistý kód. Pomáhám firmám i jednotlivcům růst díky profesionálním online řešením."
+    "description": "Vytvářím moderní weby a aplikace s důrazem na rychlost, použitelnost a čistý kód. Pomáhám firmám i jednotlivcům růst díky profesionálním online řešením.",
+    "cta": {
+      "email": "Kontaktujte mě",
+      "emailLabel": "Odeslat email na Sebastian Šanda",
+      "linkedin": "LinkedIn",
+      "linkedinLabel": "Navštívit LinkedIn profil"
+    }
   },
   "sections": {
     "projects": "Projekty",
@@ -21,14 +27,56 @@
     "email": "📧 seba.vysin@seznam.cz",
     "linkedin": "💼 LinkedIn"
   },
-  "footer": "© 2025 Sebastian Šanda. Všechna práva vyhrazena.",
+  "footer": "Sebastian Šanda. Všechna práva vyhrazena.",
   "projects": {
-    "showMore": "Zobrazit více projektů",
+    "showMore": "Zobrazit více",
     "showLess": "Zobrazit méně",
-    "viewProject": "Zobrazit projekt"
+    "viewProject": "Zobrazit projekt",
+    "showMoreButton": "Zobrazit více projektů",
+    "showLessButton": "Zobrazit méně",
+    "project": {
+      "biocultus": {
+        "description": "Biocultus je česká firma ze Sušice, která vyrábí ekologické kompostovací toalety bez potřeby vody, elektřiny či kanalizace."
+      },
+      "koh-i-noor": {
+        "description": "KOH-I-NOOR Deutschland GmbH je německá pobočka renomované české společnosti KOH-I-NOOR Hardtmuth, která se specializuje na kvalitní psací a výtvarné potřeby. Nabízí široký sortiment produktů pro umělce, studenty a kanceláře, včetně akčních nabídek a novinek."
+      },
+      "zoeto": {
+        "description": "Aplikace Zoeto je mobilní nástroj vyvinutý společností Zoetis Inc., určený pro veterinární profesionály. Umožňuje přístup k produktovému katalogu s podrobnými informacemi o lécích, včetně složení, indikací, balení a cen. Uživatelé mohou snadno vytvářet objednávky, spravovat dodací adresy a prohlížet historii objednávek. Aplikace je dostupná zdarma pro zařízení s iOS a Androidem."
+      },
+      "furnatura": {
+        "description": "Furnatura je česká značka přírodní kosmetiky pro psy, která se specializuje na šetrnou péči o srst a pokožku domácích mazlíčků. Produkty jsou vyráběny ručně v České republice z čistě přírodních surovin, jako jsou rostlinné extrakty, minerály z Mrtvého moře a výživné oleje. Neobsahují sulfáty, silikony, parabeny ani mikroplasty, a nejsou testovány na zvířatech."
+      },
+      "yogarden": {
+        "description": "Yogarden je moderní jógové studio v pražské Letné, které nabízí širokou škálu lekcí pro všechny úrovně – od začátečníků po pokročilé. Studio se zaměřuje na propojení těla a mysli prostřednictvím různých jógových stylů, včetně Hatha jógy, Vinyasa Flow, Yin jógy, Somatic jógy, Pilates a Yoga Nidra."
+      },
+      "elements": {
+        "description": "Elements Tatranská Lomnica je moderní horský resort situovaný v srdci Vysokých Tater, přímo pod Lomnickým štítem. Jeho unikátní koncept vychází z pěti přírodních živlů – ohně, vody, dřeva, kovu a země – inspirovaných teorií feng-šuej. Tento designový přístup spojuje špičkový komfort s respektem k přírodě."
+      },
+      "mobile-phone-museum": {
+        "description": "Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců."
+      },
+      "joalis": {
+        "description": "Joalis je česká firma založená v roce 1999, specializující se na vývoj a výrobu přírodních doplňků stravy zaměřených na detoxikaci organismu."
+      },
+      "shop8-cms": {
+        "description": "Shop 8 je česká firma specializující se na vývoj e-commerce řešení na míru pro středně velké firmy, které již překonaly limity standardních šablonových platforem. Jejich cílem je poskytovat flexibilní a škálovatelné e-shopy, které rostou spolu s byznysem klienta."
+      },
+      "moonwood": {
+        "description": "Moonwood je česká společnost zaměřená na distribuci kvalitních anglických a cizojazyčných dětských knih po celé Evropě."
+      },
+      "magnus-art": {
+        "description": "Galerie Magnus Art je pražská galerie zaměřená na prezentaci kvalitního českého i světového umění."
+      }
+    }
   },
   "experiences": {
-    "showLess": "Zobrazit méně"
+    "showLess": "Zobrazit méně",
+    "roles": {
+      "code8": "Vývoj a údržba webových aplikací a interních systémů v React, Next.js, TypeScript a Angular.\nPráce v prostředí monorepo (Nx) pro správu rozsáhlejších projektů.\nIntegrace REST API a GraphQL pro efektivní práci s daty.\nVývoj mobilních aplikací v React Native (Expo, Firebase, push notifikace).\nOptimalizace výkonu a SEO; testování pomocí Cypress, konfigurace Webpacku a ESlint.",
+      "mcled": "Správa a rozvoj firemního e-shopu.\nKódování HTML, CSS a JavaScript, implementace nových funkcí.\nZpracování produktové fotografie a úprava obsahu pro web.\nPráce s CRM a logistickými systémy v souvislosti s e-shopem.",
+      "kristian": "Návrh a realizace webů a microsites.\nKódování HTML, CSS a JavaScript.\nPráce s October CMS při tvorbě webů a funkcionalit.\nSpolupráce s grafickým oddělením na tvorbě vizuální identity."
+    }
   },
   "about": {
     "content": "Jsem frontend developer se zaměřením na React, Next.js a WordPress. Rád pracuji na moderních webech a aplikacích, které kombinují čistý design a funkčnost. Mám více než 7 let zkušeností s vývojem a neustále se učím nové technologie.\nVe volném čase se věnuji fotografii, grafice, videu a s nadšením zkoumám i vývoj her v Roblox Studiu."
