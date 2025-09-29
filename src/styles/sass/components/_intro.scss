@@ -198,6 +198,10 @@ body.dark-mode .intro-text {
     color: var(--color-accent-dark);
   }
 
+  p {
+    color: var(--color-accent-dark);
+  }
+
   .cta-button {
     &.cta-email {
       background: var(--color-accent-dark);
