@@ -4,7 +4,7 @@ export const headerComponent = (t, currentLang = "cs") => {
 
   return `
     <header role="banner">
-      <div class="logo" aria-label="Developer Portfolio Logo" tabindex="0">SŠ</div>
+      <!-- <div class="logo" aria-label="Developer Portfolio Logo" tabindex="0">Sebastian Šanda</div> -->
 
         <nav class="desktop-menu" role="navigation" aria-label="Primary Navigation">
           <a href="#intro" tabindex="0">${t("navigation.intro")}</a>

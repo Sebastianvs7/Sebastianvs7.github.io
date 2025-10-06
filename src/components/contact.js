@@ -9,7 +9,7 @@ export const contactComponent = (t) => `
         aria-label="${contactData.email.ariaLabel}"
         tabindex="0"
       >
-        ${t("contact.email")}
+        ${contactData.email.text}
       </a>
       <a
         href="${contactData.linkedin.href}"
@@ -18,7 +18,7 @@ export const contactComponent = (t) => `
         aria-label="${contactData.linkedin.ariaLabel}"
         tabindex="0"
       >
-        ${t("contact.linkedin")}
+        ${contactData.linkedin.text}
       </a>
     </div>
   </section>

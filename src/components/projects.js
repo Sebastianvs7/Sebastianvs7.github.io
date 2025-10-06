@@ -27,10 +27,19 @@ const renderProjectLinks = (project, t) => {
 };
 
 // Helper function to render project description with truncation
-const renderProjectDescription = (description, projectId, t) => {
+const renderProjectDescription = (
+  description,
+  projectId,
+  t,
+  currentLanguage
+) => {
+  const descriptionText =
+    typeof description === "object"
+      ? description[currentLanguage]
+      : description;
   return `
     <div class="project-description-container" data-project="${projectId}">
-      <p class="project-description truncated">${description}</p>
+      <p class="project-description truncated">${descriptionText}</p>
       <button class="show-more-desc-btn" data-project="${projectId}">
         <span class="show-more-desc-text">${t("projects.showMore")}</span>
         <span class="show-less-desc-text hidden">${t(
@@ -42,7 +51,7 @@ const renderProjectDescription = (description, projectId, t) => {
 };
 
 // Helper function to render a single project card
-const renderProjectCard = (project, t) => {
+const renderProjectCard = (project, t, currentLanguage) => {
   return `
     <div class="project-card ${!project.visible ? "hidden-project" : ""}">
       <div class="project-image">
@@ -62,21 +71,29 @@ const renderProjectCard = (project, t) => {
       </div>
       <div class="project-content">
         <h3>${project.title}</h3>
-        ${renderProjectDescription(project.description, project.id, t)}
+        ${renderProjectDescription(
+          project.description,
+          project.id,
+          t,
+          currentLanguage
+        )}
         ${renderProjectLinks(project, t)}
       </div>
     </div>
   `;
 };
 
-export const projectsComponent = (t) => `
+export const projectsComponent = (t, currentLanguage = "cs") => `
   <section id="projects" tabindex="-1" aria-label="Projects">
     <div class="projects-header">
       <h2>${t("sections.projects")}</h2>
     </div>
 
     <div class="projects-grid" id="projects-grid">
-      ${projectsData.map((project) => renderProjectCard(project, t)).join("")}
+      ${projectsData
+        .sort((a, b) => a.position - b.position)
+        .map((project) => renderProjectCard(project, t, currentLanguage))
+        .join("")}
     </div>
 
     <div class="show-more-container">

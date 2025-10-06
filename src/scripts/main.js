@@ -45,7 +45,7 @@ function renderComponents() {
   // Replace main content
   mainContainer.innerHTML = `
     ${introComponent(t)}
-    ${projectsComponent(t)}
+    ${projectsComponent(t, currentLang)}
     ${experiencesComponent(t)}
     ${aboutComponent(t)}
     ${contactComponent(t)}
@@ -127,6 +127,18 @@ function initializeEventListeners() {
   setTimeout(() => {
     initializeDescriptionShowMore();
   }, 100);
+
+  // Theme toggle functionality
+  const themeToggles = document.querySelectorAll(
+    "#theme-toggle, #theme-toggle-mobile"
+  );
+  if (themeToggles.length > 0 && window.themeManager) {
+    themeToggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        window.themeManager.toggleTheme();
+      });
+    });
+  }
 }
 
 // Show more projects functionality
@@ -223,11 +235,108 @@ async function applyLanguage(lang) {
   localStorage.setItem("language", lang);
 }
 
+// Theme management system
+class ThemeManager {
+  constructor() {
+    this.prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    this.body = document.body;
+    this.storedTheme = localStorage.getItem("theme");
+    this.isManualOverride = this.storedTheme !== null;
+
+    // Bind methods to preserve context
+    this.handleSystemThemeChange = this.handleSystemThemeChange.bind(this);
+    this.toggleTheme = this.toggleTheme.bind(this);
+  }
+
+  applyTheme(theme) {
+    if (theme === "dark") {
+      this.body.classList.add("dark-mode");
+    } else {
+      this.body.classList.remove("dark-mode");
+    }
+
+    // Update meta theme-color for mobile browsers
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.content = theme === "dark" ? "#1e1e1e" : "#f5f0e6";
+    }
+  }
+
+  getCurrentTheme() {
+    return this.body.classList.contains("dark-mode") ? "dark" : "light";
+  }
+
+  getSystemTheme() {
+    return this.prefersDarkScheme.matches ? "dark" : "light";
+  }
+
+  initializeTheme() {
+    // If user has manually set a preference, use that
+    if (this.isManualOverride) {
+      this.applyTheme(this.storedTheme);
+    } else {
+      // Otherwise, follow system preference
+      this.applyTheme(this.getSystemTheme());
+    }
+
+    // Initialize theme toggle button states
+    this.updateThemeToggleButton(this.getCurrentTheme());
+  }
+
+  handleSystemThemeChange(e) {
+    // Only respond to system changes if user hasn't manually overridden
+    if (!this.isManualOverride) {
+      this.applyTheme(e.matches ? "dark" : "light");
+    }
+  }
+
+  toggleTheme() {
+    const currentTheme = this.getCurrentTheme();
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+    this.applyTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    this.isManualOverride = true;
+
+    // Update theme toggle button if it exists
+    this.updateThemeToggleButton(newTheme);
+  }
+
+  updateThemeToggleButton(theme) {
+    const themeToggles = document.querySelectorAll(
+      "#theme-toggle, #theme-toggle-mobile"
+    );
+    themeToggles.forEach((toggle) => {
+      toggle.textContent = theme === "dark" ? "☀️" : "🌙";
+      toggle.setAttribute(
+        "aria-label",
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+      );
+    });
+  }
+
+  startListening() {
+    // Listen for system theme changes
+    this.prefersDarkScheme.addEventListener(
+      "change",
+      this.handleSystemThemeChange
+    );
+  }
+
+  stopListening() {
+    this.prefersDarkScheme.removeEventListener(
+      "change",
+      this.handleSystemThemeChange
+    );
+  }
+}
+
 // Initialize all functionality
 async function initializeApp() {
-  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-  const body = document.body;
-  const storedTheme = localStorage.getItem("theme");
+  // Initialize theme manager
+  window.themeManager = new ThemeManager();
+  window.themeManager.initializeTheme();
+  window.themeManager.startListening();
 
   // Initialize i18next
   await initializeI18n();
@@ -236,21 +345,6 @@ async function initializeApp() {
     "%cHey there, curious developer! 🕵️‍♂️ If you're reading this, you're officially awesome. 🚀",
     "color: #7a6853; font-size: 18px; font-weight: bold;"
   );
-
-  function applyTheme(theme) {
-    if (theme === "dark") {
-      body.classList.add("dark-mode");
-    } else {
-      body.classList.remove("dark-mode");
-    }
-  }
-
-  // Apply theme
-  if (storedTheme) {
-    applyTheme(storedTheme);
-  } else {
-    applyTheme(prefersDarkScheme.matches ? "dark" : "light");
-  }
 
   // Initial render
   renderComponents();

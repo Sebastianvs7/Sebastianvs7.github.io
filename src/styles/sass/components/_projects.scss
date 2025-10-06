@@ -110,8 +110,8 @@
 
     &:hover .project-image {
       img {
-        transform: scale(1.05);
-        filter: none; // Show original colors on hover
+        transform: scale(1.1);
+        // filter: none; // Show original colors on hover
       }
 
       &::after {
