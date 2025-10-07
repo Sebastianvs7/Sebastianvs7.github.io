@@ -12,7 +12,7 @@
       <div class="intro-bottom">
         <div class="intro-cta">
           <a
-            href="mailto:seba.vysin@seznam.cz"
+            href="mailto:info@sebastiansanda.cz"
             class="cta-button cta-email"
             :aria-label="$t('intro.cta.emailLabel')"
           >
