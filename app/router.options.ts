@@ -1,18 +1,16 @@
 import type { RouterConfig } from "@nuxt/schema";
 
 export default <RouterConfig>{
-  scrollBehavior(to, from, savedPosition) {
-    // detect same path, different locale
-    const stripLocale = (path: string) =>
-      path.replace(/^\/[a-z]{2}(\/|$)/, "/");
+  async scrollBehavior(to, from, savedPosition) {
+    const nuxtApp = useNuxtApp();
 
-    if (stripLocale(to.fullPath) === stripLocale(from.fullPath)) {
-      // prevents scroll reset when only locale changes
-      return savedPosition || false;
+    // make sure the route has changed.
+    if (nuxtApp.$i18n && to.name !== from.name) {
+      // `$i18n` is injected in the `setup` of the nuxtjs/i18n module.
+      // `scrollBehavior` is guarded against being called even when it is not completed
+      await nuxtApp.$i18n.waitForPendingLocaleChange();
     }
 
-    // otherwise normal scroll behavior
-    if (savedPosition) return savedPosition;
-    return { top: 0, left: 0 };
+    return savedPosition || { top: 0 };
   },
 };
