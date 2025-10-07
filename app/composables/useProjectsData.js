@@ -9,7 +9,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.kohinoordeutschland.de",
       visible: true,
-      image: "./images/kin-logo.svg",
+      image: "/images/kin-logo.svg",
       position: 1,
     },
     {
@@ -30,7 +30,7 @@ export const useProjectsData = () => {
         },
       ],
       visible: true,
-      image: "./images/logo_zoetis.svg",
+      image: "/images/logo_zoetis.svg",
       position: 2,
     },
     {
@@ -42,7 +42,7 @@ export const useProjectsData = () => {
       },
       link: "https://furnatura.com/en-US/",
       visible: true,
-      image: "./images/furnatura-prague.svg",
+      image: "/images/furnatura-prague.svg",
       position: 3,
     },
     {
@@ -54,7 +54,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.shop8.cz",
       visible: true,
-      image: "./images/logo-code8.svg",
+      image: "/images/logo-code8.svg",
       position: 4,
     },
     {
@@ -66,7 +66,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.mobilephonemuseum.com",
       visible: true, // Hidden by default
-      image: "./images/logo-mpm.svg",
+      image: "/images/logo-mpm.svg",
       position: 5,
     },
     {
@@ -78,7 +78,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.elementslomnica.sk/en",
       visible: true,
-      image: "./images/logo-elements.svg",
+      image: "/images/logo-elements.svg",
       position: 6,
     },
     {
@@ -90,7 +90,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.biocultus.com/cs",
       visible: false,
-      image: "./images/biocultus-logo.svg",
+      image: "/images/biocultus-logo.svg",
       position: 7,
     },
     {
@@ -102,7 +102,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.joalis.cz",
       visible: false,
-      image: "./images/logo-joalis.png",
+      image: "/images/logo-joalis.png",
       position: 8,
     },
 
@@ -115,7 +115,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.yogarden.cz/cz",
       visible: false,
-      image: "./images/logo-yogarden.svg",
+      image: "/images/logo-yogarden.svg",
       position: 9,
     },
     {
@@ -127,7 +127,7 @@ export const useProjectsData = () => {
       },
       link: "https://moonwood.com",
       visible: false,
-      image: "./images/logo-moonwood.svg",
+      image: "/images/logo-moonwood.svg",
       position: 10,
     },
     {
@@ -139,7 +139,7 @@ export const useProjectsData = () => {
       },
       link: "https://magnusart.cz",
       visible: false,
-      image: "./images/MA_logo.svg",
+      image: "/images/MA_logo.svg",
       position: 11,
     },
     {
@@ -151,7 +151,7 @@ export const useProjectsData = () => {
       },
       link: "https://www.mcled.cz/",
       visible: false,
-      image: "./images/mcled-logo.svg",
+      image: "/images/mcled-logo.svg",
       position: 12,
     },
   ]);
