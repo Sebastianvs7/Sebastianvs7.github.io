@@ -78,8 +78,7 @@ const toggleLanguage = () => {
   const newLocale = locale.value === "cs" ? "en" : "cs";
   const path = switchLocalePath(newLocale);
   if (path) {
-    navigateTo(newLocale);
-    setLocale(newLocale);
+    navigateTo(path);
   }
 };
 
