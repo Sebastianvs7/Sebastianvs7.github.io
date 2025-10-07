@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   ssr: false,
 
   // Modules
-  modules: ["@nuxtjs/i18n", "@nuxt/image"],
+  modules: ["@nuxtjs/i18n"],
 
   // i18n configuration
   i18n: {
@@ -60,12 +60,6 @@ export default defineNuxtConfig({
         },
       ],
     },
-  },
-
-  // Image optimization
-  image: {
-    quality: 80,
-    format: ["webp", "png", "jpg"],
   },
 
   // Runtime config

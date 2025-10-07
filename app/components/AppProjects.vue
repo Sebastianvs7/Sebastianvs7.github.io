@@ -12,7 +12,7 @@
         :class="{ 'hidden-project': !project.visible }"
       >
         <div class="project-image">
-          <NuxtImg
+          <img
             :src="project.image"
             :alt="project.title"
             width="300"

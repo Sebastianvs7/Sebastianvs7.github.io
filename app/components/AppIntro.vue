@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="intro-img" aria-label="Portrait of Sebastian Šanda" role="img">
-      <NuxtImg
+      <img
         src="/images/profile.webp"
         alt="Sebastian Šanda"
         width="220"
