@@ -1,14 +1,15 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   // Enable static site generation
-  nitro: {
+  /*  nitro: {
     prerender: {
       routes: ["/cs", "/en"],
     },
-  },
+  }, */
 
   // Configure static export
-  ssr: false,
+  ssr: true,
+  target: "static",
 
   // Modules
   modules: ["@nuxtjs/i18n"],
