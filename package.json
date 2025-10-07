@@ -2,19 +2,24 @@
   "name": "portfolio-website",
   "version": "1.0.0",
   "description": "Personal portfolio website",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "build": "nuxt generate",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "gh-pages": "^6.1.0",
-    "sass": "^1.69.5",
-    "vite": "^5.0.0"
+    "@nuxt/devtools": "^2.6.5",
+    "@nuxtjs/i18n": "^10.1.0",
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "@types/node": "^24.7.0",
+    "nuxt": "^4.1.2",
+    "sass": "^1.93.2"
   },
   "dependencies": {
-    "i18next": "^25.5.2"
+    "@nuxt/image": "^1.11.0"
   }
 }

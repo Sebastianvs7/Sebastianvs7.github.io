@@ -6,9 +6,16 @@
     "about": "O mně",
     "contact": "Kontakt"
   },
+  "sections": {
+    "projects": "Projekty",
+    "experience": "Pracovní zkušenosti",
+    "about": "O mně"
+  },
   "intro": {
     "name": "Sebastian Šanda",
-    "subtitle": "Frontend vývojář | React & Next.js | WordPress",
+    "subtitle1": "Frontend vývojář",
+    "subtitle2": "React & Next.js",
+    "subtitle3": "WordPress",
     "role": "Webový vývojář specializující se na moderní škálovatelné webové aplikace",
     "description": "Vytvářím moderní weby a aplikace s důrazem na rychlost, použitelnost a čistý kód. Pomáhám firmám i jednotlivcům růst díky profesionálním online řešením.",
     "cta": {
@@ -18,12 +25,6 @@
       "linkedinLabel": "Navštívit LinkedIn profil"
     }
   },
-  "sections": {
-    "projects": "Projekty",
-    "experience": "Pracovní zkušenosti",
-    "about": "O mně"
-  },
-  "footer": "Sebastian Šanda. Všechna práva vyhrazena.",
   "projects": {
     "showMore": "Zobrazit více",
     "showLess": "Zobrazit méně",
@@ -32,14 +33,14 @@
     "showLessButton": "Zobrazit méně"
   },
   "experiences": {
-    "showLess": "Zobrazit méně",
-    "roles": {
-      "code8": "Vývoj a údržba webových aplikací a interních systémů v React, Next.js, TypeScript a Angular.\nPráce v prostředí monorepo (Nx) pro správu rozsáhlejších projektů.\nIntegrace REST API a GraphQL pro efektivní práci s daty.\nVývoj mobilních aplikací v React Native (Expo, Firebase, push notifikace).\nOptimalizace výkonu a SEO; testování pomocí Cypress, konfigurace Webpacku a ESlint.",
-      "mcled": "Správa a rozvoj firemního e-shopu.\nKódování HTML, CSS a JavaScript, implementace nových funkcí.\nZpracování produktové fotografie a úprava obsahu pro web.\nPráce s CRM a logistickými systémy v souvislosti s e-shopem.",
-      "kristian": "Návrh a realizace webů a microsites.\nKódování HTML, CSS a JavaScript.\nPráce s October CMS při tvorbě webů a funkcionalit.\nSpolupráce s grafickým oddělením na tvorbě vizuální identity."
-    }
+    "current": "Současnost"
   },
   "about": {
     "content": "Jsem frontend developer se zaměřením na React, Next.js a WordPress. Rád pracuji na moderních webech a aplikacích, které kombinují čistý design a funkčnost. Mám více než 7 let zkušeností s vývojem a neustále se učím nové technologie.\nVe volném čase se věnuji fotografii, grafice, videu a s nadšením zkoumám i vývoj her v Roblox Studiu."
+  },
+  "footer": "Sebastian Šanda. Všechna práva vyhrazena.",
+  "error": {
+    "notFound": "Oops! Vypadá to, že tato stránka si šla dát kávu ☕️",
+    "goHome": "Zpět domů"
   }
 }

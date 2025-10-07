@@ -1,16 +1,15 @@
 # Sebastian Šanda - Portfolio Website
 
-A modern portfolio website built with HTML components, SCSS, and Vite for optimal development experience and GitHub Pages deployment.
+A modern portfolio website built with Nuxt.js, featuring static site generation, i18n support, and optimized for GitHub Pages deployment.
 
 ## 🚀 Features
 
-- **Component-based HTML**: Modular HTML components that get compiled into a single file
-- **Modern Build System**: Vite for fast development and optimized builds
-- **SCSS Support**: Full SCSS compilation with component organization
-- **GitHub Pages Ready**: Automatic deployment via GitHub Actions
+- **Nuxt.js 3**: Modern Vue.js framework with static site generation
+- **i18n Support**: Czech/English language toggle with @nuxtjs/i18n
+- **Static Export**: Optimized for GitHub Pages deployment
 - **Responsive Design**: Mobile-first approach with dark mode support
-- **Multilingual**: Czech/English language toggle
-- **Performance Optimized**: Lazy loading, smooth animations, and optimized assets
+- **Performance Optimized**: Image optimization, lazy loading, and smooth animations
+- **SEO Ready**: Meta tags, structured data, and sitemap generation
 
 ## 🛠️ Development
 
@@ -38,10 +37,10 @@ A modern portfolio website built with HTML components, SCSS, and Vite for optima
 3. **Build for production**
 
    ```bash
-   npm run build
+   npm run generate
    ```
 
-   Outputs to `dist/` directory
+   Generates static files in `dist/` directory
 
 4. **Preview production build**
    ```bash
@@ -51,44 +50,52 @@ A modern portfolio website built with HTML components, SCSS, and Vite for optima
 ### Project Structure
 
 ```
-src/
-├── components/           # HTML component files
-│   ├── header.html
-│   ├── intro.html
-│   ├── projects.html
-│   ├── experiences.html
-│   └── contact.html
-├── styles/
-│   └── sass/            # SCSS files
-│       ├── base/
-│       ├── components/
-│       └── main.scss
-├── scripts/
-│   └── main.js          # Application JavaScript
+├── app.vue                 # Root component
+├── pages/
+│   └── index.vue          # Main page
+├── components/            # Vue components
+│   ├── AppHeader.vue
+│   ├── AppIntro.vue
+│   ├── AppProjects.vue
+│   ├── AppExperiences.vue
+│   ├── AppAbout.vue
+│   ├── AppContact.vue
+│   └── AppFooter.vue
+├── composables/           # Vue composables
+│   ├── useProjectsData.js
+│   └── useExperiencesData.js
 ├── assets/
-│   └── images/          # Static assets
-└── index.html           # Main template file
+│   ├── images/           # Static assets
+│   └── styles/           # SCSS files
+├── locales/              # i18n translation files
+│   ├── cs.json
+│   └── en.json
+├── public/               # Public assets
+└── nuxt.config.ts       # Nuxt configuration
 ```
 
 ### Component System
 
-Components are pure HTML files that get injected into the main `index.html` template during build:
+Components are Vue Single File Components (SFC) with:
 
-```html
-<!-- In index.html -->
-<%= header %>
-<!-- Injects src/components/header.html -->
-<%= intro %>
-<!-- Injects src/components/intro.html -->
-```
+- Template section for HTML
+- Script section for JavaScript logic
+- Style section for component-specific styles
+
+### i18n Configuration
+
+The project uses @nuxtjs/i18n for internationalization:
+
+- Czech (cs) as default locale
+- English (en) as secondary locale
+- Automatic language detection
+- Route-based language switching
 
 ### SCSS Architecture
 
-- `base/` - Global styles, variables, resets
-- `components/` - Component-specific styles
-- `main.scss` - Main entry point that imports all modules
-
-SCSS is automatically processed by Vite during development and build.
+- `assets/styles/main.scss` - Main entry point
+- `assets/styles/base/` - Global styles, variables, resets
+- `assets/styles/components/` - Component-specific styles
 
 ## 🚀 Deployment
 
@@ -111,28 +118,29 @@ Push to `main` branch triggers automatic GitHub Actions deployment:
 ### Manual Deployment
 
 ```bash
-npm run deploy
+npm run generate
+# Upload dist/ folder to your hosting provider
 ```
 
 ## 🎨 Customization
 
 ### Adding New Components
 
-1. Create HTML file in `src/components/`
-2. Add to `vite.config.js` data injection
-3. Include in `src/index.html` template
+1. Create Vue file in `components/`
+2. Import and use in pages or other components
+3. Add styles in `assets/styles/components/`
 
 ### Styling
 
-- Edit SCSS files in `src/styles/sass/`
-- Component styles go in `src/styles/sass/components/`
+- Edit SCSS files in `assets/styles/`
+- Component styles go in `assets/styles/components/`
 - Run `npm run dev` for live reload
 
 ### Content Updates
 
-- **Projects**: Edit `src/components/projects.html`
-- **Experience**: Edit `src/components/experiences.html`
-- **Contact**: Edit `src/components/contact.html`
+- **Projects**: Edit `composables/useProjectsData.js`
+- **Experience**: Edit `composables/useExperiencesData.js`
+- **Translations**: Edit files in `locales/`
 
 ## 📱 Browser Support
 
@@ -142,10 +150,10 @@ npm run deploy
 
 ## 🔧 Build Details
 
-- **Vite**: Fast build tool with HMR
-- **HTML Plugin**: Processes component injection
-- **SCSS**: Compiled and optimized
-- **Assets**: Optimized and copied to dist
+- **Nuxt.js**: Vue.js framework with static generation
+- **@nuxtjs/i18n**: Internationalization support
+- **@nuxt/image**: Image optimization
+- **SCSS**: Compiled and optimized styles
 - **GitHub Actions**: Automated CI/CD pipeline
 
 ---

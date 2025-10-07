@@ -1,0 +1,46 @@
+{
+  "navigation": {
+    "intro": "Intro",
+    "projects": "Projects",
+    "experience": "Experience",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "sections": {
+    "projects": "Projects",
+    "experience": "Working Experiences",
+    "about": "About Me"
+  },
+  "intro": {
+    "name": "Sebastian Šanda",
+    "subtitle1": "Frontend Developer",
+    "subtitle2": "React & Next.js",
+    "subtitle3": "WordPress",
+    "role": "Web Developer specializing in modern scalable web apps",
+    "description": "Passionate about building performant and accessible websites that bring ideas to life. Experienced in JavaScript, React, Node.js, and CSS.",
+    "cta": {
+      "email": "Contact Me",
+      "emailLabel": "Send email to Sebastian Šanda",
+      "linkedin": "LinkedIn",
+      "linkedinLabel": "Visit LinkedIn profile"
+    }
+  },
+  "projects": {
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "viewProject": "View Project",
+    "showMoreButton": "Show More Projects",
+    "showLessButton": "Show Less"
+  },
+  "about": {
+    "content": "I am a frontend developer specializing in React, Next.js, and WordPress. I enjoy working on modern websites and applications that combine clean design with functionality. With more than 7 years of development experience, I am continuously learning and exploring new technologies.\nIn my free time, I focus on photography, graphic design, and video production, and I also enjoy exploring game development in Roblox Studio with great enthusiasm."
+  },
+  "experiences": {
+    "current": "Current"
+  },
+  "footer": "Sebastian Šanda. All rights reserved.",
+  "error": {
+    "notFound": "Oops! Looks like this page ran away to grab coffee ☕️",
+    "goHome": "Go back home"
+  }
+}
