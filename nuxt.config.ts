@@ -1,15 +1,53 @@
+// Helper function to generate project routes for static export
+function getProjectRoutes(): string[] {
+  // List of all project IDs (update this when adding new projects)
+  const projectIds = [
+    "koh-i-noor",
+    "zoeto",
+    "furnatura",
+    "shop8-cms",
+    "mobile-phone-museum",
+    "elements",
+    "biocultus",
+    "joalis",
+    "yogarden",
+    "moonwood",
+    "magnus-art",
+    "mcled",
+  ];
+
+  const routes: string[] = [];
+
+  // Generate routes for Czech (default locale - no prefix)
+  projectIds.forEach((projectId) => {
+    routes.push(`/projects/${projectId}`);
+  });
+
+  // Generate routes for English (with prefix)
+  projectIds.forEach((projectId) => {
+    routes.push(`/en/projects/${projectId}`);
+  });
+
+  return routes;
+}
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
-  // Enable static site generation
-  /*  nitro: {
-    prerender: {
-      routes: ["/cs", "/en"],
-    },
-  }, */
 
   // Configure static export
   ssr: true,
-  target: "static",
+
+  // Enable static site generation with dynamic routes
+  nitro: {
+    prerender: {
+      routes: [
+        "/",
+        "/en",
+        // Generate project pages for both locales
+        ...getProjectRoutes(),
+      ],
+    },
+  },
 
   // Modules
   modules: ["@nuxtjs/i18n"],
@@ -21,7 +59,7 @@ export default defineNuxtConfig({
       { code: "cs", name: "Čeština", file: "cs.json" },
     ],
     defaultLocale: "cs",
-    strategy: "prefix",
+    strategy: "prefix_except_default",
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: "i18n_redirected",

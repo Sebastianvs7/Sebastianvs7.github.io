@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid Explosion on Click</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        background: #f5f0e1;
+        overflow: hidden;
+        font-family: sans-serif;
+      }
+      .hero {
+        position: relative;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+      .rect {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border: 1px solid rgba(101, 67, 33, 0.3);
+        border-radius: 3px;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-origin: center;
+      }
+      .highlight {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border-radius: 3px;
+        border: 2px solid rgba(83, 53, 24, 0.5);
+        background-color: transparent;
+        box-shadow: 0 0 8px rgba(101, 67, 33, 0.2);
+      }
+      .cross {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        color: rgba(101, 67, 33, 0.7);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .hero-title {
+        position: relative;
+        z-index: 1000;
+        font-size: 3rem;
+        text-align: center;
+        top: 40%;
+        pointer-events: none;
+        color: #654321;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero" id="hero">
+      <h1 class="hero-title">Click Explosion Effect</h1>
+    </section>
+    <script>
+      const hero = document.getElementById("hero");
+      const boxSize = 25;
+      const spacing = 40;
+      const cols = Math.floor(window.innerWidth / spacing);
+      const rows = Math.floor(window.innerHeight / spacing);
+      const boxes = [];
+
+      // --- Create grid boxes ---
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const box = document.createElement("div");
+          box.classList.add("rect");
+          box.style.left = `${x * spacing}px`;
+          box.style.top = `${y * spacing}px`;
+          hero.appendChild(box);
+          boxes.push({
+            el: box,
+            x: x * spacing,
+            y: y * spacing,
+            rotationOffset: Math.random() * 360,
+          });
+        }
+      }
+
+      let cursor = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      let isIdle = false;
+      let idleTimer;
+      let isMouseMoving = false;
+      let lastMouseMoveTime = 0;
+
+      function resetIdleTimer() {
+        isIdle = false;
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => {
+          isIdle = true;
+          boxes.forEach(({ el }) => {
+            gsap.to(el, {
+              scale: 1,
+              rotation: 0,
+              x: 0,
+              y: 0,
+              boxShadow: "none",
+              duration: 0.6,
+              ease: "power2.out",
+            });
+          });
+        }, 5000);
+      }
+
+      window.addEventListener("mousemove", (e) => {
+        cursor.x = e.clientX;
+        cursor.y = e.clientY;
+        resetIdleTimer();
+        lastMouseMoveTime = Date.now();
+        if (!isMouseMoving) {
+          console.log("Mouse started moving");
+          isMouseMoving = true;
+        }
+      });
+      resetIdleTimer();
+
+      // --- Hover radius swirl ---
+      let swirlAngle = 0;
+      const hoverRadius = 150;
+
+      function animateGrid() {
+        if (!isIdle) {
+          swirlAngle += 0.05;
+          for (let { el, x, y, rotationOffset } of boxes) {
+            const dx = cursor.x - (x + boxSize / 2);
+            const dy = cursor.y - (y + boxSize / 2);
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const effect = Math.max(0, 1 - dist / hoverRadius);
+
+            if (effect > 0) {
+              const angle = Math.atan2(dy, dx);
+              const rotation =
+                (swirlAngle * 180) / Math.PI + rotationOffset + effect * 200;
+              const scale = 1 + effect * 0.3;
+              const shadow = `0 4px 8px rgba(101,67,33,${0.3 * effect})`;
+              const offsetX = Math.cos(angle + swirlAngle) * effect * 10;
+              const offsetY = Math.sin(angle + swirlAngle) * effect * 10;
+
+              gsap.to(el, {
+                x: offsetX,
+                y: offsetY,
+                scale,
+                rotation,
+                boxShadow: shadow,
+                duration: 0.4,
+                ease: "sine.out",
+              });
+            } else {
+              gsap.to(el, {
+                x: 0,
+                y: 0,
+                scale: 1,
+                rotation: 0,
+                boxShadow: "none",
+                duration: 0.6,
+                ease: "power2.out",
+              });
+            }
+          }
+        }
+        requestAnimationFrame(animateGrid);
+      }
+      animateGrid();
+
+      // --- Moving Highlight Rect ---
+      const highlight = document.createElement("div");
+      highlight.classList.add("highlight");
+      hero.appendChild(highlight);
+
+      let highlightCol = 0;
+      let highlightRow = Math.floor(rows / 2);
+      let direction = 1;
+      let zig = 0;
+
+      function animateHighlight() {
+        highlightCol += direction;
+
+        if (zig === 1) {
+          highlightRow = Math.max(0, highlightRow - 1);
+          zig = 2;
+        } else if (zig === 2) {
+          highlightRow = Math.min(rows - 1, highlightRow + 1);
+          zig = 0;
+        } else {
+          zig = 1;
+        }
+
+        if (highlightCol >= cols - 1) direction = -1;
+        if (highlightCol <= 0) direction = 1;
+
+        gsap.to(highlight, {
+          left: `${highlightCol * spacing}px`,
+          top: `${highlightRow * spacing}px`,
+          duration: 2.2,
+          ease: "power1.inOut",
+          onComplete: () => setTimeout(animateHighlight, 200),
+        });
+      }
+      animateHighlight();
+
+      // --- Random Crosses ---
+      const crossElements = boxes.map((box) => {
+        const cross = document.createElement("div");
+        cross.classList.add("cross");
+        cross.style.left = `${box.x}px`;
+        cross.style.top = `${box.y}px`;
+        cross.textContent = "×";
+        hero.appendChild(cross);
+        return cross;
+      });
+
+      function showRandomCrosses() {
+        const numToShow = 5 + Math.floor(Math.random() * 2);
+        for (let i = 0; i < numToShow; i++) {
+          const cross =
+            crossElements[Math.floor(Math.random() * crossElements.length)];
+          if (cross.dataset.active === "true") continue;
+          cross.dataset.active = "true";
+
+          gsap.fromTo(
+            cross,
+            { opacity: 0, scale: 0.6 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 1.5,
+              ease: "power2.out",
+              onComplete: () => {
+                gsap.to(cross, {
+                  opacity: 0,
+                  delay: 2 + Math.random() * 2,
+                  duration: 1.5,
+                  scale: 0.8,
+                  ease: "power2.inOut",
+                  onComplete: () => (cross.dataset.active = "false"),
+                });
+              },
+            }
+          );
+        }
+      }
+      setInterval(showRandomCrosses, 3500);
+
+      // --- Click explosion effect ---
+      hero.addEventListener("click", (e) => {
+        const clickX = e.clientX;
+        const clickY = e.clientY;
+
+        // Check if mouse moved recently (within last 5 seconds)
+        const timeSinceLastMove = Date.now() - lastMouseMoveTime;
+        const wasRecentlyMoving = timeSinceLastMove < 5000;
+
+        console.log("Time since last move:", timeSinceLastMove, "ms");
+        console.log("Was recently moving:", wasRecentlyMoving);
+
+        // Different explosion radius based on recent mouse movement
+        const explosionRadius = wasRecentlyMoving ? 450 : 150; // Smaller radius when recently moving, larger when stationary
+
+        boxes.forEach(({ el, x, y }) => {
+          const dx = x + boxSize / 2 - clickX;
+          const dy = y + boxSize / 2 - clickY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < explosionRadius) {
+            const angle = Math.atan2(dy, dx);
+            const force = (explosionRadius - dist) * 2; // closer = stronger
+            const offsetX = Math.cos(angle) * force;
+            const offsetY = Math.sin(angle) * force;
+
+            // animate away and back
+            gsap.fromTo(
+              el,
+              { x: 0, y: 0 },
+              {
+                x: offsetX,
+                y: offsetY,
+                duration: 2,
+                ease: "power2.out",
+                onComplete: () => {
+                  gsap.to(el, {
+                    x: 0,
+                    y: 0,
+                    duration: 5,
+                    ease: "elastic.out(1,0.4)",
+                  });
+                },
+              }
+            );
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

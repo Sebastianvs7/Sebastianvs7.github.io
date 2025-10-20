@@ -29,6 +29,13 @@
     "showMore": "Zobrazit více",
     "showLess": "Zobrazit méně",
     "viewProject": "Zobrazit projekt",
+    "viewDetails": "Zobrazit detaily",
+    "backToProjects": "Zpět na projekty",
+    "projectInfo": "Informace o projektu",
+    "projectType": "Typ",
+    "webDevelopment": "Webový vývoj",
+    "status": "Stav",
+    "completed": "Dokončeno",
     "showMoreButton": "Zobrazit více projektů",
     "showLessButton": "Zobrazit méně"
   },
@@ -39,8 +46,24 @@
     "content": "Jsem frontend developer se zaměřením na React, Next.js a WordPress. Rád pracuji na moderních webech a aplikacích, které kombinují čistý design a funkčnost. Mám více než 7 let zkušeností s vývojem a neustále se učím nové technologie.\nVe volném čase se věnuji fotografii, grafice, videu a s nadšením zkoumám i vývoj her v Roblox Studiu."
   },
   "footer": "Sebastian Šanda. Všechna práva vyhrazena.",
+  "meta": {
+    "title": "Sebastian Šanda - Frontend vývojář"
+  },
   "error": {
     "notFound": "Oops! Vypadá to, že tato stránka si šla dát kávu ☕️",
     "goHome": "Zpět domů"
+  },
+  "common": {
+    "loading": "Načítání...",
+    "error": "Chyba",
+    "projectNotFound": "Projekt nebyl nalezen",
+    "backToProjects": "Zpět na projekty"
+  },
+  "projectDetail": {
+    "overview": "Přehled",
+    "technologies": "Technologie",
+    "keyFeatures": "Klíčové funkce",
+    "links": "Odkazy",
+    "viewProject": "Zobrazit projekt"
   }
 }

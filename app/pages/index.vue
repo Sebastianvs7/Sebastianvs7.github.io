@@ -8,6 +8,7 @@
     <AppProjects />
     <AppExperiences />
     <AppAbout />
+    <!-- <AppAnimatedSection /> -->
     <AppContact />
   </main>
 

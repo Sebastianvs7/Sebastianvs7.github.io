@@ -7,7 +7,7 @@ export const useTheme = () => {
   // Initialize theme on client side
   const initializeTheme = () => {
     if (process.client) {
-      const storedTheme = localStorage.getItem("theme");
+      const storedTheme = sessionStorage.getItem("theme");
       prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
       // Set manual override flag
@@ -69,7 +69,7 @@ export const useTheme = () => {
     applyTheme();
 
     if (process.client) {
-      localStorage.setItem("theme", newTheme);
+      sessionStorage.setItem("theme", newTheme);
     }
   };
 

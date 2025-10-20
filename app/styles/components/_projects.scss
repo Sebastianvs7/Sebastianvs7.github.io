@@ -226,7 +226,9 @@
       }
 
       .project-link {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
         background: var(--color-accent);
         color: #fff;
         padding: 0.5rem 1rem;
@@ -234,11 +236,41 @@
         font-size: 0.875rem;
         font-weight: 500;
         text-decoration: none;
-        transition: background-color 0.3s ease;
+        transition: all 0.3s ease;
+        border: 2px solid var(--color-accent);
 
         &:hover {
           background: var(--color-accent-dark);
           color: #fff;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(122, 104, 83, 0.3);
+        }
+
+        &.detail-link {
+          background: transparent;
+          color: var(--color-accent);
+          border-color: var(--color-accent);
+
+          &:hover {
+            background: var(--color-accent);
+            color: #fff;
+          }
+
+          svg {
+            transition: transform 0.3s ease;
+          }
+
+          &:hover svg {
+            transform: scale(1.1);
+          }
+        }
+
+        svg {
+          transition: transform 0.3s ease;
+        }
+
+        &:hover svg {
+          transform: translateX(2px);
         }
       }
     }
@@ -341,9 +373,23 @@ body.dark-mode #projects {
 
       .project-link {
         background: var(--color-accent-dark);
+        border-color: var(--color-accent-dark);
 
         &:hover {
           background: var(--color-accent);
+          border-color: var(--color-accent);
+          box-shadow: 0 4px 12px rgba(212, 201, 179, 0.3);
+        }
+
+        &.detail-link {
+          background: transparent;
+          color: var(--color-accent-dark);
+          border-color: var(--color-accent-dark);
+
+          &:hover {
+            background: var(--color-accent-dark);
+            color: var(--color-bg-dark);
+          }
         }
       }
     }
