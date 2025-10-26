@@ -1,4 +1,5 @@
 export const useTheme = () => {
+  // SSR-safe initialization - always start with false for server rendering
   const isDark = ref(false);
   const isManualOverride = ref(false);
   let prefersDarkScheme = null;
@@ -65,7 +66,6 @@ export const useTheme = () => {
 
     isDark.value = newTheme === "dark";
     isManualOverride.value = true;
-
     applyTheme();
 
     if (process.client) {

@@ -20,7 +20,7 @@ function getProjectRoutes(): string[] {
 
   // Generate routes for Czech (default locale - no prefix)
   projectIds.forEach((projectId) => {
-    routes.push(`/projects/${projectId}`);
+    routes.push(`/projekty/${projectId}`);
   });
 
   // Generate routes for English (with prefix)
@@ -37,6 +37,11 @@ export default defineNuxtConfig({
   // Configure static export
   ssr: true,
 
+  // Enable experimental features for custom named routes
+  experimental: {
+    scanPageMeta: true,
+  },
+
   // Enable static site generation with dynamic routes
   nitro: {
     prerender: {
@@ -50,7 +55,7 @@ export default defineNuxtConfig({
   },
 
   // Modules
-  modules: ["@nuxtjs/i18n"],
+  modules: ["@nuxtjs/i18n", "@nuxt/content"],
 
   // i18n configuration
   i18n: {
@@ -64,6 +69,14 @@ export default defineNuxtConfig({
       useCookie: true,
       cookieKey: "i18n_redirected",
       redirectOn: "root",
+    },
+    customRoutes: "config",
+    pages: {
+      // Project pages
+      "projects-slug": {
+        en: "/projects/[slug]",
+        cs: "/projekty/[slug]",
+      },
     },
   },
 

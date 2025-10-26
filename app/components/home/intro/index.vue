@@ -47,3 +47,7 @@
     </div>
   </section>
 </template>
+
+<script setup>
+import "./intro.scss";
+</script>

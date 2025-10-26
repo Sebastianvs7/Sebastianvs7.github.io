@@ -20,6 +20,9 @@
     "sass": "^1.93.2"
   },
   "dependencies": {
-    "@nuxt/image": "^1.11.0"
+    "@nuxt/content": "^3.7.1",
+    "@nuxt/image": "^1.11.0",
+    "better-sqlite3": "^12.4.1",
+    "zod": "^4.1.12"
   }
 }

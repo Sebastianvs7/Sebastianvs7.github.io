@@ -1,11 +1,22 @@
 <template>
   <header role="banner">
     <nav class="desktop-menu" role="navigation" aria-label="Primary Navigation">
-      <NuxtLink to="#intro">{{ $t("navigation.intro") }}</NuxtLink>
-      <NuxtLink to="#projects">{{ $t("navigation.projects") }}</NuxtLink>
-      <NuxtLink to="#experiences">{{ $t("navigation.experience") }}</NuxtLink>
-      <NuxtLink to="#about">{{ $t("navigation.about") }}</NuxtLink>
-      <NuxtLink to="#contact">{{ $t("navigation.contact") }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#intro">{{
+        $t("navigation.intro")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#projects">{{
+        $t("navigation.projects")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#experiences">{{
+        $t("navigation.experience")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#about">{{
+        $t("navigation.about")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#contact">{{
+        $t("navigation.contact")
+      }}</NuxtLink>
+      <NuxtLink v-if="isProjectsPage" to="/">Home</NuxtLink>
       <button
         @click="toggleTheme"
         :aria-label="getThemeLabel"
@@ -42,11 +53,22 @@
       aria-hidden="true"
       :class="{ open: isMobileMenuOpen }"
     >
-      <NuxtLink to="#intro">{{ $t("navigation.intro") }}</NuxtLink>
-      <NuxtLink to="#projects">{{ $t("navigation.projects") }}</NuxtLink>
-      <NuxtLink to="#experiences">{{ $t("navigation.experience") }}</NuxtLink>
-      <NuxtLink to="#about">{{ $t("navigation.about") }}</NuxtLink>
-      <NuxtLink to="#contact">{{ $t("navigation.contact") }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#intro">{{
+        $t("navigation.intro")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#projects">{{
+        $t("navigation.projects")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#experiences">{{
+        $t("navigation.experience")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#about">{{
+        $t("navigation.about")
+      }}</NuxtLink>
+      <NuxtLink v-if="!isProjectsPage" to="#contact">{{
+        $t("navigation.contact")
+      }}</NuxtLink>
+      <NuxtLink v-if="isProjectsPage" to="/">Home</NuxtLink>
       <button
         @click="toggleTheme"
         :aria-label="getThemeLabel"
@@ -66,13 +88,26 @@
 </template>
 
 <script setup>
+import "./header.scss";
+
+const route = useRoute();
 const { locale, setLocale } = useI18n();
-const { toggleTheme, getThemeIcon, getThemeLabel } = useTheme();
+const { toggleTheme, getThemeIcon, getThemeLabel, initializeTheme } =
+  useTheme();
+
+// Initialize theme on app start
+onMounted(() => {
+  initializeTheme();
+});
 
 const switchLocalePath = useSwitchLocalePath();
 const isMobileMenuOpen = ref(false);
 
 const currentLang = computed(() => locale.value);
+
+const isProjectsPage = computed(
+  () => route.path.includes("/projects/") || route.path.includes("/projekty/")
+);
 
 const toggleLanguage = () => {
   const newLocale = locale.value === "cs" ? "en" : "cs";

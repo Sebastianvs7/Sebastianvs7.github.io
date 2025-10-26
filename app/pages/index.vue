@@ -1,17 +1,17 @@
 <template>
   <!-- Header -->
-  <AppHeader />
+  <Header />
 
   <!-- Main Content -->
   <main>
-    <AppIntro />
-    <AppProjects />
-    <AppExperiences />
-    <AppAbout />
+    <HomeIntro />
+    <HomeProjects />
+    <HomeExperiences />
+    <HomeAbout />
     <!-- <AppAnimatedSection /> -->
-    <AppContact />
+    <HomeContact />
   </main>
 
   <!-- Footer -->
-  <AppFooter />
+  <Footer />
 </template>

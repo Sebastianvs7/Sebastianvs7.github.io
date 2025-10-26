@@ -239,7 +239,6 @@ function handleMouseMove(e) {
   resetIdleTimer();
   lastMouseMoveTime = Date.now();
   if (!isMouseMoving) {
-    console.log("Mouse started moving");
     isMouseMoving = true;
   }
 }
@@ -445,9 +444,6 @@ function handleClick(e) {
   const timeSinceLastMove = Date.now() - lastMouseMoveTime;
   const wasRecentlyMoving = timeSinceLastMove < 5000;
 
-  console.log("Time since last move:", timeSinceLastMove, "ms");
-  console.log("Was recently moving:", wasRecentlyMoving);
-
   // Different explosion radius based on recent mouse movement
   const explosionRadius = wasRecentlyMoving ? 150 : 150; // Same radius for both moving and stationary
 
@@ -464,24 +460,6 @@ function handleClick(e) {
 
       // Color elements that will be blown away (within explosion radius)
       const shouldColor = dist < explosionRadius;
-
-      // Debug: log all elements to see what's happening
-      if (dist < explosionRadius) {
-        console.log(
-          "Element in blast radius - distance:",
-          dist,
-          "explosion radius:",
-          explosionRadius,
-          "not moving:",
-          !wasRecentlyMoving,
-          "should color:",
-          shouldColor
-        );
-
-        if (shouldColor) {
-          console.log("ELEMENT WILL BE COLORED!");
-        }
-      }
 
       // animate away and back
       gsap.fromTo(
@@ -637,7 +615,9 @@ body.dark-mode .rect {
   border: 2px solid rgba(122, 104, 83, 0.5);
   background-color: transparent;
   box-shadow: 0 0 8px rgba(122, 104, 83, 0.2);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 body.dark-mode .highlight {

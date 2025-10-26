@@ -169,6 +169,7 @@ body.dark-mode #experiences {
 
     .experience-item {
       .timeline-dot {
+        color: var(--color-text-light);
         background: var(--color-accent-dark);
       }
 

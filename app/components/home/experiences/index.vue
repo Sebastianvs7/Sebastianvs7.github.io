@@ -57,6 +57,8 @@
 </template>
 
 <script setup>
+import "./experiences.scss";
+
 const { experiencesData } = useExperiencesData();
 const { locale } = useI18n();
 

@@ -6,10 +6,10 @@
 
     <div class="projects-grid">
       <div
-        v-for="project in visibleProjects"
+        v-for="(project, index) in visibleProjects"
         :key="project.id"
         class="project-card"
-        :class="{ 'hidden-project': !project.visible }"
+        :class="{ 'hidden-project': index >= 6 }"
       >
         <div class="project-image">
           <img
@@ -28,7 +28,7 @@
               class="project-description"
               :class="{ truncated: !expandedDescriptions[project.id] }"
             >
-              {{ getProjectDescription(project) }}
+              {{ project.description }}
             </p>
             <button
               v-if="shouldShowMoreButton(project)"
@@ -52,7 +52,12 @@
           </div>
           <div class="project-links">
             <NuxtLink
-              :to="`/projects/${project.id}`"
+              :to="
+                localePath({
+                  name: 'projects-slug',
+                  params: { slug: project.slug },
+                })
+              "
               class="project-link detail-link"
             >
               <svg
@@ -123,51 +128,36 @@
       </div>
     </div>
 
-    <div v-if="hasHiddenProjects" class="show-more-container">
-      <button class="show-more-btn" @click="toggleShowMore">
-        <span class="show-more-text" :class="{ hidden: showAllProjects }">
-          {{ $t("projects.showMoreButton") }}
-        </span>
-        <span class="show-less-text" :class="{ hidden: !showAllProjects }">
-          {{ $t("projects.showLessButton") }}
-        </span>
-      </button>
-    </div>
+    <HomeProjectsShowMoreButton
+      v-if="hasHiddenProjects"
+      :show-all-projects="showAllProjects"
+      @toggle="handleShowMoreToggle"
+    />
   </section>
 </template>
 
 <script setup>
-const { projectsData } = useProjectsData();
-const { locale } = useI18n();
+import "./projects.scss";
 
+const { projectsData } = await useProjectsData();
+const localePath = useLocalePath();
 const showAllProjects = ref(false);
 const expandedDescriptions = ref({});
 
 const visibleProjects = computed(() => {
-  const sortedProjects = [...projectsData.value].sort(
-    (a, b) => a.position - b.position
-  );
-
   if (showAllProjects.value) {
-    return sortedProjects;
+    return projectsData.value;
   }
 
-  return sortedProjects.filter((project) => project.visible);
+  return [...projectsData.value].slice(0, 6);
 });
 
 const hasHiddenProjects = computed(() => {
-  return projectsData.value.some((project) => !project.visible);
+  return projectsData.value.length > 6;
 });
 
-const getProjectDescription = (project) => {
-  if (typeof project.description === "object") {
-    return project.description[locale.value] || project.description.en;
-  }
-  return project.description;
-};
-
 const shouldShowMoreButton = (project) => {
-  const description = getProjectDescription(project);
+  const description = project.description;
   return description && description.length > 150;
 };
 
@@ -176,7 +166,7 @@ const toggleDescription = (projectId) => {
     !expandedDescriptions.value[projectId];
 };
 
-const toggleShowMore = () => {
+const handleShowMoreToggle = () => {
   showAllProjects.value = !showAllProjects.value;
 
   if (showAllProjects.value) {
