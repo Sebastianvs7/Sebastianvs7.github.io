@@ -3,7 +3,7 @@ title: "Elements"
 description: "Elements Tatranská Lomnica je moderní horský resort situovaný v srdci Vysokých Tater, přímo pod Lomnickým štítem. Jeho unikátní koncept vychází z pěti přírodních živlů – ohně, vody, dřeva, kovu a země – inspirovaných teorií feng-šuej. Tento designový přístup spojuje špičkový komfort s respektem k přírodě."
 link: "https://www.elementslomnica.sk/en"
 image: "/images/logo-elements.svg"
-position: 8
+position: 9
 type: "Resort Website"
 ---
 

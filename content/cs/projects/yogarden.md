@@ -3,7 +3,7 @@ title: "Yogarden"
 description: "Yogarden je moderní jógové studio v pražské Letné, které nabízí širokou škálu lekcí pro všechny úrovně – od začátečníků po pokročilé. Studio se zaměřuje na propojení těla a mysli prostřednictvím různých jógových stylů, včetně Hatha jógy, Vinyasa Flow, Yin jógy, Somatic jógy, Pilates a Yoga Nidra."
 link: "https://www.yogarden.cz/cz"
 image: "/images/logo-yogarden.svg"
-position: 6
+position: 7
 type: "Yoga Studio Website"
 ---
 

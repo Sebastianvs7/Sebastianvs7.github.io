@@ -3,7 +3,7 @@ title: "Joalis"
 description: "Joalis je česká firma založená v roce 1999, specializující se na vývoj a výrobu přírodních doplňků stravy zaměřených na detoxikaci organismu."
 link: "https://www.joalis.cz"
 image: "/images/logo-joalis.png"
-position: 7
+position: 8
 type: "Health & Wellness Website"
 ---
 

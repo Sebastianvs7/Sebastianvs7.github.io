@@ -3,7 +3,7 @@ title: "Biocultus"
 description: "Biocultus je česká firma ze Sušice, která vyrábí ekologické kompostovací toalety bez potřeby vody, elektřiny či kanalizace."
 link: "https://www.biocultus.com/cs"
 image: "/images/biocultus-logo.svg"
-position: 9
+position: 10
 type: "Eco Technology Website"
 ---
 

@@ -3,7 +3,7 @@ title: "Magnus Art"
 description: "Galerie Magnus Art je pražská galerie zaměřená na prezentaci kvalitního českého i světového umění."
 link: "https://magnusart.cz"
 image: "/images/MA_logo.svg"
-position: 11
+position: 12
 type: "Art Gallery Website"
 ---
 
