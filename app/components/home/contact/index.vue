@@ -7,7 +7,7 @@
         aria-label="Send email to Sebastian Šanda"
         tabindex="0"
       >
-        📧 {{ data?.email || "" }}
+        <nuxt-icon name="mail" /> {{ data?.email || "" }}
       </a>
       <a
         :href="data?.linkedin || '#'"
@@ -16,7 +16,7 @@
         aria-label="Visit LinkedIn profile"
         tabindex="0"
       >
-        💼 LinkedIn
+        <nuxt-icon name="linkedin" /> LinkedIn
       </a>
     </div>
   </section>

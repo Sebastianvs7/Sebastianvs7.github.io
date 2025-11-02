@@ -3,7 +3,7 @@ title: "Shop8 CMS"
 description: "Shop 8 je česká firma specializující se na vývoj e-commerce řešení na míru pro středně velké firmy, které již překonaly limity standardních šablonových platforem. Jejich cílem je poskytovat flexibilní a škálovatelné e-shopy, které rostou spolu s byznysem klienta."
 link: "https://www.shop8.cz"
 image: "/images/logo-code8.svg"
-position: 4
+position: 3
 type: "CMS Platform"
 ---
 

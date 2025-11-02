@@ -1,14 +1,14 @@
 /* Projects Section */
 #projects {
   .projects-header {
-    text-align: center;
     margin-bottom: 3rem;
+    text-align: center;
   }
 
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     margin-bottom: 2.5rem;
 
     @media (min-width: 768px) {
@@ -20,21 +20,94 @@
     }
   }
 
+  .projects-logo-loop {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    // Ensure proper height for the loop
+    min-height: 100px;
+  }
+
   .project-card {
+    background: transparent;
+    border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
     opacity: 1;
+    overflow: visible;
+    position: relative;
     transform: translateY(0);
-    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+
+    // Magic Bento variables
+    --glow-x: 50%;
+    --glow-y: 50%;
+    --glow-intensity: 0;
+    --glow-radius: 200px;
+    --glow-color: 122, 104, 83;
+
+    .project-card-inner {
+      background: #f5f5f5;
+      border-radius: inherit;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+      width: 100%;
+    }
 
     &:hover {
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
       transform: translateY(-4px);
+
+      .project-card-inner {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    // Border glow effect
+    &.magic-bento-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      background: radial-gradient(
+        var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+        rgba(var(--glow-color), calc(var(--glow-intensity) * 0.8)) 0%,
+        rgba(var(--glow-color), calc(var(--glow-intensity) * 0.4)) 30%,
+        transparent 60%
+      );
+      border-radius: inherit;
+      mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      mask-composite: subtract;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      pointer-events: none;
+      opacity: var(--glow-intensity);
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    &.magic-bento-card:hover::after {
+      opacity: 1;
+    }
+
+    // Magic particle styles
+    :global(.magic-particle) {
+      position: absolute;
+      pointer-events: none;
+      z-index: 100;
     }
 
     &.hidden-project {
@@ -50,18 +123,18 @@
     }
 
     .project-image {
-      width: 100%;
-      height: 200px;
+      align-items: center;
       background: linear-gradient(
         135deg,
         var(--color-accent),
         var(--color-accent-dark)
       );
-      position: relative;
-      overflow: hidden;
       display: flex;
+      height: 200px;
       justify-content: center;
-      align-items: center;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
 
       @media (max-width: 768px) {
         height: 150px;
@@ -72,39 +145,41 @@
       }
 
       img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        max-width: 60%;
-        object-position: center;
-        margin: 0 auto;
         display: block;
-        transition: transform 0.3s ease, filter 0.3s ease;
-        max-height: 50%;
-        z-index: 1;
         filter: brightness(0) invert(1); // Makes images white
+        height: 100%;
+        margin: 0 auto;
+        max-height: 50%;
+        max-width: 60%;
+        object-fit: contain;
+        object-position: center;
+        transition:
+          transform 0.3s ease,
+          filter 0.3s ease;
+        width: 100%;
+        z-index: 1;
       }
 
       &::after {
-        content: "";
-        position: absolute;
-        inset: 0;
         background: rgba(0, 0, 0, 0.1);
+        content: "";
+        inset: 0;
         opacity: 0;
+        position: absolute;
         transition: opacity 0.3s ease;
       }
 
       .image-gradient-overlay {
-        position: absolute;
-        inset: 0;
         background: linear-gradient(
           135deg,
           rgba(0, 0, 0, 0.2),
           rgba(0, 0, 0, 0.4)
         );
+        inset: 0;
         opacity: 0.8;
-        transition: opacity 0.3s ease;
         pointer-events: none;
+        position: absolute;
+        transition: opacity 0.3s ease;
         transition: background 0.3s ease;
       }
     }
@@ -124,10 +199,12 @@
     }
 
     .project-content {
-      padding: 1.5rem;
-      flex: 1;
       display: flex;
+      flex: 1;
+      position: relative;
+      z-index: 2;
       flex-direction: column;
+      padding: 1.5rem;
 
       @media (max-width: 768px) {
         padding: 1.25rem;
@@ -138,9 +215,9 @@
       }
 
       h3 {
+        color: var(--color-text-light);
         font-size: 1.125rem;
         font-weight: 600;
-        color: var(--color-text-light);
         margin: 0 0 0.5rem 0;
       }
 
@@ -150,11 +227,15 @@
         margin-bottom: 1rem;
 
         .project-description {
-          color: #666;
+          color: var(--color-text-light);
           font-size: 0.875rem;
           line-height: 1.5;
           margin: 0 0 0.5rem 0;
-          transition: max-height 0.3s ease;
+          opacity: 0.7;
+          transition:
+            max-height 0.3s ease,
+            color 0.3s ease,
+            opacity 0.3s ease;
 
           &.truncated {
             max-height: 4.5em; /* 3 lines * 1.5 line-height = 4.5em */
@@ -171,16 +252,16 @@
           background: none;
           border: none;
           color: var(--color-accent);
+          cursor: pointer;
+          display: block; // Always visible for now
           font-size: 0.8rem;
           font-weight: 600;
-          cursor: pointer;
           padding: 0.25rem 0;
           text-decoration: underline;
           transition: color 0.3s ease;
-          display: block; // Always visible for now
 
           &:hover {
-            color: #6b5a47;
+            color: var(--color-accent-dark);
           }
 
           .hidden {
@@ -193,27 +274,31 @@
         margin-bottom: 1.5rem;
 
         h4 {
+          color: var(--color-accent);
           font-size: 0.85rem;
           font-weight: 600;
-          color: var(--color-accent);
+          letter-spacing: 0.5px;
           margin: 0 0 0.75rem 0;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
         }
 
         p {
-          color: #666;
+          color: var(--color-text-light);
           font-size: 0.8rem;
           line-height: 1.4;
           margin: 0 0 0.5rem 0;
+          opacity: 0.7;
           padding-left: 1rem;
           position: relative;
+          transition:
+            color 0.3s ease,
+            opacity 0.3s ease;
 
           &::before {
-            content: "•";
             color: var(--color-accent);
-            position: absolute;
+            content: "•";
             left: 0;
+            position: absolute;
             top: 0;
           }
         }
@@ -221,35 +306,35 @@
 
       .project-links {
         display: flex;
-        gap: 0.75rem;
         flex-wrap: wrap;
+        gap: 0.75rem;
       }
 
       .project-link {
-        display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
         background: var(--color-accent);
-        color: #fff;
-        padding: 0.5rem 1rem;
+        border: 2px solid var(--color-accent);
         border-radius: 0.25rem;
+        color: #fff;
+        display: inline-flex;
         font-size: 0.875rem;
         font-weight: 500;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
         text-decoration: none;
         transition: all 0.3s ease;
-        border: 2px solid var(--color-accent);
 
         &:hover {
           background: var(--color-accent-dark);
+          box-shadow: 0 4px 12px rgba(122, 104, 83, 0.3);
           color: #fff;
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(122, 104, 83, 0.3);
         }
 
         &.detail-link {
           background: transparent;
-          color: var(--color-accent);
           border-color: var(--color-accent);
+          color: var(--color-accent);
 
           &:hover {
             background: var(--color-accent);
@@ -281,14 +366,16 @@
 
     .show-more-btn {
       background: var(--color-accent);
-      color: #fff;
       border: none;
-      padding: 0.75rem 2rem;
       border-radius: 0.5rem;
+      color: #fff;
+      cursor: pointer;
       font-size: 1rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      padding: 0.75rem 2rem;
+      transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
 
       &:hover {
         background: var(--color-accent-dark);
@@ -316,22 +403,34 @@
 
 /* Dark mode styles */
 body.dark-mode #projects {
+  .projects-logo-loop {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
   .projects-header {
     h2 {
       color: var(--color-text-dark);
     }
 
     .projects-subtitle {
-      color: #999;
+      color: var(--color-accent-dark);
+      opacity: 0.8;
     }
   }
 
   .project-card {
-    background: #2c2c2c;
-    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+    // Magic Bento glow color for dark mode
+    --glow-color: 212, 201, 179;
+
+    .project-card-inner {
+      background: var(--color-bg-dark);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
 
     &:hover {
-      box-shadow: 0 12px 24px rgba(255, 255, 255, 0.15);
+      .project-card-inner {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      }
     }
 
     .project-content {
@@ -339,20 +438,17 @@ body.dark-mode #projects {
         color: var(--color-text-dark);
       }
 
-      .project-description {
-        color: #999;
-      }
-
       .project-description-container {
         .project-description {
-          color: #999;
+          color: var(--color-accent-dark);
+          opacity: 0.8;
         }
 
         .show-more-desc-btn {
           color: var(--color-accent-dark);
 
           &:hover {
-            color: #f0e6d2;
+            color: var(--color-text-dark);
           }
         }
       }
@@ -363,7 +459,8 @@ body.dark-mode #projects {
         }
 
         p {
-          color: #999;
+          color: var(--color-accent-dark);
+          opacity: 0.8;
 
           &::before {
             color: var(--color-accent-dark);
@@ -374,17 +471,19 @@ body.dark-mode #projects {
       .project-link {
         background: var(--color-accent-dark);
         border-color: var(--color-accent-dark);
+        color: var(--color-bg-dark);
 
         &:hover {
           background: var(--color-accent);
           border-color: var(--color-accent);
           box-shadow: 0 4px 12px rgba(212, 201, 179, 0.3);
+          color: var(--color-bg-dark);
         }
 
         &.detail-link {
           background: transparent;
-          color: var(--color-accent-dark);
           border-color: var(--color-accent-dark);
+          color: var(--color-accent-dark);
 
           &:hover {
             background: var(--color-accent-dark);

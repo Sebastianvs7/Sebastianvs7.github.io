@@ -16,12 +16,15 @@
     "@nuxtjs/i18n": "^10.1.2",
     "@types/node": "^24.9.1",
     "nuxt": "^4.2.0",
+    "nuxt-icons": "^4.0.0",
     "sass": "^1.93.2"
   },
   "dependencies": {
     "@nuxt/content": "^3.7.1",
     "@nuxt/image": "^1.11.0",
     "better-sqlite3": "^12.4.1",
+    "gsap": "^3.13.0",
+    "motion-v": "^1.7.4",
     "zod": "^4.1.12"
   }
 }

@@ -522,12 +522,12 @@ function handleClick(e) {
           duration: 2,
           ease: "power2.out",
           onStart: () => {
-            // Always add highlight border color for elements in explosion radius
-            const borderColor = isDark.value
-              ? "rgba(212, 201, 179, 0.8)"
-              : "rgba(122, 104, 83, 0.8)";
-            el.style.borderColor = borderColor;
-            el.style.boxShadow = `0 0 8px ${borderColor}`;
+            // Make color darker (lower RGB values = darker)
+            const darkerColor = isDark.value
+              ? "rgba(150, 140, 120, 1)" // Darker version of light theme color
+              : "rgba(80, 65, 50, 1)"; // Darker version of dark theme color
+            el.style.borderColor = darkerColor;
+            el.style.boxShadow = `0 0 10px ${darkerColor}`;
           },
           onComplete: () => {
             gsap.to(el, {
@@ -536,13 +536,14 @@ function handleClick(e) {
               duration: 0.75,
               ease: "elastic.out(1,0.4)",
               onComplete: () => {
-                // Fade out color after elements return to initial position
+                // Wait 2 seconds, then fade back to default color
                 gsap.to(el, {
                   borderColor: isDark.value
                     ? "rgba(212, 201, 179, 0.3)"
                     : "rgba(122, 104, 83, 0.3)",
                   boxShadow: "none",
-                  duration: 0.5,
+                  duration: 1,
+                  delay: 2,
                   ease: "power2.out",
                 });
               },

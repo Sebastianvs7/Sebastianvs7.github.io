@@ -9,7 +9,7 @@ type: "E-commerce Website"
 
 ::div{.row}
 
-# Koh-I-Noor Deutschland
+<!-- # Koh-I-Noor Deutschland -->
 
 KOH-I-NOOR Deutschland GmbH je německá pobočka renomované české společnosti KOH-I-NOOR Hardtmuth, která se specializuje na kvalitní psací a výtvarné potřeby.
 ::

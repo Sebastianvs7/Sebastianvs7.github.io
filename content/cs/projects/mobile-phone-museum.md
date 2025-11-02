@@ -3,7 +3,7 @@ title: "Mobile Phone Museum"
 description: "Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců."
 link: "https://www.mobilephonemuseum.com"
 image: "/images/logo-mpm.svg"
-position: 5
+position: 6
 type: "Museum Website"
 ---
 

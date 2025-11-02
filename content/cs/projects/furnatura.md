@@ -3,7 +3,7 @@ title: "Furnatura"
 description: "Furnatura je česká značka přírodní kosmetiky pro psy, která se specializuje na šetrnou péči o srst a pokožku domácích mazlíčků. Produkty jsou vyráběny ručně v České republice z čistě přírodních surovin, jako jsou rostlinné extrakty, minerály z Mrtvého moře a výživné oleje. Neobsahují sulfáty, silikony, parabeny ani mikroplasty, a nejsou testovány na zvířatech."
 link: "https://furnatura.com/en-US/"
 image: "/images/furnatura-prague.svg"
-position: 3
+position: 5
 type: "E-commerce Website"
 ---
 

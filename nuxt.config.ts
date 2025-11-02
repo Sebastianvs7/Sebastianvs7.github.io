@@ -55,7 +55,7 @@ export default defineNuxtConfig({
   },
 
   // Modules
-  modules: ["@nuxtjs/i18n", "@nuxt/content"],
+  modules: ["@nuxtjs/i18n", "@nuxt/content", "nuxt-icons"],
 
   // i18n configuration
   i18n: {
@@ -85,6 +85,7 @@ export default defineNuxtConfig({
 
   // App configuration
   app: {
+    pageTransition: { name: "page", mode: "out-in" },
     head: {
       title: "Developer Portfolio - Sebastian Šanda",
       meta: [

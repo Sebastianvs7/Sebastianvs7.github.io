@@ -3,7 +3,7 @@ title: "NoGrays"
 description: "Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců."
 link: "https://kristian.cz/"
 image: "/images/Wordpress-Logo.svg"
-position: 6
+position: 4
 type: "Museum Website"
 ---
 

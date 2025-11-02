@@ -1,25 +1,36 @@
 .project-content {
+  .project-title-wrapper {
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
   .project-hero {
-    position: relative;
-    height: 25vh;
-    display: flex;
     align-items: center;
+    display: flex;
+    height: 25vh;
     justify-content: center;
     margin-bottom: 2.5rem;
+    max-height: 450px;
     overflow: hidden;
+    position: relative;
 
     // Ensure the animated background fills this container
     #showAnimation {
+      height: 100%;
+      left: 0;
       position: absolute;
       top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
       z-index: -1;
     }
   }
 
   .project-info {
+    // Hide the first h1 since we're showing it with decrypted effect
+    > h1:first-child {
+      display: none;
+    }
+
     h1 {
       margin-bottom: 2rem;
     }
