@@ -26,7 +26,7 @@ Eshop je dostupný v českém a anglickém jazyce a lze pro nákup využít jak 
 Do webu jsem později přidal krátkou hru kterou jsem dříve pro Furnaturu připravoval jako nativní hru na veletrh kterou jsem napsal za pomoci technologie Ionic pro hybridní aplikace která uživately má ukázat vhodné produkty pro jeho čtyrnohého kamaráda.
 Angular jsem posléze upgradoval na nejnovětší verzi 20 což obnášelo i refaktoring starších částí webu na do nových Signals nebo úpravu pro Server Side Rendering.
 Na projektu jsem řešil i optimalizaci pro vyhledávače ve spolupráci s Marketingovou agenturou jsem nasazoval vlastní Facebook Conversion API eventy, gtag eventy. nebo Ecomail
-Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews.
+Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews, Zásilkovna a PPL widget.
 ::
 
 ::div{.row}
