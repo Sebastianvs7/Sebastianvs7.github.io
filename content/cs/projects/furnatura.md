@@ -18,7 +18,15 @@ Furnatura je česká značka přírodní kosmetiky pro psy, která se specializu
 
 ## O značce
 
-Furnatura představuje českou značku přírodní kosmetiky pro psy, která klade důraz na šetrnou péči o srst a pokožku domácích mazlíčků. Všechny produkty jsou vyráběny ručně v České republice z čistě přírodních surovin.
+Cílem projektu bylo vytvořit nový web který nahradí eshop který běžel na Woocomerce a Wordpress.
+Pro administraci projektu se použil Shop8 CMS který jsem upravoval tak aby vyhoval pro potřeby projektu.
+Na Frontendu jsem po bývalém kolegovy převzal již rozdělanou aplikaci která byla napsaná v Angularu.
+Po obdržení nového designu jsem se s kolegou na Backendu pustil do kódování nového webu a nsledné nasazení logiky pro funkčnost eshopu.
+Eshop je dostupný v českém a anglickém jazyce a lze pro nákup využít jak české koruny tak Eura.
+Do webu jsem později přidal krátkou hru kterou jsem dříve pro Furnaturu připravoval jako nativní hru na veletrh kterou jsem napsal za pomoci technologie Ionic pro hybridní aplikace která uživately má ukázat vhodné produkty pro jeho čtyrnohého kamaráda.
+Angular jsem posléze upgradoval na nejnovětší verzi 20 což obnášelo i refaktoring starších částí webu na do nových Signals nebo úpravu pro Server Side Rendering.
+Na projektu jsem řešil i optimalizaci pro vyhledávače ve spolupráci s Marketingovou agenturou jsem nasazoval vlastní Facebook Conversion API eventy, gtag eventy. nebo Ecomail
+Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews.
 ::
 
 ::div{.row}

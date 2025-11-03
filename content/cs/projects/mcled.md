@@ -3,34 +3,28 @@ title: "McLED"
 description: "Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců."
 link: "https://www.mcled.cz/"
 image: "/images/mcled-logo.svg"
-position: 13
+position: 7
 type: "Museum Website"
 ---
 
 ::div{.row}
 
-# Mobile Phone Museum
+# McLED
 
-Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů.
+Společnost McLED s.r.o. představuje vlastní značku profesionálního LED osvětlení.
+
 ::
 
 ::div{.row}
 
-## O projektu
+## O pozici
 
-Mobile Phone Museum bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců.
-::
+U firmy McLED jsem pracoval jako Webmaster a měl jsem na starosti správu webu a komunikaci se zákazníky jako technická podpora.
+Na této pizici jsem byl v úzkém kontaktu s grafickým oddělením které připravovalo grafické podklady a produktové fotografie pro katalogy tak i webové použití na kterém jsem částečně podílel.
+Web byl pod správou agentury se kterou jsem byl v pravidelném kontaktu při přípravách nových funkcionalit tak úpravách klíčových částí eshopu.
+Za účelem zlepšení SEO rankingu a pozici ve vyhledávačích se firma rozhodla pro využití marketingové agentury se kterou jsem posléze web upravoval tak aby dodržoval zýsady pro správné SEO, generoval XML feedy pro k automatizovanému sdílení strukturovaných dat mezi různými systémy jako Heureka.
 
-::div{.row}
-
-## Klíčové funkce
-
-- **Katalog zařízení** - Více než 2800 mobilních telefonů
-- **Historická časová osa** - Vývoj mobilní technologie
-- **Profily výrobců** - Informace o více než 200 výrobcích
-- **Vzdělávací obsah** - Historie a význam mobilních telefonů
-
-::
+:
 
 ::div{.row}
 

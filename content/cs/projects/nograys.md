@@ -9,26 +9,31 @@ type: "Museum Website"
 
 ::div{.row}
 
-# Mobile Phone Museum
+# NoGrays
 
-Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů.
+NoGrays je eshop postavený na Wordpress a Woocommerce který přináší revoluci v péči o vlasy.
 ::
 
 ::div{.row}
 
 ## O projektu
 
-Mobile Phone Museum bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců.
+Pro NoGrays jsem vytvořil eshop který jsem postavil za pomoci Woocommerce. Web je nakódovaný dle vizuálu z Figmy. Využívá klasické wordpress téma a má správu obsahu pro stránky, blog, menu a vlastních sekcí které jsem připravoval do funkcí v PHP.
+Woocommerce je napojen na platební bránu Woopayments a využívá platební karty tak i rychlé platby jakoGoogle Pay Apple Pay.
+Pro web jsem připravoval vlastní kontaktní formulář pro reklamaci zboží využívající vzhledu emailových šablon z woocommerce.
+Uživatel má také také možnost zavedení registrace a následný přístup do svého učtu kde je správa objednávek tak i adres uživatele.
+Největší výzvou toho projektu pro mne bylo komunikace s woocomerce api a úprava šablony košíku tak i debugování na straně serveru pro přípravu serverových eventů pro Facebook Conversion API.
+
 ::
 
 ::div{.row}
 
 ## Klíčové funkce
 
-- **Katalog zařízení** - Více než 2800 mobilních telefonů
-- **Historická časová osa** - Vývoj mobilní technologie
-- **Profily výrobců** - Informace o více než 200 výrobcích
-- **Vzdělávací obsah** - Historie a význam mobilních telefonů
+- **Woocommerce - Woopayments** -
+- **Vlastní sekce** -
+- **Uživatelský účet** -
+- **Možnost reklamace** -
 
 ::
 
