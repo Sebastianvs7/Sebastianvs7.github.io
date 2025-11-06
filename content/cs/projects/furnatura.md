@@ -31,20 +31,6 @@ Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews, Zásil
 
 ::div{.row}
 
-## Přírodní složení
-
-Produkty obsahují:
-
-- Rostlinné extrakty
-- Minerály z Mrtvého moře
-- Výživné oleje
-- Žádné sulfáty, silikony, parabeny ani mikroplasty
-- Netestováno na zvířatech
-
-::
-
-::div{.row}
-
 ## Klíčové funkce
 
 - **E-commerce funkcionalita** - Kompletní online obchod
