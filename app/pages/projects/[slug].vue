@@ -26,7 +26,7 @@
         <!-- Project Information -->
         <!-- Decrypted Title -->
         <div class="project-title-wrapper">
-          <DecryptedText :text="project.title" :duration="2500" />
+          <DecryptedText :text="project.title" :duration="1500" />
         </div>
         <!-- Render markdown content using ContentRenderer -->
         <ContentRenderer :value="project" tag="section" class="project-info" />

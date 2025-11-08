@@ -238,12 +238,15 @@
             opacity 0.3s ease;
 
           &.truncated {
-            max-height: 4.5em; /* 3 lines * 1.5 line-height = 4.5em */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
             overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           &.expanded {
-            max-height: 1000px; /* Large enough to show all content */
+            display: block;
             overflow: visible;
           }
         }

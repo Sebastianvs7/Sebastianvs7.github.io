@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Sphere</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        overflow: hidden;
+        background: #0a0a0a;
+        font-family: Arial, sans-serif;
+      }
+      canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+      .info {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 14px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="info">
+      <div id="sphereLabel">Voice Sphere</div>
+      <div>Position: <span id="position">-</span></div>
+      <div>Distance: <span id="distance">-</span></div>
+      <div>Status: <span id="status">Waiting for other sphere...</span></div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import * as THREE from "three";
+
+      // Determine which sphere this is (from URL parameter or auto-detect)
+      const urlParams = new URLSearchParams(window.location.search);
+      let sphereNumber = urlParams.get("sphere");
+
+      // If no parameter, try to auto-detect based on existing windows
+      if (!sphereNumber) {
+        // Check localStorage for existing sphere count
+        const existingCount = localStorage.getItem("voiceSphereCount") || "0";
+        const count = parseInt(existingCount) + 1;
+        localStorage.setItem("voiceSphereCount", count.toString());
+        sphereNumber = count % 2 === 1 ? "1" : "2";
+      }
+
+      const SPHERE_ID = `sphere${sphereNumber}`;
+      const IS_SPHERE_1 = sphereNumber === "1";
+      const SPHERE_COLOR = IS_SPHERE_1 ? 0x00aaff : 0xff4444; // Blue or Red
+      const METABALL_THRESHOLD = 200; // Distance threshold for merging
+      const RADIUS = 1.5;
+
+      // Update UI
+      const infoDiv = document.querySelector(".info");
+      infoDiv.style.color = IS_SPHERE_1 ? "#00aaff" : "#ff4444";
+      document.getElementById("sphereLabel").textContent =
+        `Voice Sphere ${sphereNumber} (${IS_SPHERE_1 ? "Blue" : "Red"})`;
+
+      // Scene setup
+      const canvas = document.getElementById("canvas");
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+      const pointLight = new THREE.PointLight(SPHERE_COLOR, 1, 100);
+      pointLight.position.set(5, 5, 5);
+      scene.add(pointLight);
+
+      // Create grid-based sphere geometry
+      const gridSegments = 24; // Number of grid segments (creates grid pattern)
+      const geometry = new THREE.SphereGeometry(
+        RADIUS,
+        gridSegments,
+        gridSegments
+      );
+
+      // Create grid material (wireframe style for grid pattern)
+      const material = new THREE.MeshStandardMaterial({
+        color: SPHERE_COLOR,
+        wireframe: true,
+        metalness: 0.8,
+        roughness: 0.2,
+        emissive: SPHERE_COLOR,
+        emissiveIntensity: 0.4,
+        transparent: true,
+        opacity: 1.0,
+      });
+      const sphere = new THREE.Mesh(geometry, material);
+      sphere.position.set(0, 0, 0); // Main sphere stays at origin (stationary)
+      scene.add(sphere);
+
+      // Create filled grid cells for depth (slightly smaller to show grid lines)
+      const filledGeometry = new THREE.SphereGeometry(
+        RADIUS * 0.995,
+        gridSegments,
+        gridSegments
+      );
+      const filledMaterial = new THREE.MeshStandardMaterial({
+        color: SPHERE_COLOR,
+        wireframe: false,
+        metalness: 0.6,
+        roughness: 0.4,
+        emissive: SPHERE_COLOR,
+        emissiveIntensity: 0.15,
+        transparent: true,
+        opacity: 0.25,
+        side: THREE.DoubleSide,
+      });
+      const filledSphere = new THREE.Mesh(filledGeometry, filledMaterial);
+      filledSphere.position.set(0, 0, 0); // Main filled sphere stays at origin
+      scene.add(filledSphere);
+
+      // Create second sphere (other sphere representation)
+      const otherSphereGeometry = new THREE.SphereGeometry(
+        RADIUS,
+        gridSegments,
+        gridSegments
+      );
+      const otherSphereMaterial = new THREE.MeshStandardMaterial({
+        color: SPHERE_COLOR,
+        wireframe: true,
+        metalness: 0.8,
+        roughness: 0.2,
+        emissive: SPHERE_COLOR,
+        emissiveIntensity: 0.4,
+        transparent: true,
+        opacity: 0,
+        visible: false,
+      });
+      const otherSphere = new THREE.Mesh(
+        otherSphereGeometry,
+        otherSphereMaterial
+      );
+      scene.add(otherSphere);
+
+      const otherFilledGeometry = new THREE.SphereGeometry(
+        RADIUS * 0.995,
+        gridSegments,
+        gridSegments
+      );
+      const otherFilledMaterial = new THREE.MeshStandardMaterial({
+        color: SPHERE_COLOR,
+        wireframe: false,
+        metalness: 0.6,
+        roughness: 0.4,
+        emissive: SPHERE_COLOR,
+        emissiveIntensity: 0.15,
+        transparent: true,
+        opacity: 0,
+        side: THREE.DoubleSide,
+        visible: false,
+      });
+      const otherFilledSphere = new THREE.Mesh(
+        otherFilledGeometry,
+        otherFilledMaterial
+      );
+      scene.add(otherFilledSphere);
+
+      // Store original vertices for other sphere
+      const otherVertices = otherSphere.geometry.attributes.position;
+      const otherOriginalVertices = otherVertices.array.slice();
+
+      // Audio setup
+      let audioContext;
+      let analyser;
+      let dataArray;
+      let microphone;
+      let audioData = new Float32Array(32);
+
+      async function initAudio() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+          });
+          audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          analyser = audioContext.createAnalyser();
+          microphone = audioContext.createMediaStreamSource(stream);
+          microphone.connect(analyser);
+
+          analyser.fftSize = 64;
+          const bufferLength = analyser.frequencyBinCount;
+          dataArray = new Float32Array(bufferLength);
+        } catch (err) {
+          console.warn("Microphone access denied, using simulated audio");
+          // Simulate audio data
+          setInterval(() => {
+            audioData = new Float32Array(32).map(
+              () => Math.random() * 0.5 + 0.3
+            );
+          }, 100);
+        }
+      }
+
+      // Window position tracking
+      const broadcastChannel = new BroadcastChannel("voice-spheres");
+      let myPosition = { x: 0, y: 0, width: 0, height: 0 };
+      let otherPosition = null;
+      let mergeIntensity = 0;
+      let isFocused = document.hasFocus();
+
+      // Track window focus
+      window.addEventListener("focus", () => {
+        isFocused = true;
+      });
+      window.addEventListener("blur", () => {
+        isFocused = false;
+      });
+
+      function updatePosition() {
+        myPosition = {
+          id: SPHERE_ID,
+          x: window.screenX,
+          y: window.screenY,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          centerX: window.screenX + window.innerWidth / 2,
+          centerY: window.screenY + window.innerHeight / 2,
+        };
+        broadcastChannel.postMessage(myPosition);
+        document.getElementById("position").textContent =
+          `${myPosition.x}, ${myPosition.y}`;
+      }
+
+      broadcastChannel.onmessage = (event) => {
+        if (event.data.id !== SPHERE_ID) {
+          otherPosition = event.data;
+          calculateMergeEffect();
+        }
+      };
+
+      function calculateMergeEffect() {
+        if (!otherPosition) {
+          mergeIntensity = 0;
+          document.getElementById("status").textContent =
+            "Waiting for other sphere...";
+          document.getElementById("status").style.color = IS_SPHERE_1
+            ? "#00aaff"
+            : "#ff4444";
+          return;
+        }
+
+        // Calculate distance between window centers
+        const dx = myPosition.centerX - otherPosition.centerX;
+        const dy = myPosition.centerY - otherPosition.centerY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        document.getElementById("distance").textContent =
+          Math.round(distance) + "px";
+
+        // Check if windows overlap
+        const overlapX = !(
+          myPosition.x + myPosition.width < otherPosition.x ||
+          otherPosition.x + otherPosition.width < myPosition.x
+        );
+        const overlapY = !(
+          myPosition.y + myPosition.height < otherPosition.y ||
+          otherPosition.y + otherPosition.height < myPosition.y
+        );
+
+        if (overlapX && overlapY && distance < METABALL_THRESHOLD) {
+          mergeIntensity = 1 - distance / METABALL_THRESHOLD;
+          mergeIntensity = Math.pow(mergeIntensity, 0.5); // Smooth curve
+          document.getElementById("status").textContent =
+            `Merging! (${Math.round(mergeIntensity * 100)}%)`;
+          // Same merged color for both spheres
+          document.getElementById("status").style.color = "#ff44ff";
+        } else if (overlapX && overlapY) {
+          mergeIntensity = 0;
+          document.getElementById("status").textContent =
+            "Windows overlap but too far";
+          document.getElementById("status").style.color = "#ffff00";
+        } else {
+          mergeIntensity = 0;
+          document.getElementById("status").textContent =
+            "Connected to other sphere!";
+          document.getElementById("status").style.color = "#00ff00";
+        }
+      }
+
+      // Update position periodically
+      setInterval(updatePosition, 100);
+      setInterval(() => {
+        if (otherPosition) {
+          calculateMergeEffect();
+        }
+      }, 100);
+      updatePosition();
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        updatePosition();
+      });
+      window.addEventListener("move", updatePosition);
+
+      // Animation
+      const vertices = sphere.geometry.attributes.position;
+      const originalVertices = vertices.array.slice();
+      let time = 0;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.01;
+
+        // Get audio data
+        if (analyser && dataArray) {
+          analyser.getFloatFrequencyData(dataArray);
+          // Convert to normalized values
+          for (let i = 0; i < audioData.length; i++) {
+            audioData[i] = (dataArray[i] + 140) / 140; // Normalize from -140 to 0
+          }
+        }
+
+        // Animate sphere vertices based on audio
+        const vertexCount = vertices.count;
+        for (let i = 0; i < vertexCount; i++) {
+          const i3 = i * 3;
+          const x = originalVertices[i3];
+          const y = originalVertices[i3 + 1];
+          const z = originalVertices[i3 + 2];
+
+          // Calculate distance from center
+          const distance = Math.sqrt(x * x + y * y + z * z);
+
+          // Get audio frequency based on vertex position
+          const audioIndex = Math.floor((i / vertexCount) * audioData.length);
+          const audioValue = audioData[audioIndex] || 0.5;
+
+          // Base radius variation from audio
+          const audioRadius = RADIUS + (audioValue - 0.5) * 0.8;
+
+          // Add wave effect
+          const wave = Math.sin(time * 2 + distance * 3) * 0.1;
+
+          // No metaball offset - keep original size for meshing effect
+          const newRadius = audioRadius + wave;
+          const scale = newRadius / distance;
+
+          vertices.array[i3] = x * scale;
+          vertices.array[i3 + 1] = y * scale;
+          vertices.array[i3 + 2] = z * scale;
+        }
+
+        vertices.needsUpdate = true;
+
+        // Update filled sphere to match
+        const filledVertices = filledSphere.geometry.attributes.position;
+        filledVertices.array.set(vertices.array);
+        filledVertices.needsUpdate = true;
+
+        // Rotate sphere
+        sphere.rotation.x += 0.002;
+        sphere.rotation.y += 0.003;
+        filledSphere.rotation.x = sphere.rotation.x;
+        filledSphere.rotation.y = sphere.rotation.y;
+
+        // Rotate other sphere (slightly different rotation)
+        if (otherSphere.visible) {
+          otherSphere.rotation.x += 0.002;
+          otherSphere.rotation.y -= 0.003; // Opposite rotation
+          otherFilledSphere.rotation.x = otherSphere.rotation.x;
+          otherFilledSphere.rotation.y = otherSphere.rotation.y;
+
+          // Animate other sphere vertices based on audio (same as main sphere)
+          const otherVertexCount = otherVertices.count;
+          for (let i = 0; i < otherVertexCount; i++) {
+            const i3 = i * 3;
+            const x = otherOriginalVertices[i3];
+            const y = otherOriginalVertices[i3 + 1];
+            const z = otherOriginalVertices[i3 + 2];
+
+            const distance = Math.sqrt(x * x + y * y + z * z);
+            const audioIndex = Math.floor(
+              (i / otherVertexCount) * audioData.length
+            );
+            const audioValue = audioData[audioIndex] || 0.5;
+            const audioRadius = RADIUS + (audioValue - 0.5) * 0.8;
+            const wave = Math.sin(time * 2 + distance * 3) * 0.1;
+            const newRadius = audioRadius + wave;
+            const scale = newRadius / distance;
+
+            otherVertices.array[i3] = x * scale;
+            otherVertices.array[i3 + 1] = y * scale;
+            otherVertices.array[i3 + 2] = z * scale;
+          }
+          otherVertices.needsUpdate = true;
+
+          const otherFilledVertices =
+            otherFilledSphere.geometry.attributes.position;
+          otherFilledVertices.array.set(otherVertices.array);
+          otherFilledVertices.needsUpdate = true;
+        }
+
+        // Position and show/hide other sphere based on merge intensity
+        // Only show second sphere in focused window
+        if (mergeIntensity > 0 && otherPosition && isFocused) {
+          // Calculate relative position of other sphere in 3D space
+          // The other sphere moves based on the second window's position
+          const dx = otherPosition.centerX - myPosition.centerX;
+          const dy = otherPosition.centerY - myPosition.centerY;
+
+          // Convert screen space to 3D space (normalize to sphere scale)
+          const scale = 0.008; // Adjust this to control how far apart spheres appear
+          const otherX = dx * scale;
+          const otherY = -dy * scale; // Invert Y for 3D space
+          const otherZ = 0; // Keep on same Z plane
+
+          // Position other sphere (this one moves based on second window position)
+          otherSphere.position.set(otherX, otherY, otherZ);
+          otherFilledSphere.position.set(otherX, otherY, otherZ);
+
+          // Main sphere stays at origin (0, 0, 0) - stationary
+          sphere.position.set(0, 0, 0);
+          filledSphere.position.set(0, 0, 0);
+
+          // Show other sphere with fade in
+          otherSphere.visible = true;
+          otherFilledSphere.visible = true;
+          otherSphereMaterial.opacity = mergeIntensity;
+          otherFilledMaterial.opacity = mergeIntensity * 0.25;
+
+          // Use same merged color for both spheres
+          const mergedColor = new THREE.Color(0xff44ff); // Purple/magenta for both
+
+          material.emissiveIntensity = 0.3 + mergeIntensity * 0.5;
+          material.color.copy(mergedColor);
+          material.emissive.copy(mergedColor);
+          material.opacity = 0.9 + mergeIntensity * 0.1;
+
+          filledMaterial.color.copy(mergedColor);
+          filledMaterial.emissive.copy(mergedColor);
+          filledMaterial.opacity = 0.3 + mergeIntensity * 0.2;
+
+          otherSphereMaterial.color.copy(mergedColor);
+          otherSphereMaterial.emissive.copy(mergedColor);
+          otherFilledMaterial.color.copy(mergedColor);
+          otherFilledMaterial.emissive.copy(mergedColor);
+
+          pointLight.color.copy(mergedColor);
+          pointLight.intensity = 1 + mergeIntensity * 0.5;
+        } else {
+          // Hide other sphere if not focused or not merging
+          otherSphere.visible = false;
+          otherFilledSphere.visible = false;
+
+          // Keep main sphere at origin
+          sphere.position.set(0, 0, 0);
+          filledSphere.position.set(0, 0, 0);
+
+          material.emissiveIntensity = 0.3;
+          material.color.setHex(SPHERE_COLOR);
+          material.emissive.setHex(SPHERE_COLOR);
+          material.opacity = 0.9;
+          filledMaterial.color.setHex(SPHERE_COLOR);
+          filledMaterial.emissive.setHex(SPHERE_COLOR);
+          filledMaterial.opacity = 0.3;
+          pointLight.color.setHex(SPHERE_COLOR);
+          pointLight.intensity = 1;
+        }
+
+        // Camera position
+        const cameraOffset = IS_SPHERE_1 ? 0 : Math.PI;
+        camera.position.x = Math.sin(time * 0.3 + cameraOffset) * 4;
+        camera.position.z = Math.cos(time * 0.3 + cameraOffset) * 4;
+        camera.position.y = 2 + Math.sin(time * 0.2) * 1;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+
+      // Initialize
+      initAudio();
+      camera.position.set(0, 0, 5);
+      animate();
+    </script>
+  </body>
+</html>

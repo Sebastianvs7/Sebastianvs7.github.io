@@ -215,7 +215,7 @@ function setupGridTimeline() {
 
 function animateGridFrame() {
   if (!isIdle) {
-    swirlAngle += 0.05;
+    swirlAngle += 0.03;
     for (let { el, x, y, rotationOffset } of boxes) {
       const dx = cursor.x - (x + boxSize / 2);
       const dy = cursor.y - (y + boxSize / 2);
@@ -225,13 +225,13 @@ function animateGridFrame() {
       if (effect > 0) {
         const angle = Math.atan2(dy, dx);
         const rotation =
-          (swirlAngle * 180) / Math.PI + rotationOffset + effect * 200;
+          (swirlAngle * 180) / Math.PI + rotationOffset + effect * 50;
         const scale = 1 + effect * 0.3;
         const shadow = isDark.value
           ? `0 4px 8px rgba(212,201,179,${0.3 * effect})`
           : `0 4px 8px rgba(122,104,83,${0.3 * effect})`;
-        const offsetX = Math.cos(angle + swirlAngle) * effect * 10;
-        const offsetY = Math.sin(angle + swirlAngle) * effect * 10;
+        const offsetX = Math.cos(angle + swirlAngle) * effect * 1;
+        const offsetY = Math.sin(angle + swirlAngle) * effect * 1;
 
         gsap.to(el, {
           x: offsetX,
@@ -239,7 +239,7 @@ function animateGridFrame() {
           scale,
           rotation,
           boxShadow: shadow,
-          duration: 0.4,
+          duration: 0.1,
           ease: "sine.out",
         });
       } else {
@@ -249,7 +249,7 @@ function animateGridFrame() {
           scale: 1,
           rotation: 0,
           boxShadow: "none",
-          duration: 0.6,
+          duration: 0.3,
           ease: "power2.out",
         });
       }
@@ -519,7 +519,7 @@ function handleClick(e) {
         {
           x: offsetX,
           y: offsetY,
-          duration: 2,
+          duration: 0.5,
           ease: "power2.out",
           onStart: () => {
             // Make color darker (lower RGB values = darker)
@@ -533,7 +533,7 @@ function handleClick(e) {
             gsap.to(el, {
               x: 0,
               y: 0,
-              duration: 0.75,
+              duration: 0.5,
               ease: "elastic.out(1,0.4)",
               onComplete: () => {
                 // Wait 2 seconds, then fade back to default color
@@ -543,7 +543,7 @@ function handleClick(e) {
                     : "rgba(122, 104, 83, 0.3)",
                   boxShadow: "none",
                   duration: 1,
-                  delay: 2,
+                  delay: 0.5,
                   ease: "power2.out",
                 });
               },

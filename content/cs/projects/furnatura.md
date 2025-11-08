@@ -1,7 +1,7 @@
 ---
 title: "Furnatura"
 description: "Furnatura je česká značka přírodní kosmetiky pro psy, která se specializuje na šetrnou péči o srst a pokožku domácích mazlíčků. Produkty jsou vyráběny ručně v České republice z čistě přírodních surovin, jako jsou rostlinné extrakty, minerály z Mrtvého moře a výživné oleje. Neobsahují sulfáty, silikony, parabeny ani mikroplasty, a nejsou testovány na zvířatech."
-link: "https://furnatura.com/en-US/"
+link: "https://furnatura.com/cs-CZ/"
 image: "/images/furnatura-prague.svg"
 position: 5
 type: "E-commerce Website"
@@ -9,7 +9,7 @@ type: "E-commerce Website"
 
 ::div{.row}
 
-# Furnatura
+<!-- # Furnatura -->
 
 Furnatura je česká značka přírodní kosmetiky pro psy, která se specializuje na šetrnou péči o srst a pokožku domácích mazlíčků.
 ::
@@ -18,14 +18,18 @@ Furnatura je česká značka přírodní kosmetiky pro psy, která se specializu
 
 ## O značce
 
-Cílem projektu bylo vytvořit nový web který nahradí eshop který běžel na Woocomerce a Wordpress.
-Pro administraci projektu se použil Shop8 CMS který jsem upravoval tak aby vyhoval pro potřeby projektu.
-Na Frontendu jsem po bývalém kolegovy převzal již rozdělanou aplikaci která byla napsaná v Angularu.
-Po obdržení nového designu jsem se s kolegou na Backendu pustil do kódování nového webu a nsledné nasazení logiky pro funkčnost eshopu.
+Cílem projektu bylo vytvořit nový web jenž nahradí eshop který běžel na Woocomerce a Wordpress.
+
+Pro administraci projektu jsem použil Shop8 CMS, který jsem upravoval tak, aby vyhoval potřebám projektu.
+Na Frontendu jsem převzal již rozdělanou aplikaci která byla napsaná v Angularu.
+Po obdržení nového designu jsem se pustil do kódování nového webu a následného nasazení logiky pro funkčnost eshopu.
 Eshop je dostupný v českém a anglickém jazyce a lze pro nákup využít jak české koruny tak Eura.
-Do webu jsem později přidal krátkou hru kterou jsem dříve pro Furnaturu připravoval jako nativní hru na veletrh kterou jsem napsal za pomoci technologie Ionic pro hybridní aplikace která uživately má ukázat vhodné produkty pro jeho čtyrnohého kamaráda.
-Angular jsem posléze upgradoval na nejnovětší verzi 20 což obnášelo i refaktoring starších částí webu na do nových Signals nebo úpravu pro Server Side Rendering.
-Na projektu jsem řešil i optimalizaci pro vyhledávače ve spolupráci s Marketingovou agenturou jsem nasazoval vlastní Facebook Conversion API eventy, gtag eventy. nebo Ecomail
+Do webu jsem později přidal krátkou hru, kterou jsem dříve pro Furnaturu připravoval jako nativní hru na veletrh.
+Napsal jsem ji za pomoci technologie Ionic pro hybridní aplikace, která má uživateli ukázat vhodné produkty pro jeho čtyrnohého kamaráda.
+Angular jsem posléze upgradoval na nejnovětší verzi 20, což obnášelo i refaktoring starších částí webu.
+taktéž nové Signals nebo úpravu pro Server Side Rendering.
+Na projektu jsem řešil i optimalizaci pro vyhledávače ve spolupráci s Marketingovou agenturou.
+Nasazoval vlastní Facebook Conversion API eventy, gtag eventy., nebo Ecomail
 Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews, Zásilkovna a PPL widget.
 ::
 
@@ -44,22 +48,15 @@ Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews, Zásil
 
 ## Technologie
 
-- **Angular 20, SSR, i18n**
+- **Angular 20 s SSR a i18n**
 - **Apollo Angular**
 - **Graphql**
-- **rxjs**
-- **angularx-qrcode**
+- **RxJS**
+- **Angular QR Code Generator**
 - **Typescript**
 - **Eslint, Prettier, PostCSS, Autoprefixer**
 - **SASS**
 - **Cypress**
-- **gtag custom events, facebook capi**
+- **GTM custom events and Facebook Pixel**
 
-::
-
-::div{.row}
-
-## Výsledek
-
-Úspěšně implementovaná e-commerce platforma, která propaguje českou značku přírodní kosmetiky pro psy a umožňuje zákazníkům snadný nákup kvalitních produktů.
 ::

@@ -1,6 +1,6 @@
 ---
 title: "NoGrays"
-description: "Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců."
+description: "NoGrays je eshop postavený na Wordpress a Woocommerce který propaguje produkt jenž nabízí revoluci v péči o vlasy."
 link: "https://kristian.cz/"
 image: "/images/Wordpress-Logo.svg"
 position: 4
@@ -9,17 +9,20 @@ type: "Museum Website"
 
 ::div{.row}
 
-# NoGrays
+<!-- # NoGrays -->
 
-NoGrays je eshop postavený na Wordpress a Woocommerce který přináší revoluci v péči o vlasy.
+NoGrays je eshop postavený na Wordpress a Woocommerce který propaguje produkt jenž nabízí revoluci v péči o vlasy.
 ::
 
 ::div{.row}
 
 ## O projektu
 
-Pro NoGrays jsem vytvořil eshop který jsem postavil za pomoci Woocommerce. Web je nakódovaný dle vizuálu z Figmy. Využívá klasické wordpress téma a má správu obsahu pro stránky, blog, menu a vlastních sekcí které jsem připravoval do funkcí v PHP.
-Woocommerce je napojen na platební bránu Woopayments a využívá platební karty tak i rychlé platby jakoGoogle Pay Apple Pay.
+Pro NoGrays jsem vytvořil eshop, který jsem postavil za pomoci Woocommerce.
+Web je kódovaný dle vizuálu z Figmy. Využívá klasické wordpress téma a má správu obsahu pro stránky, blog,
+menu a samostatné sekce, které jsem připravoval do funkcí v PHP.
+Woocommerce je napojen na platební bránu Woopayments.
+Využívá nejen platební karty ale i rychlé platby jako Google Pay, Apple Pay.
 Pro web jsem připravoval vlastní kontaktní formulář pro reklamaci zboží využívající vzhledu emailových šablon z woocommerce.
 Uživatel má také také možnost zavedení registrace a následný přístup do svého učtu kde je správa objednávek tak i adres uživatele.
 Největší výzvou toho projektu pro mne bylo komunikace s woocomerce api a úprava šablony košíku tak i debugování na straně serveru pro přípravu serverových eventů pro Facebook Conversion API.
@@ -48,11 +51,4 @@ Největší výzvou toho projektu pro mne bylo komunikace s woocomerce api a úp
 - **Custom refund emails**
 - **gtag, fb capi**
 
-::
-
-::div{.row}
-
-## Výsledek
-
-Úspěšně implementované online muzeum, které zachovává historii mobilních telefonů a zpřístupňuje ji široké veřejnosti.
 ::

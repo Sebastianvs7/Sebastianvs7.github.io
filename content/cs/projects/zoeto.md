@@ -1,6 +1,6 @@
 ---
 title: "Zoeto"
-description: "Aplikace Zoeto je mobilní nástroj vyvinutý společností Zoetis Inc., určený pro veterinární profesionály. Umožňuje přístup k produktovému katalogu s podrobnými informacemi o lécích, včetně složení, indikací, balení a cen. Uživatelé mohou snadno vytvářet objednávky, spravovat dodací adresy a prohlížet historii objednávek. Aplikace je dostupná zdarma pro zařízení s iOS a Androidem."
+description: "Zoeto je komplexní mobilní aplikace, která veterinářům umožňuje snadný přístup k produktovému katalogu společnosti Zoetis. Aplikace obsahuje podrobné informace o lécích, včetně složení, indikací, balení a cen."
 links:
   - url: "https://apps.apple.com/cz/app/zoeto/id6447378302"
     text: "iOS App"
@@ -13,16 +13,14 @@ type: "Mobile Application"
 
 ::div{.row}
 
-# Zoeto
+<!-- # Zoeto -->
 
-Aplikace Zoeto je mobilní nástroj vyvinutý společností Zoetis Inc., určený pro veterinární profesionály.
+Zoeto je komplexní mobilní aplikace, která veterinářům umožňuje snadný přístup k produktovému katalogu společnosti Zoetis. Aplikace obsahuje podrobné informace o lécích, včetně složení, indikací, balení a cen.
 ::
 
 ::div{.row}
 
 ## O aplikaci
-
-Zoeto je komplexní mobilní aplikace, která veterinářům umožňuje snadný přístup k produktovému katalogu společnosti Zoetis. Aplikace obsahuje podrobné informace o lécích, včetně složení, indikací, balení a cen.
 
 Aplikace Zoeto byla moje první zkušenost s nativními aplikacemi a také React Native.
 Mým úkolem na tomto projektu bylo nakódovat aplikaci dle grafického návrhu který se připravoval in-house.
@@ -33,7 +31,7 @@ Při tvorbě obrazovek jsem se setkal s mnoha novým jako práce s Xcode a Andro
 Při práci na projektu jsem byl v kontaktu s externí firmou která si nás najala pro tvorbu této aplikace.
 To vyžadovalo občasné meetingy které jsem za naši firmu většinou vedl spolu s kolegou který připravoval backend.
 
-Pro aplikaci jsem použil React Navigation jako router aplikace kde je potřeba rozeznávat zda-li je uživatel přihlášen a tím mu odemknout hlavní obsah aplikace. Pro komunikaci s API jsem využil Axios. Aplikace má také několik animací pro které jsem využil React Native Reanimated. hlavní je rozbalování hlavního katalogu kde rozklikáváním vnořených kategorií se uživately zobrazují různé produkty dle specifikace. Pro state management jsem využil Reduxjs který má na starosti hlavní logiku aplikace.
+Pro aplikaci jsem použil React Navigation jako router aplikace kde je potřeba rozeznávat, zda-li je uživatel přihlášen a tím mu odemknout hlavní obsah aplikace. Pro komunikaci s API jsem využil Axios. Aplikace má také několik animací pro které jsem využil React Native Reanimated. hlavní je rozbalování hlavního katalogu kde rozklikáváním vnořených kategorií se uživately zobrazují různé produkty dle specifikace. Pro state management jsem využil Reduxjs který má na starosti hlavní logiku aplikace.
 
 Klient se později rozhodnul že pro snadnější registraci a přihlašování využije Gigya - SAP Customer Data Cloud.
 Pro integraci s React Native jsem využil "@sap_oss/gigya-react-native-plugin-for-sap-customer-data-cloud" kde bylo potřeba refaktorovat část logiky na frontendu tak i na straně API.
@@ -41,9 +39,9 @@ Pro integraci s React Native jsem využil "@sap_oss/gigya-react-native-plugin-fo
 Po spuštění aplikace jsem se pravidelně staral o aktualizaci knihoven a samotného React Native.
 nahrával nová vydání pro interní testování na Google Play nebo vytvářel soubory apk tak aby je bylo možné testovat vývojáři.
 
-Zajímavostí pro mne byla práce s Xcode kde jsem pro build aplikace a následné odeslání na Testflight využíval pro podpis aplikace příslušné certifikáty a provisioning profile které jsem obdržel od vývojářů ze strany Zoetisu.
+Zajímavostí pro mne byla práce s Xcode kde jsem pro build aplikace a následné odeslání na Testflight využíval pro podpis aplikace příslušné certifikáty a provisioning profile, které jsem obdržel od vývojářů ze strany Zoetisu.
 
-Další fází vývoje aplikace bylo přidání Push notifikací kde jsme zvolily Firebase pro rozesílání notifikací.
+Další fází vývoje bylo přidání Push notifikací kde jsme zvolily Firebase pro rozesílání notifikací.
 Připravovat notifikace byla delší cesta než se zpočátku zdálo jelikož se funkcionalita stále rozrůstala a bylo potřeba připravit nejen obrazovky jako seznam a detail notifikací nebo nastavení notifikací ale také zajištění správné funkčnosti na obou platformách které mě dovedlo až k úpravám na API které je napsané v .NET.
 
 Výsledkem je aplikace která má pomoci veterinářům pomoci usnadnit orientaci v lécích a jejim nákupu.
@@ -72,11 +70,5 @@ Výsledkem je aplikace která má pomoci veterinářům pomoci usnadnit orientac
 - **React navigation**
 - **Reduxjs**
 - **Axios - REST API**
-  ::
 
-::div{.row}
-
-## Výsledek
-
-Úspěšně nasazená mobilní aplikace, která zjednodušuje práci veterinárních profesionálů a zlepšuje jejich přístup k produktům společnosti Zoetis.
 ::
