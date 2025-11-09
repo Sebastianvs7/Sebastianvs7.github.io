@@ -43,6 +43,7 @@
         width="220"
         height="220"
         loading="eager"
+        fetchpriority="high"
       />
     </div>
   </section>

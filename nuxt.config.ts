@@ -7,13 +7,9 @@ function getProjectRoutes(): string[] {
     "furnatura",
     "shop8-cms",
     "mobile-phone-museum",
-    "elements",
-    "biocultus",
-    "joalis",
-    "yogarden",
-    "moonwood",
-    "magnus-art",
     "mcled",
+    "kristian",
+    "nograys",
   ];
 
   const routes: string[] = [];

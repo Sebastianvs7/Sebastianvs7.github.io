@@ -20,7 +20,7 @@ let intersectionObserver;
 
 // Click throttling
 let lastClickTime = 0;
-const clickThrottleDelay = 1000; // 1000ms throttle
+const clickThrottleDelay = 500; // 1000ms throttle
 
 // GSAP Timelines
 let gridTimeline, highlightTimeline, highlight2Timeline, crossTimeline;
@@ -28,6 +28,11 @@ let gridTimeline, highlightTimeline, highlight2Timeline, crossTimeline;
 const boxSize = 26;
 const spacing = 40;
 const hoverRadius = 100;
+
+// Click animation settings
+const mouseMoveThreshold = 500; // Time in ms to consider mouse as "not moving"
+const explosionRadiusMoving = 150; // Smaller radius when mouse is moving
+const explosionRadiusStationary = 150; // Much larger radius when mouse is not moving
 
 // Initialize everything when component mounts
 onMounted(() => {
@@ -68,8 +73,9 @@ function initializeAnimation() {
   const containerHeight = hero.offsetHeight;
 
   // Calculate grid dimensions to fill the container completely
-  const cols = Math.floor(containerWidth / spacing);
-  const rows = Math.floor(containerHeight / spacing);
+  // Use Math.ceil to ensure we have enough rows/cols to fill the entire space
+  const cols = Math.ceil(containerWidth / spacing);
+  const rows = Math.ceil(containerHeight / spacing);
 
   // Calculate actual spacing to fill the container exactly
   const actualSpacingX = containerWidth / cols;
@@ -254,8 +260,8 @@ function setupHighlightTimeline() {
   highlightTimeline.call(() => {
     const containerWidth = hero.offsetWidth;
     const containerHeight = hero.offsetHeight;
-    const cols = Math.floor(containerWidth / spacing);
-    const rows = Math.floor(containerHeight / spacing);
+    const cols = Math.ceil(containerWidth / spacing);
+    const rows = Math.ceil(containerHeight / spacing);
     const actualSpacingX = containerWidth / cols;
     const actualSpacingY = containerHeight / rows;
     const offsetX = (containerWidth - cols * actualSpacingX) / 2;
@@ -293,8 +299,8 @@ function setupHighlight2Timeline() {
   highlight2Timeline.call(() => {
     const containerWidth = hero.offsetWidth;
     const containerHeight = hero.offsetHeight;
-    const cols = Math.floor(containerWidth / spacing);
-    const rows = Math.floor(containerHeight / spacing);
+    const cols = Math.ceil(containerWidth / spacing);
+    const rows = Math.ceil(containerHeight / spacing);
     const actualSpacingX = containerWidth / cols;
     const actualSpacingY = containerHeight / rows;
     const offsetX = (containerWidth - cols * actualSpacingX) / 2;
@@ -427,6 +433,7 @@ function resetIdleTimer() {
   clearTimeout(idleTimer);
   idleTimer = setTimeout(() => {
     isIdle = true;
+    isMouseMoving = false; // Reset mouse moving state when idle
     boxes.forEach(({ el }) => {
       gsap.to(el, {
         scale: 1,
@@ -487,8 +494,24 @@ function handleClick(e) {
   const clickX = e.clientX - rect.left;
   const clickY = e.clientY - rect.top;
 
-  // Different explosion radius based on recent mouse movement
-  const explosionRadius = 150; // Same radius for both moving and stationary
+  // Determine if mouse was moving recently
+  const timeSinceLastMove = currentTime - lastMouseMoveTime;
+  const wasMouseMoving =
+    timeSinceLastMove < mouseMoveThreshold && isMouseMoving;
+
+  // Different explosion radius and animation style based on mouse movement
+  const explosionRadius = wasMouseMoving
+    ? explosionRadiusMoving
+    : explosionRadiusStationary;
+
+  // Different animation parameters based on movement
+  const animationDuration = wasMouseMoving ? 0.4 : 1; // Slower when stationary
+  const animationEase = wasMouseMoving ? "power2.out" : "power3.out"; // Different easing
+  const returnDuration = wasMouseMoving ? 0.4 : 1.5; // Slower return when stationary
+  const returnEase = wasMouseMoving
+    ? "elastic.out(1,0.4)"
+    : "elastic.out(1,0.3)"; // More elastic when stationary
+  const forceMultiplier = wasMouseMoving ? 2 : 3; // Stronger force when stationary
 
   let affectedElements = 0;
 
@@ -500,43 +523,54 @@ function handleClick(e) {
     if (dist < explosionRadius) {
       affectedElements++;
       const angle = Math.atan2(dy, dx);
-      const force = (explosionRadius - dist) * 2; // closer = stronger
+      const force = (explosionRadius - dist) * forceMultiplier; // Force varies based on movement
       const offsetX = Math.cos(angle) * force;
       const offsetY = Math.sin(angle) * force;
 
-      // animate away and back
+      // Different shadow intensity based on movement
+      const shadowIntensity = wasMouseMoving ? 0.3 : 0.5;
+      const shadowBlur = wasMouseMoving ? 10 : 15;
+
+      // animate away and back with different styles
       gsap.fromTo(
         el,
         { x: 0, y: 0 },
         {
           x: offsetX,
           y: offsetY,
-          duration: 0.5,
-          ease: "power2.out",
+          duration: animationDuration,
+          ease: animationEase,
           onStart: () => {
-            // Make color darker (lower RGB values = darker)
+            // Make color darker for click effect
             const darkerColor = isDark.value
-              ? "rgba(150, 140, 120, 1)" // Darker version of light theme color
-              : "rgba(80, 65, 50, 1)"; // Darker version of dark theme color
+              ? "rgba(150, 140, 120, 1)" // Darker version of dark theme color
+              : "rgba(80, 65, 50, 1)"; // Darker version of light theme color
             el.style.borderColor = darkerColor;
-            el.style.boxShadow = `0 0 10px ${darkerColor}`;
+            el.style.boxShadow = `0 0 ${shadowBlur}px rgba(${isDark.value ? "150, 140, 120" : "80, 65, 50"}, ${shadowIntensity})`;
           },
           onComplete: () => {
             gsap.to(el, {
               x: 0,
               y: 0,
-              duration: 0.5,
-              ease: "elastic.out(1,0.4)",
+              duration: returnDuration,
+              ease: returnEase,
               onComplete: () => {
-                // Wait 2 seconds, then fade back to default color
+                // Fade back to default color and clear inline styles
+                const defaultColor = isDark.value
+                  ? "rgba(212, 201, 179, 0.3)"
+                  : "rgba(122, 104, 83, 0.3)";
+                const fadeDelay = wasMouseMoving ? 0.3 : 0.7; // Longer delay when stationary
                 gsap.to(el, {
-                  borderColor: isDark.value
-                    ? "rgba(212, 201, 179, 0.3)"
-                    : "rgba(122, 104, 83, 0.3)",
+                  borderColor: defaultColor,
                   boxShadow: "none",
                   duration: 1,
-                  delay: 0.5,
+                  delay: fadeDelay,
                   ease: "power2.out",
+                  onComplete: () => {
+                    // Clear inline styles to let CSS take over
+                    el.style.borderColor = "";
+                    el.style.boxShadow = "";
+                  },
                 });
               },
             });
