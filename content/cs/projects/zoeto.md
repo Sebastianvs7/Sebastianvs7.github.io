@@ -63,12 +63,12 @@ Výsledkem je aplikace která má pomoci veterinářům pomoci usnadnit orientac
 
 ## Technologie
 
-- **React Native**
-- **@sap_oss/gigya-react-native-plugin-for-sap-customer-data-cloud**
-- **Firebase - Messaging, Notifee**
-- **React native Reanimated**
-- **React navigation**
-- **Reduxjs**
-- **Axios - REST API**
+- React Native
+- SAP Gigya plugin pro zpracování dat uživatelů
+- Firebase (Messaging, Notifee)
+- React Native Reanimated
+- React Navigation
+- Redux.js
+- Axios (pro REST API)
 
 ::

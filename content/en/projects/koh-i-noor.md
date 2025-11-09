@@ -48,14 +48,14 @@ I also wrote automated E2E tests in Cypress to cover most of the website’s pag
 
 ## Technology
 
-- **Next.js**
-- **SaSS**
-- **Redux**
-- **Google Maps React Markers, Supercluster**
-- **React player, Swiper**
-- **REST API**
-- **gtag, facebook capi, Ecomail**
-- **Eslint, Prettier**
-- **Cypress**
+- Next.js
+- SaSS
+- Redux
+- Google Maps React Markers + Supercluster
+- React Player, Swiper
+- REST API
+- gtag, Facebook Pixel, Ecomail
+- Eslint, Prettier
+- Cypress
 
 ::

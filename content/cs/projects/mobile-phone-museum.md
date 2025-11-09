@@ -42,12 +42,12 @@ Na webu je spousta zajímavých prvků a funkcí od vyhledávání a filtrován�
 
 ## Technologie
 
-- **Next.js**
-- **GraphQl**
-- **React PDF**
-- **SaSS**
-- **video.js**
-- **Swiper**
-- **React Image Magnify**
+- Next.js
+- GraphQL
+- React PDF
+- Sass (SCSS)
+- video.js
+- Swiper
+- React Image Magnify
 
 ::

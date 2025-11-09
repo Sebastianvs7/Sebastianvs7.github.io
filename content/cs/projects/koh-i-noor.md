@@ -43,14 +43,14 @@ Automatické E2E testy jsem napsal v cypressu tak aby pokryly většinu stránek
 
 ## Technologie
 
-- **Next.js**
-- **SaSS**
-- **Redux**
-- **Google Maps React Markers, Supercluster**
-- **React player, Swiper**
-- **REST API**
-- **gtag, facebook capi, Ecomail**
-- **Eslint, Prettier**
-- **Cypress**
+- Next.js
+- SaSS
+- Redux
+- Google Maps React Markers + Supercluster
+- React Player, Swiper
+- REST API
+- gtag, Facebook Pixel, Ecomail
+- Eslint, Prettier
+- Cypress
 
 ::

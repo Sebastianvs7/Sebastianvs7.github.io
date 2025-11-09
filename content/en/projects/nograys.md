@@ -51,11 +51,11 @@ The biggest challenge for me in this project was working with the WooCommerce AP
 
 ## Technology
 
-- **Wordpress**
-- **Woocommerce**
-- **WooPayments**
-- **Custom sections, pages, customer account, blog**
-- **Custom refund emails**
-- **gtag, fb capi**
+- WordPress
+- WooCommerce
+- WooPayments
+- Custom Sections, Pages, Customer Account, Blog
+- Custom Refund Emails
+- gtag, Facebook Pixel (FB CAPI)
 
 ::

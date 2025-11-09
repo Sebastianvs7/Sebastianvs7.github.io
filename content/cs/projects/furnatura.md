@@ -48,15 +48,13 @@ Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews, Zásil
 
 ## Technologie
 
-- **Angular 20 s SSR a i18n**
-- **Apollo Angular**
-- **Graphql**
-- **RxJS**
-- **Angular QR Code Generator**
-- **Typescript**
-- **Eslint, Prettier, PostCSS, Autoprefixer**
-- **SASS**
-- **Cypress**
-- **GTM custom events and Facebook Pixel**
+- Angular 20 (s SSR a i18n)
+- Apollo Angular + GraphQL
+- RxJS
+- SASS + PostCSS + Autoprefixer
+- Eslint + Prettier
+- TypeScript
+- Cypress (E2E)
+- GTM Custom Events + Facebook Pixel
 
 ::

@@ -47,12 +47,12 @@ The website features many interesting elements and functionalities: search and f
 
 ## Technology
 
-- **Next.js**
-- **GraphQl**
-- **React PDF**
-- **SaSS**
-- **video.js**
-- **Swiper**
-- **React Image Magnify**
+- Next.js
+- GraphQL
+- React PDF
+- Sass (SCSS)
+- video.js
+- Swiper
+- React Image Magnify
 
 ::

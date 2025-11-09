@@ -71,12 +71,12 @@ The result is an app designed to help veterinarians navigate and purchase medica
 
 ## Technology
 
-- **React Native**
-- **@sap_oss/gigya-react-native-plugin-for-sap-customer-data-cloud**
-- **Firebase - Messaging, Notifee**
-- **React Native Reanimated**
-- **React Navigation**
-- **Reduxjs**
-- **Axios - REST API**
+- React Native
+- SAP Gigya plugin for processing user data
+- Firebase — Messaging, Notifee
+- React Native Reanimated
+- React Navigation
+- Redux.js
+- Axios — for REST APIs
 
 ::

@@ -44,11 +44,11 @@ Největší výzvou toho projektu pro mne bylo komunikace s woocomerce api a úp
 
 ## Technologie
 
-- **Wordpress**
-- **Woocommerce**
-- **WooPayments**
-- **Custom sections, pages, customer account, blog**
-- **Custom refund emails**
-- **gtag, fb capi**
+- WordPress
+- WooCommerce
+- WooPayments
+- Vlastní sekce, stránky, účet zákazníka, blog
+- Vlastní e-maily na vrácení zboží
+- gtag, Facebook Pixel (FB CAPI)
 
 ::

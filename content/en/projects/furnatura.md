@@ -56,15 +56,19 @@ The website utilizes SSR, JSON-LD Schema, Google Customer Reviews, Zásilkovna, 
 
 ## Technology
 
-- **Angular 20 s SSR a i18n**
-- **Apollo Angular**
-- **Graphql**
-- **RxJS**
-- **Angular QR Code Generator**
-- **Typescript**
-- **Eslint, Prettier, PostCSS, Autoprefixer**
-- **SASS**
-- **Cypress**
-- **GTM custom events and Facebook Pixel**
+- Angular 20 (with SSR & i18n)
+- Apollo Angular + GraphQL
+- RxJS
+
+**UI & Styling**
+
+- SASS + PostCSS + Autoprefixer
+- Eslint + Prettier
+- TypeScript
+
+**Testing & Analytics**
+
+- Cypress (E2E)
+- GTM Custom Events + Facebook Pixel
 
 ::
