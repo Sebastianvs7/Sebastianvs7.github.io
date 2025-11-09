@@ -16,7 +16,9 @@
       <NuxtLink v-if="!isProjectsPage" to="#contact">{{
         $t("navigation.contact")
       }}</NuxtLink>
-      <NuxtLink v-if="isProjectsPage" to="/">Home</NuxtLink>
+      <NuxtLink v-if="isProjectsPage" to="/">
+        {{ $t("navigation.home") }}</NuxtLink
+      >
       <button
         @click="toggleTheme"
         :aria-label="getThemeLabel"

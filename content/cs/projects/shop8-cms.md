@@ -46,23 +46,23 @@ Výsledkem je plně funkční administrace s API které se dokáží přizpůsob
 
 ## Technologie
 
-- **React (TypeScript)**
-- **NX Monorepo — pro škálovatelný a konzistentní kód mezi aplikacemi**
-- **React Router**
-- **React Query**
-- **React Hook Form**
-- **i18n (i18next)**
-- **React Hot Toast**
-- **React Player**
-- **Cypress (E2E)**
-- **ESLint + Prettier**
-- **Material UI (MUI)**
-- **Ant Design (antd) — especially Tree**
-- **Chonky (data grid)**
-- **React DnD**
-- **Chart.js**
-- **dayjs**
-- **GraphQL**
-- **Webpack**
+- React (TypeScript)
+- NX Monorepo — pro škálovatelný a konzistentní kód mezi aplikacemi
+- React Router
+- React Query
+- React Hook Form
+- i18n (i18next)
+- React Hot Toast
+- React Player
+- Cypress (E2E)
+- ESLint + Prettier
+- Material UI (MUI)
+- Ant Design (antd) — especially Tree
+- Chonky (data grid)
+- React DnD
+- Chart.js
+- dayjs
+- GraphQL
+- Webpack
 
 ::

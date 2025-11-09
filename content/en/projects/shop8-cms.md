@@ -57,23 +57,23 @@ Result: A fully functional, scalable admin interface with an API that can be ada
 
 ## Technology
 
-- **React (TypeScript)**
-- **NX Monorepo — for scalable, consistent code across apps**
-- **React Router**
-- **React Query**
-- **React Hook Form**
-- **i18n (i18next)**
-- **React Hot Toast**
-- **React Player**
-- **Cypress (E2E)**
-- **ESLint + Prettier**
-- **Material UI (MUI)**
-- **Ant Design (antd) — especially Tree**
-- **Chonky (data grid)**
-- **React DnD**
-- **Chart.js**
-- **dayjs**
-- **GraphQL**
-- **Webpack**
+- React (TypeScript)
+- NX Monorepo — for scalable, consistent code across apps
+- React Router
+- React Query
+- React Hook Form
+- i18n (i18next)
+- React Hot Toast
+- React Player
+- Cypress (E2E)
+- ESLint + Prettier
+- Material UI (MUI)
+- Ant Design (antd) — especially Tree
+- Chonky (data grid)
+- React DnD
+- Chart.js
+- dayjs
+- GraphQL
+- Webpack
 
 ::
