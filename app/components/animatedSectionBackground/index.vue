@@ -6,17 +6,9 @@
 
 <script setup>
 import "./styles.scss";
+import { gsap } from "gsap";
 
 const { isDark } = useTheme();
-
-useHead({
-  script: [
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",
-      defer: true,
-    },
-  ],
-});
 
 // Animation elements and state
 let hero, boxes, cursor, isIdle, idleTimer, isMouseMoving, lastMouseMoveTime;
@@ -39,7 +31,7 @@ const hoverRadius = 100;
 
 // Initialize everything when component mounts
 onMounted(() => {
-  // Wait a bit for GSAP to load
+  // Wait a bit for DOM to be fully ready
   setTimeout(() => {
     initializeAnimation();
     setupTimelines();
