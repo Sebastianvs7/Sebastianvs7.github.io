@@ -36,24 +36,20 @@ For API communication, I used Axios.
 The app also includes several animations, which I implemented using React Native Reanimated.
 The main feature is the product catalog expansion: when users expand nested categories, they are presented with different products based on specific filters.
 For state management, I used Redux.js, which handles the app’s core logic.
-
 Later, the client decided to switch to Gigya — SAP Customer Data Cloud for easier user registration and login.
 To integrate with React Native, I used the plugin:
 "@sap_oss/gigya-react-native-plugin-for-sap-customer-data-cloud".
 This required refactoring parts of the frontend logic, as well as API-side changes.
 
-After launch, I regularly managed library updates and the React Native framework itself.
+I regularly managed library updates and the React Native framework itself.
 I also uploaded new builds for internal testing on Google Play, or generated APK files so developers could test the app directly.
-
 An interesting challenge for me was working with Xcode — to build the app and submit it to TestFlight, I needed to use appropriate signing certificates and provisioning profiles, which I received from the Zoetis development team.
-
 Another phase of development involved implementing Push Notifications, for which we chose Firebase for notifications delivery.
 Preparing the notification feature turned out to be a longer journey than expected — as the functionality kept expanding.
 We had to not only design screens such as the notification list, detail view, and settings, but also ensure full compatibility across both platforms.
 This eventually led to modifications in the .NET-based API.
 
 The result is an app designed to help veterinarians navigate and purchase medications more easily.
-
 ::
 
 ::div{.row}
