@@ -26,7 +26,7 @@ At this academy, I learned from the basics up to working with JavaScript, PHP, a
 Later, we began using October CMS — an open-source content management system (CMS) built on the Laravel framework — which provides flexible and customizable tools for creating web pages.
 My favorite part of working with October CMS was preparing the migration of existing pages into this system using the Twig templating language and then adapting them for easy content editing by users.
 
-Working at Kristian was a very valuable experience — I learned from outstanding colleagues who taught me a great deal, and I also found a wonderful place to stop by for coffee and a chat.
+Through the guidance of exceptional colleagues, I’ve grown both technically and personally — and I’m grateful for a culture that values growth, collaboration, and the joy of learning together.
 ::
 
 ::div{.row}
