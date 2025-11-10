@@ -4,7 +4,7 @@ export const useExperiencesData = () => {
       id: "code8",
       company: "Code8",
       position: "Frontend Developer",
-      period: "2022 - ",
+      period: "2020 - ",
       current: true,
       description: {
         cs: "Vývoj a údržba webových aplikací a interních systémů v React, Next.js, TypeScript a Angular.\nPráce v prostředí monorepo (Nx) pro správu rozsáhlejších projektů.\nIntegrace REST API a GraphQL pro efektivní práci s daty.\nVývoj mobilních aplikací v React Native (Expo, Firebase, push notifikace).\nOptimalizace výkonu a SEO; testování pomocí Cypress, konfigurace Webpacku a ESlint.",
@@ -17,7 +17,7 @@ export const useExperiencesData = () => {
       id: "mcled",
       company: "MCLED S.R.O.",
       position: "Webmaster",
-      period: "2020 - 2022",
+      period: "2018 - 2020",
       current: false,
       description: {
         cs: "Správa a rozvoj firemního e-shopu.\nKódování HTML, CSS a JavaScript, implementace nových funkcí.\nZpracování produktové fotografie a úprava obsahu pro web.\nPráce s CRM a logistickými systémy v souvislosti s e-shopem.",
@@ -30,7 +30,7 @@ export const useExperiencesData = () => {
       id: "kristian",
       company: "Kristián S.R.O.",
       position: "Webdesigner, Grafik, Kodér",
-      period: "2017 - 2020",
+      period: "2016 - 2018",
       current: false,
       description: {
         cs: "Návrh a realizace webů a microsites.\nKódování HTML, CSS a JavaScript.\nPráce s October CMS při tvorbě webů a funkcionalit.\nSpolupráce s grafickým oddělením na tvorbě vizuální identity.",
