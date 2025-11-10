@@ -11,8 +11,7 @@ type: "Media Agency"
 
 <!-- # Kristian -->
 
-Kristian je reklamni agentura která se zabývá celkovým servisem v oblasti médií a kreativity. Nabízí široké spektrum služeb.
-Strategické mediální plánování a vytváření kreativních konceptů (ideamaking), digitální marketing, weby, PPC, sociální sítě a produkci (eventy, konference). Působí také v oboru grafického deisingu, DTP, videa, fotografie a audio.
+Kristian je reklamni agentura která se zabývá celkovým servisem v oblasti médií a kreativity. Nabízí široké spektrum služeb. Strategické mediální plánování a vytváření kreativních konceptů (ideamaking), digitální marketing, weby, PPC, sociální sítě a produkci (eventy, konference). Působí také v oboru grafického deisingu, DTP, videa, fotografie a audio.
 ::
 
 ::div{.row}
