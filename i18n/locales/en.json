@@ -4,7 +4,8 @@
     "projects": "Projects",
     "experience": "Experience",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "home": "Home"
   },
   "sections": {
     "projects": "Projects",
@@ -29,6 +30,7 @@
     "showMore": "Show More",
     "showLess": "Show Less",
     "viewProject": "View Project",
+    "viewDetails": "View Details",
     "showMoreButton": "Show More Projects",
     "showLessButton": "Show Less"
   },

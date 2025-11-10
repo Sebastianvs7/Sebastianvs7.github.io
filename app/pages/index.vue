@@ -1,16 +1,19 @@
 <template>
-  <!-- Header -->
-  <AppHeader />
+  <div>
+    <!-- Header -->
+    <Header />
 
-  <!-- Main Content -->
-  <main>
-    <AppIntro />
-    <AppProjects />
-    <AppExperiences />
-    <AppAbout />
-    <AppContact />
-  </main>
+    <!-- Main Content -->
+    <main>
+      <HomeIntro />
+      <HomeProjects />
+      <HomeExperiences />
+      <HomeAbout />
+      <!-- <AppAnimatedSection /> -->
+      <HomeContact />
+    </main>
 
-  <!-- Footer -->
-  <AppFooter />
+    <!-- Footer -->
+    <Footer />
+  </div>
 </template>

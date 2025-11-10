@@ -1,0 +1,37 @@
+/* Contact Links */
+.contact-links {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+  a {
+    align-items: center;
+    color: var(--color-text-light);
+    display: inline-flex;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+
+    &:hover,
+    &:focus {
+      color: var(--color-accent);
+      outline: none;
+    }
+  }
+
+  svg {
+    fill: currentColor;
+    flex-shrink: 0;
+    margin-right: 0.4rem;
+  }
+}
+
+body.dark-mode .contact-links a {
+  color: var(--color-text-dark);
+
+  &:hover,
+  &:focus {
+    color: var(--color-accent-dark);
+  }
+}

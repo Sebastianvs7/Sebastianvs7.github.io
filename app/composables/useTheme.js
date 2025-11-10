@@ -1,4 +1,5 @@
 export const useTheme = () => {
+  // SSR-safe initialization - always start with false for server rendering
   const isDark = ref(false);
   const isManualOverride = ref(false);
   let prefersDarkScheme = null;
@@ -7,18 +8,11 @@ export const useTheme = () => {
   // Initialize theme on client side
   const initializeTheme = () => {
     if (process.client) {
-      const storedTheme = localStorage.getItem("theme");
       prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
-      // Set manual override flag
-      isManualOverride.value = storedTheme !== null;
-
-      // Apply theme based on stored preference or system preference
-      if (isManualOverride.value) {
-        isDark.value = storedTheme === "dark";
-      } else {
-        isDark.value = prefersDarkScheme.matches;
-      }
+      // Always start with system preference
+      isDark.value = prefersDarkScheme.matches;
+      isManualOverride.value = false;
 
       applyTheme();
       startListening();
@@ -65,12 +59,7 @@ export const useTheme = () => {
 
     isDark.value = newTheme === "dark";
     isManualOverride.value = true;
-
     applyTheme();
-
-    if (process.client) {
-      localStorage.setItem("theme", newTheme);
-    }
   };
 
   const startListening = () => {

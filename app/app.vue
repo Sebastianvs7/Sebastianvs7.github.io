@@ -17,12 +17,9 @@
 <script setup>
 // Global head configuration
 const { locale } = useI18n();
-const { initializeTheme } = useTheme();
 
-// Initialize theme on app start
-onMounted(() => {
-  initializeTheme();
-});
+const isLoading = ref(true);
+const showLoadingScreen = ref(true);
 
 useHead({
   title: "Portfolio - Sebastian Šanda",
@@ -30,9 +27,6 @@ useHead({
     lang: computed(() => locale.value),
   },
 });
-
-const isLoading = ref(true);
-const showLoadingScreen = ref(true);
 
 // Hide loading screen after page load
 onMounted(() => {
