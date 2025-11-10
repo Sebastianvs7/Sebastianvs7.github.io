@@ -16,7 +16,7 @@
       <NuxtLink v-if="!isProjectsPage" to="#contact">{{
         $t("navigation.contact")
       }}</NuxtLink>
-      <NuxtLink v-if="isProjectsPage" to="/">
+      <NuxtLink v-if="isProjectsPage" :to="homePath">
         {{ $t("navigation.home") }}</NuxtLink
       >
       <button
@@ -70,7 +70,9 @@
       <NuxtLink v-if="!isProjectsPage" to="#contact">{{
         $t("navigation.contact")
       }}</NuxtLink>
-      <NuxtLink v-if="isProjectsPage" to="/">Home</NuxtLink>
+      <NuxtLink v-if="isProjectsPage" :to="homePath">
+        {{ $t("navigation.home") }}</NuxtLink
+      >
       <button
         @click="toggleTheme"
         :aria-label="getThemeLabel"
@@ -106,6 +108,10 @@ const switchLocalePath = useSwitchLocalePath();
 const isMobileMenuOpen = ref(false);
 
 const currentLang = computed(() => locale.value);
+
+const homePath = computed(() => {
+  return locale.value === "en" ? "/en" : "/";
+});
 
 const isProjectsPage = computed(
   () => route.path.includes("/projects/") || route.path.includes("/projekty/")
