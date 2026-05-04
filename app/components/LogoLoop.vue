@@ -349,19 +349,15 @@ watch(
   () => {
     updateDimensions();
     setupImageLoader();
-  }
+  },
 );
 
-watch(
-  [targetVelocity, seqWidth, isHovered, () => props.pauseOnHover],
-  () => {
-    if (seqWidth.value > 0) {
-      stopAnimation();
-      startAnimation();
-    }
-  },
-  { immediate: true }
-);
+watch(seqWidth, () => {
+  if (seqWidth.value > 0) {
+    stopAnimation();
+    startAnimation();
+  }
+});
 
 onMounted(() => {
   cleanupResizeObserver = setupResizeObserver();
@@ -388,7 +384,7 @@ ul {
 
   --logoloop-gap: 60px;
   --logoloop-logoHeight: 40px;
-  --logoloop-logoWidth: none;
+  --logoloop-logoWidth: auto;
   --logoloop-fadeColorAuto: var(--color-bg-light, #f5f0e6);
 }
 
@@ -422,7 +418,7 @@ body.dark-mode .logoloop {
   align-items: center;
   justify-content: center;
   height: var(--logoloop-logoHeight);
-  max-width: var(--logoloop-logoWidth, var(--logoloop-logoHeight));
+  max-width: var(--logoloop-logoWidth);
 }
 
 .logoloop__item:last-child {
@@ -433,10 +429,15 @@ body.dark-mode .logoloop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: var(--logoloop-logoHeight);
+  transform: translateZ(0) scale(1);
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .logoloop__item img {
   width: 100%;
+  // max-width: 100%;
   height: var(--logoloop-logoHeight);
   display: block;
   object-fit: contain;
@@ -444,6 +445,9 @@ body.dark-mode .logoloop {
   image-rendering: -webkit-optimize-contrast;
   -webkit-user-drag: none;
   pointer-events: none;
+  transform: translateZ(0) scale(1);
+  transform-origin: center center;
+  will-change: transform;
   transition:
     transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     filter 0.3s ease;
@@ -464,8 +468,7 @@ body.dark-mode .logoloop__item img {
 
 .logoloop--scale-hover .logoloop__item:hover img,
 .logoloop--scale-hover .logoloop__item:hover .logoloop__node {
-  transform: scale(1.2);
-  transform-origin: center center;
+  transform: translateZ(0) scale(1.2);
 }
 
 .logoloop--scale-hover .logoloop__node {
@@ -475,6 +478,9 @@ body.dark-mode .logoloop__item img {
 .logoloop__link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   text-decoration: none;
   border-radius: 4px;
   transition: opacity 0.2s ease;
