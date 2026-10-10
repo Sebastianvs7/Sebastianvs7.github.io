@@ -117,8 +117,16 @@ export const useMagicBento = (options = {}) => {
     cardRef.value.style.setProperty("--glow-y", `${relativeY}%`);
   };
 
+  // Effects need a hovering pointer and are skipped for users preferring reduced motion
+  const shouldAnimate = () =>
+    !disableAnimations &&
+    window.matchMedia("(hover: hover)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let removeListeners;
+
   onMounted(() => {
-    if (disableAnimations || !cardRef.value) return;
+    if (!cardRef.value || !shouldAnimate()) return;
     const element = cardRef.value;
 
     const handleMouseEnter = () => {
@@ -241,17 +249,17 @@ export const useMagicBento = (options = {}) => {
     element.addEventListener("mousemove", handleMouseMove);
     element.addEventListener("click", handleClick);
 
-    return () => {
-      isHoveredRef.value = false;
+    removeListeners = () => {
       element.removeEventListener("mouseenter", handleMouseEnter);
       element.removeEventListener("mouseleave", handleMouseLeave);
       element.removeEventListener("mousemove", handleMouseMove);
       element.removeEventListener("click", handleClick);
-      clearAllParticles();
     };
   });
 
   onBeforeUnmount(() => {
+    isHoveredRef.value = false;
+    removeListeners?.();
     clearAllParticles();
   });
 
