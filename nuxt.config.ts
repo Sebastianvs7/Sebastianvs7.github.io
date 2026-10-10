@@ -27,6 +27,8 @@ function getProjectRoutes(): string[] {
   return routes;
 }
 
+const SITE_URL = "https://www.sebastiansanda.cz";
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
 
@@ -74,9 +76,10 @@ export default defineNuxtConfig({
 
   // i18n configuration
   i18n: {
+    baseUrl: SITE_URL,
     locales: [
-      { code: "en", name: "English", file: "en.json" },
-      { code: "cs", name: "Čeština", file: "cs.json" },
+      { code: "en", language: "en-US", name: "English", file: "en.json" },
+      { code: "cs", language: "cs-CZ", name: "Čeština", file: "cs.json" },
     ],
     defaultLocale: "cs",
     strategy: "prefix_except_default",
@@ -102,15 +105,9 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
-      title: "Developer Portfolio - Sebastian Šanda",
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        {
-          name: "description",
-          content:
-            "Portfolio of Sebastian Šanda - Web Developer specializing in modern, scalable web applications.",
-        },
         { name: "author", content: "Sebastian Šanda" },
       ],
       link: [{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
@@ -120,7 +117,7 @@ export default defineNuxtConfig({
   // Runtime config
   runtimeConfig: {
     public: {
-      siteUrl: "https://www.sebastiansanda.cz",
+      siteUrl: SITE_URL,
     },
   },
 });

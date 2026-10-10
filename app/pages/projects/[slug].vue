@@ -56,18 +56,10 @@ if (!project.value) {
   });
 }
 
-// Meta tags for SEO
-useHead(() => ({
-  title: `${project.value.title} - Sebastian Sanda`,
-  meta: [
-    {
-      name: "description",
-      content: project.value.description,
-    },
-    {
-      name: "author",
-      content: "Sebastian Sanda",
-    },
-  ],
-}));
+useSeoMeta({
+  title: () => project.value.title,
+  description: () => project.value.description,
+  ogTitle: () => `${project.value.title} | Sebastian Šanda`,
+  ogDescription: () => project.value.description,
+});
 </script>

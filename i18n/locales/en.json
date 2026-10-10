@@ -54,5 +54,9 @@
   "common": {
     "error": "Error",
     "backToProjects": "Back to projects"
+  },
+  "seo": {
+    "tagline": "Full-Stack Developer",
+    "description": "Portfolio of Sebastian Šanda – full-stack and frontend developer focused on React, Next.js and modern, scalable web applications."
   }
 }

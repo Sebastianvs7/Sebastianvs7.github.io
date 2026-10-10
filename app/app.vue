@@ -3,23 +3,40 @@
 </template>
 
 <script setup>
-// Global head configuration
-const { locale } = useI18n();
-
+const { t } = useI18n();
+const route = useRoute();
 const colorMode = useColorMode();
+const { siteUrl } = useRuntimeConfig().public;
+
+// lang attribute, canonical, hreflang alternates and og:locale
+const i18nHead = useLocaleHead({ seo: true });
+
+const defaultTitle = computed(() => `Sebastian Šanda – ${t("seo.tagline")}`);
 
 useHead({
-  title: "Portfolio - Sebastian Šanda",
   htmlAttrs: {
-    lang: computed(() => locale.value),
+    lang: computed(() => i18nHead.value.htmlAttrs.lang),
   },
-  meta: [
+  titleTemplate: (title) =>
+    title ? `${title} | Sebastian Šanda` : defaultTitle.value,
+  link: computed(() => i18nHead.value.link),
+  meta: computed(() => [
+    ...i18nHead.value.meta,
     {
       name: "theme-color",
-      content: computed(() =>
-        colorMode.value === "dark" ? "#1e1e1e" : "#f5f0e6"
-      ),
+      content: colorMode.value === "dark" ? "#1e1e1e" : "#f5f0e6",
     },
-  ],
+  ]),
+});
+
+useSeoMeta({
+  description: () => t("seo.description"),
+  ogType: "website",
+  ogSiteName: "Sebastian Šanda",
+  ogTitle: defaultTitle,
+  ogDescription: () => t("seo.description"),
+  ogUrl: () => `${siteUrl}${route.path}`,
+  ogImage: `${siteUrl}/images/profile-440.webp`,
+  twitterCard: "summary",
 });
 </script>

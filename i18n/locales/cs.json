@@ -54,5 +54,9 @@
   "common": {
     "error": "Chyba",
     "backToProjects": "Zpět na projekty"
+  },
+  "seo": {
+    "tagline": "Full-Stack vývojář",
+    "description": "Portfolio Sebastiana Šandy – full-stack a frontend vývojáře se zaměřením na React, Next.js a moderní škálovatelné webové aplikace."
   }
 }
