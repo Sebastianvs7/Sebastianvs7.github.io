@@ -44,5 +44,11 @@
   "error": {
     "notFound": "Oops! Looks like this page ran away to grab coffee ☕️",
     "goHome": "Go back home"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "projectNotFound": "Project not found",
+    "backToProjects": "Back to projects"
   }
 }
