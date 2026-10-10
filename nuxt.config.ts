@@ -1,30 +1,13 @@
-// Helper function to generate project routes for static export
+import { readdirSync } from "node:fs";
+
+// Prerender every project in both locales; some are only reachable via "show more"
 function getProjectRoutes(): string[] {
-  // List of all project IDs (update this when adding new projects)
-  const projectIds = [
-    "koh-i-noor",
-    "zoeto",
-    "furnatura",
-    "shop8-cms",
-    "mobile-phone-museum",
-    "mcled",
-    "kristian",
-    "nograys",
-  ];
+  const projectsDir = new URL("./content/cs/projects", import.meta.url);
+  const slugs = readdirSync(projectsDir).map((file) =>
+    file.replace(/\.md$/, "")
+  );
 
-  const routes: string[] = [];
-
-  // Generate routes for Czech (default locale - no prefix)
-  projectIds.forEach((projectId) => {
-    routes.push(`/projekty/${projectId}`);
-  });
-
-  // Generate routes for English (with prefix)
-  projectIds.forEach((projectId) => {
-    routes.push(`/en/projects/${projectId}`);
-  });
-
-  return routes;
+  return slugs.flatMap((slug) => [`/projekty/${slug}`, `/en/projects/${slug}`]);
 }
 
 const SITE_URL = "https://www.sebastiansanda.cz";
