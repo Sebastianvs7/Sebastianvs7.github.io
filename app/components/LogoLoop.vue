@@ -393,7 +393,7 @@ ul {
   padding-bottom: calc(var(--logoloop-logoHeight) * 0.1);
 }
 
-body.dark-mode .logoloop {
+.dark .logoloop {
   --logoloop-fadeColorAuto: var(--color-bg-dark, #1e1e1e);
 }
 
@@ -457,7 +457,7 @@ body.dark-mode .logoloop {
     hue-rotate(352deg) brightness(80%) contrast(95%);
 }
 
-body.dark-mode .logoloop__item img {
+.dark .logoloop__item img {
   // White on dark theme
   filter: brightness(0) invert(1);
 }

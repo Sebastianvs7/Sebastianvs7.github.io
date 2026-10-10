@@ -21,10 +21,12 @@
       >
       <button
         @click="toggleTheme"
-        :aria-label="getThemeLabel"
+        aria-label="Toggle dark mode"
         id="theme-toggle"
+        class="theme-toggle"
       >
-        {{ getThemeIcon }}
+        <span class="theme-icon-light" aria-hidden="true">🌙</span>
+        <span class="theme-icon-dark" aria-hidden="true">☀️</span>
       </button>
       <button
         @click="toggleLanguage"
@@ -75,10 +77,12 @@
       >
       <button
         @click="toggleTheme"
-        :aria-label="getThemeLabel"
+        aria-label="Toggle dark mode"
         id="theme-toggle-mobile"
+        class="theme-toggle"
       >
-        {{ getThemeIcon }}
+        <span class="theme-icon-light" aria-hidden="true">🌙</span>
+        <span class="theme-icon-dark" aria-hidden="true">☀️</span>
       </button>
       <button
         @click="toggleLanguage"
@@ -96,13 +100,11 @@ import "./header.scss";
 
 const route = useRoute();
 const { locale, setLocale } = useI18n();
-const { toggleTheme, getThemeIcon, getThemeLabel, initializeTheme } =
-  useTheme();
+const colorMode = useColorMode();
 
-// Initialize theme on app start
-onMounted(() => {
-  initializeTheme();
-});
+const toggleTheme = () => {
+  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
+};
 
 const switchLocalePath = useSwitchLocalePath();
 const isMobileMenuOpen = ref(false);

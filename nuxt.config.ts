@@ -51,7 +51,14 @@ export default defineNuxtConfig({
   },
 
   // Modules
-  modules: ["@nuxtjs/i18n", "@nuxt/content", "nuxt-icons"],
+  modules: ["@nuxtjs/i18n", "@nuxt/content", "@nuxtjs/color-mode", "nuxt-icons"],
+
+  // Color mode: adds `dark` / `light` class on <html> before hydration
+  colorMode: {
+    classSuffix: "",
+    fallback: "light",
+    storageKey: "color-mode",
+  },
 
   // i18n configuration
   i18n: {
@@ -93,7 +100,6 @@ export default defineNuxtConfig({
             "Portfolio of Sebastian Šanda - Web Developer specializing in modern, scalable web applications.",
         },
         { name: "author", content: "Sebastian Šanda" },
-        { name: "theme-color", content: "#f5f0e6" },
       ],
       link: [
         { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },

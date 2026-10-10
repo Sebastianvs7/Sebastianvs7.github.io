@@ -21,11 +21,21 @@ const { locale } = useI18n();
 const isLoading = ref(true);
 const showLoadingScreen = ref(true);
 
+const colorMode = useColorMode();
+
 useHead({
   title: "Portfolio - Sebastian Šanda",
   htmlAttrs: {
     lang: computed(() => locale.value),
   },
+  meta: [
+    {
+      name: "theme-color",
+      content: computed(() =>
+        colorMode.value === "dark" ? "#1e1e1e" : "#f5f0e6"
+      ),
+    },
+  ],
 });
 
 // Hide loading screen after page load

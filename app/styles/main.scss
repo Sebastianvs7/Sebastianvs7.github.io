@@ -30,7 +30,7 @@ body {
   margin: 0;
   overflow-x: hidden; /* Prevent horizontal scrollbar */
 
-  &.dark-mode {
+  .dark & {
     background-color: var(--color-bg-dark);
     color: var(--color-text-dark);
   }
@@ -138,13 +138,13 @@ footer {
     color 0.3s ease;
   user-select: none;
 }
-body.dark-mode footer {
+.dark footer {
   background-color: var(--color-bg-dark);
   border-color: #444;
   color: #999;
 }
 
-body.dark-mode {
+.dark {
   h2 {
     border-color: var(--color-accent-dark);
     color: var(--color-text-dark);
@@ -213,7 +213,7 @@ body.dark-mode {
   }
 }
 
-body.dark-mode #loading-screen {
+.dark #loading-screen {
   background: var(--color-bg-dark);
 
   .spinner-ring {

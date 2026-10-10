@@ -16,7 +16,7 @@ header {
   width: 100%;
   z-index: 1100;
 }
-body.dark-mode header {
+.dark header {
   background: rgba(30, 30, 30, 0.85);
   border-color: #444;
 }
@@ -30,7 +30,7 @@ body.dark-mode header {
   font-weight: 700;
   user-select: none;
 }
-body.dark-mode .logo {
+.dark .logo {
   color: var(--color-accent-dark);
 }
 
@@ -71,19 +71,19 @@ nav a:focus::after {
   width: 100%;
 }
 
-body.dark-mode nav a::after {
+.dark nav a::after {
   background-color: var(--color-accent-dark);
 }
-body.dark-mode nav a {
+.dark nav a {
   color: var(--color-text-dark);
 }
-body.dark-mode nav a:hover,
-body.dark-mode nav a:focus {
+.dark nav a:hover,
+.dark nav a:focus {
   color: var(--color-accent-dark);
 }
 
 /* Theme toggle button */
-button[aria-label*="Switch to"] {
+.theme-toggle {
   background: none;
   border: none;
   border-radius: 5px;
@@ -95,6 +95,14 @@ button[aria-label*="Switch to"] {
     background-color 0.3s ease,
     color 0.3s ease;
   user-select: none;
+}
+
+.theme-icon-dark,
+.dark .theme-icon-light {
+  display: none;
+}
+.dark .theme-icon-dark {
+  display: inline;
 }
 
 /* Language toggle button */
@@ -133,28 +141,28 @@ button[aria-label*="Switch to"] {
   color: var(--color-bg-light);
   outline: none;
 }
-body.dark-mode #lang-toggle:hover,
-body.dark-mode #lang-toggle:focus,
-body.dark-mode #lang-toggle-mobile:hover,
-body.dark-mode #lang-toggle-mobile:focus {
+.dark #lang-toggle:hover,
+.dark #lang-toggle:focus,
+.dark #lang-toggle-mobile:hover,
+.dark #lang-toggle-mobile:focus {
   background-color: var(--color-accent-dark);
   color: var(--color-bg-dark);
 }
 
-body.dark-mode #lang-toggle {
+.dark #lang-toggle {
   color: var(--color-text-dark);
 }
 
 /* Theme toggle button hover effects */
-button[aria-label*="Switch to"]:hover,
-button[aria-label*="Switch to"]:focus {
+.theme-toggle:hover,
+.theme-toggle:focus {
   background-color: var(--color-accent);
   color: var(--color-bg-light);
   outline: none;
 }
 
-body.dark-mode button[aria-label*="Switch to"]:hover,
-body.dark-mode button[aria-label*="Switch to"]:focus {
+.dark .theme-toggle:hover,
+.dark .theme-toggle:focus {
   background-color: var(--color-accent-dark);
   color: var(--color-bg-dark);
 }
@@ -189,7 +197,7 @@ body.dark-mode button[aria-label*="Switch to"]:focus {
   transition: all 0.3s linear;
   width: 24px;
 }
-body.dark-mode #menu-toggle div {
+.dark #menu-toggle div {
   background: var(--color-accent-dark);
 }
 #menu-toggle.open div:nth-child(1) {
@@ -230,7 +238,7 @@ nav.mobile-menu {
     display: none !important;
   }
 }
-body.dark-mode nav.mobile-menu {
+.dark nav.mobile-menu {
   background-color: var(--color-bg-dark);
   border-color: #444;
 }

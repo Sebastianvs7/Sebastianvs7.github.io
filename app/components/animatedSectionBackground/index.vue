@@ -8,7 +8,8 @@
 import "./styles.scss";
 import { gsap } from "gsap";
 
-const { isDark } = useTheme();
+const colorMode = useColorMode();
+const isDark = computed(() => colorMode.value === "dark");
 
 // Animation elements and state
 let hero, boxes, cursor, isIdle, idleTimer, isMouseMoving, lastMouseMoveTime;
