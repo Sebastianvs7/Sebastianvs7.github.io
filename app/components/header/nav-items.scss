@@ -1,0 +1,119 @@
+/* Navigation links */
+nav a {
+  font-size: 1rem;
+  // margin-left: 1.5rem;
+  font-weight: 600;
+  padding-bottom: 2px;
+  position: relative;
+
+  &:not(:first-child, :last-child) {
+    margin-left: 1.5rem;
+  }
+}
+nav a::after {
+  background-color: var(--color-accent);
+  bottom: 0;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  transition: width 0.3s ease;
+  width: 0;
+}
+nav a:hover::after,
+nav a:focus::after {
+  width: 100%;
+}
+
+.dark nav a::after {
+  background-color: var(--color-accent-dark);
+}
+.dark nav a {
+  color: var(--color-text-dark);
+}
+.dark nav a:hover,
+.dark nav a:focus {
+  color: var(--color-accent-dark);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  user-select: none;
+}
+
+.theme-icon-dark,
+.dark .theme-icon-light {
+  display: none;
+}
+.dark .theme-icon-dark {
+  display: inline;
+}
+
+/* Language toggle button */
+.lang-toggle {
+  background: none;
+  border: none;
+  border-radius: 5px;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  user-select: none;
+}
+.theme-toggle {
+  margin-left: auto;
+  margin-top: -0.2rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+  }
+}
+.lang-toggle:hover,
+.lang-toggle:focus {
+  background-color: var(--color-accent);
+  color: var(--color-bg-light);
+}
+.dark .lang-toggle:hover,
+.dark .lang-toggle:focus {
+  background-color: var(--color-accent-dark);
+  color: var(--color-bg-dark);
+}
+
+.dark .lang-toggle {
+  color: var(--color-text-dark);
+}
+
+/* Theme toggle button hover effects */
+.theme-toggle:hover,
+.theme-toggle:focus {
+  background-color: var(--color-accent);
+  color: var(--color-bg-light);
+}
+
+.dark .theme-toggle:hover,
+.dark .theme-toggle:focus {
+  background-color: var(--color-accent-dark);
+  color: var(--color-bg-dark);
+}
+
+nav.mobile-menu a {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+}

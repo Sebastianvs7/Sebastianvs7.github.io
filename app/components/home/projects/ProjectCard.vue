@@ -159,3 +159,5 @@ const { cardRef } = useMagicBento({
   disableAnimations: false,
 });
 </script>
+
+<style scoped lang="scss" src="./project-card.scss"></style>

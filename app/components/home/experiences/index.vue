@@ -57,8 +57,6 @@
 </template>
 
 <script setup>
-import "./experiences.scss";
-
 const { experiencesData } = useExperiencesData();
 const { locale } = useI18n();
 
@@ -70,3 +68,5 @@ const getRoleDescription = (experience) => {
   return experience.description[locale.value] || experience.description.en;
 };
 </script>
+
+<style scoped lang="scss" src="./experiences.scss"></style>

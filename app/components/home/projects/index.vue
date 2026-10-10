@@ -41,8 +41,6 @@
 </template>
 
 <script setup>
-import "./projects.scss";
-
 const { projectsData } = await useProjectsData();
 const localePath = useLocalePath();
 const showAllProjects = ref(false);
@@ -146,3 +144,5 @@ const handleShowMoreToggle = () => {
   }
 };
 </script>
+
+<style scoped lang="scss" src="./projects.scss"></style>

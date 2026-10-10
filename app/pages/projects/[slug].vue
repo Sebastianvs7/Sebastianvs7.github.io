@@ -31,8 +31,6 @@
 </template>
 
 <script setup>
-import "./projects.scss";
-
 const route = useRoute();
 const { locale } = useI18n();
 const localePath = useLocalePath();
@@ -63,3 +61,5 @@ useSeoMeta({
   ogDescription: () => project.value.description,
 });
 </script>
+
+<style scoped lang="scss" src="./projects.scss"></style>

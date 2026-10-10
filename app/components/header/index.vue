@@ -31,8 +31,6 @@
 </template>
 
 <script setup>
-import "./header.scss";
-
 const isMobileMenuOpen = ref(false);
 
 const toggleMobileMenu = () => {
@@ -43,3 +41,5 @@ const closeMobileMenu = () => {
   isMobileMenuOpen.value = false;
 };
 </script>
+
+<style scoped lang="scss" src="./header.scss"></style>

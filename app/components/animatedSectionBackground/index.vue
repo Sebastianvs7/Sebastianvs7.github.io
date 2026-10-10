@@ -5,7 +5,6 @@
 </template>
 
 <script setup>
-import "./styles.scss";
 import { gsap } from "gsap";
 
 const colorMode = useColorMode();
@@ -630,3 +629,5 @@ function handleClick(e) {
   } */
 }
 </script>
+
+<style scoped lang="scss" src="./styles.scss"></style>

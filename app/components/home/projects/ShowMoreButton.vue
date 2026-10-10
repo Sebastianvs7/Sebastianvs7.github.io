@@ -25,3 +25,5 @@ const handleToggle = () => {
   emit("toggle");
 };
 </script>
+
+<style scoped lang="scss" src="./show-more-button.scss"></style>

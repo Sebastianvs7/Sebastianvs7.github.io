@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
-import "./contact.scss";
 const data = useData();
 </script>
+
+<style scoped lang="scss" src="./contact.scss"></style>

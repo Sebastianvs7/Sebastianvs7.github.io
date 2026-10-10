@@ -50,6 +50,4 @@
   </section>
 </template>
 
-<script setup>
-import "./intro.scss";
-</script>
+<style scoped lang="scss" src="./intro.scss"></style>

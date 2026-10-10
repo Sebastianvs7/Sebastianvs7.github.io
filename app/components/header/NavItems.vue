@@ -70,3 +70,5 @@ const switchLanguage = () => {
   }
 };
 </script>
+
+<style scoped lang="scss" src="./nav-items.scss"></style>
