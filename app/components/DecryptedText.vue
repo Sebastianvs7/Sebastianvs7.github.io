@@ -82,10 +82,22 @@ const decryptText = () => {
   }, props.duration / ITERATIONS);
 };
 
-onMounted(decryptText);
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const revealText = () => {
+  if (prefersReducedMotion()) {
+    displayText.value = props.text;
+    return;
+  }
+
+  decryptText();
+};
+
+onMounted(revealText);
 onBeforeUnmount(() => clearInterval(decryptInterval));
 
-watch(() => props.text, decryptText);
+watch(() => props.text, revealText);
 </script>
 
 <style scoped lang="scss">

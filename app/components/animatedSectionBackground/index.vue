@@ -40,6 +40,11 @@ onMounted(() => {
   // Wait a bit for DOM to be fully ready
   setTimeout(() => {
     initializeAnimation();
+
+    // Keep only the static grid for users preferring reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    setupInteraction();
     setupTimelines();
     setupIntersectionObserver();
     setupPageVisibilityListener();
@@ -168,8 +173,11 @@ function initializeAnimation() {
   // hero.appendChild(counterElement);
 
   // Animations will be started by timelines
+}
 
-  // Event listeners
+function setupInteraction() {
+  if (!hero) return;
+
   window.addEventListener("mousemove", handleMouseMove);
   hero.addEventListener("click", handleClick);
 }
