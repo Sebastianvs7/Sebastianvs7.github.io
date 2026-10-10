@@ -25,15 +25,13 @@ nav a:focus::after {
   width: 100%;
 }
 
-.dark nav a::after {
-  background-color: var(--color-accent-dark);
-}
+// Links use the text color in the dark theme
 .dark nav a {
-  color: var(--color-text-dark);
+  color: var(--color-text);
 }
 .dark nav a:hover,
 .dark nav a:focus {
-  color: var(--color-accent-dark);
+  color: var(--color-accent);
 }
 
 /* Theme toggle button */
@@ -85,32 +83,22 @@ nav a:focus::after {
     margin-top: 0;
   }
 }
-.lang-toggle:hover,
-.lang-toggle:focus {
-  background-color: var(--color-accent);
-  color: var(--color-bg-light);
+.dark .lang-toggle {
+  color: var(--color-text);
 }
+.lang-toggle:hover,
+.lang-toggle:focus,
 .dark .lang-toggle:hover,
 .dark .lang-toggle:focus {
-  background-color: var(--color-accent-dark);
-  color: var(--color-bg-dark);
-}
-
-.dark .lang-toggle {
-  color: var(--color-text-dark);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
 }
 
 /* Theme toggle button hover effects */
 .theme-toggle:hover,
 .theme-toggle:focus {
   background-color: var(--color-accent);
-  color: var(--color-bg-light);
-}
-
-.dark .theme-toggle:hover,
-.dark .theme-toggle:focus {
-  background-color: var(--color-accent-dark);
-  color: var(--color-bg-dark);
+  color: var(--color-bg);
 }
 
 nav.mobile-menu a {

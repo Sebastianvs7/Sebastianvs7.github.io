@@ -31,8 +31,8 @@ useHead({
 <style scoped>
 .error-page {
   font-family: "Inter", sans-serif;
-  background-color: #f5f0e6;
-  color: #7a6853;
+  background-color: var(--color-bg);
+  color: var(--color-accent);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,16 +55,16 @@ p {
 
 .home-link {
   font-weight: 600;
-  color: #000;
+  color: var(--color-text);
   text-decoration: none;
-  border: 2px solid #7a6853;
+  border: 2px solid var(--color-accent);
   padding: 0.5rem 1rem;
   border-radius: 4px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .home-link:hover {
-  background-color: #7a6853;
-  color: #f5f0e6;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
 }
 </style>

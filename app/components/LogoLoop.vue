@@ -385,16 +385,12 @@ ul {
   --logoloop-gap: 60px;
   --logoloop-logoHeight: 40px;
   --logoloop-logoWidth: auto;
-  --logoloop-fadeColorAuto: var(--color-bg-light, #f5f0e6);
+  --logoloop-fadeColorAuto: var(--color-bg);
 }
 
 .logoloop--scale-hover {
   padding-top: calc(var(--logoloop-logoHeight) * 0.1);
   padding-bottom: calc(var(--logoloop-logoHeight) * 0.1);
-}
-
-.dark .logoloop {
-  --logoloop-fadeColorAuto: var(--color-bg-dark, #1e1e1e);
 }
 
 .logoloop__track {

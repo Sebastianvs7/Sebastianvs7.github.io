@@ -56,7 +56,7 @@
     }
 
     img {
-      background-color: #f5f5f5;
+      background-color: var(--color-surface);
       border-radius: 50%;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
       height: 220px;
@@ -101,7 +101,7 @@
     .circle {
       animation-duration: 4.5s;
       animation-name: bounceColorRotate;
-      border: 3px solid #7a6853;
+      border: 3px solid var(--palette-brown);
       border-radius: 50%;
     }
 
@@ -109,7 +109,7 @@
     .square {
       animation-duration: 5s;
       animation-name: bounceFillRotate;
-      background-color: #7a6853;
+      background-color: var(--palette-brown);
     }
 
     /* Triangle */
@@ -120,7 +120,7 @@
       animation-iteration-count: infinite;
       animation-name: bounceRotate;
       animation-timing-function: ease-in-out;
-      border-bottom: 50px solid #7a6853;
+      border-bottom: 50px solid var(--palette-brown);
       border-left: 25px solid transparent;
       border-right: 25px solid transparent;
       height: 0;
@@ -167,10 +167,10 @@
 
   &.cta-email {
     background: var(--color-accent);
-    color: white;
+    color: var(--color-on-accent);
 
     &:hover {
-      background: #6b5a47;
+      background: var(--color-accent-hover);
       transform: translateY(-2px);
     }
   }
@@ -182,42 +182,8 @@
 
     &:hover {
       background: var(--color-accent);
-      color: white;
+      color: var(--color-on-accent);
       transform: translateY(-2px);
-    }
-  }
-}
-
-.dark .intro-text {
-  .intro-subtitle {
-    color: var(--color-accent-dark);
-  }
-
-  h3 {
-    color: var(--color-accent-dark);
-  }
-
-  p {
-    color: var(--color-accent-dark);
-  }
-
-  .cta-button {
-    &.cta-email {
-      background: var(--color-accent-dark);
-
-      &:hover {
-        background: #d4c9b3;
-      }
-    }
-
-    &.cta-linkedin {
-      border-color: var(--color-accent-dark);
-      color: var(--color-accent-dark);
-
-      &:hover {
-        background: var(--color-accent-dark);
-        color: var(--color-bg-dark);
-      }
     }
   }
 }
@@ -237,30 +203,30 @@
 
 @keyframes bounceFillRotate {
   0% {
-    background-color: #7a6853;
+    background-color: var(--palette-brown);
     transform: translateY(0) rotate(0deg);
   }
   50% {
-    background-color: #bfa46f;
+    background-color: var(--palette-gold);
     transform: translateY(-30px) rotate(-15deg);
   }
   100% {
-    background-color: #7a6853;
+    background-color: var(--palette-brown);
     transform: translateY(0) rotate(0deg);
   }
 }
 
 @keyframes bounceColorRotate {
   0% {
-    border-color: #7a6853;
+    border-color: var(--palette-brown);
     transform: translateY(0) rotate(0deg);
   }
   50% {
-    border-color: #bfa46f;
+    border-color: var(--palette-gold);
     transform: translateY(-30px) rotate(15deg);
   }
   100% {
-    border-color: #7a6853;
+    border-color: var(--palette-brown);
     transform: translateY(0) rotate(0deg);
   }
 }
