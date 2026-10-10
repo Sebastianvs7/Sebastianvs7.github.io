@@ -42,6 +42,7 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@nuxt/fonts",
     "@nuxtjs/sitemap",
+    "@nuxt/eslint",
     "nuxt-icons",
   ],
 

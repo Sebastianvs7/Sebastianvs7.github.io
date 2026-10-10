@@ -13,9 +13,9 @@
       aria-controls="mobile-menu"
       @click="toggleMobileMenu"
     >
-      <div></div>
-      <div></div>
-      <div></div>
+      <div />
+      <div />
+      <div />
     </button>
 
     <nav

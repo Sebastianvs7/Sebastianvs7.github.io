@@ -13,7 +13,7 @@
           height="200"
           loading="lazy"
         />
-        <div class="image-gradient-overlay"></div>
+        <div class="image-gradient-overlay" />
       </div>
       <div class="project-content">
         <h3>{{ project.title }}</h3>
@@ -128,7 +128,7 @@
 <script setup>
 const localePath = useLocalePath();
 
-const props = defineProps({
+defineProps({
   project: {
     type: Object,
     required: true,
@@ -147,7 +147,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["toggleDescription"]);
+defineEmits(["toggleDescription"]);
 
 // Magic Bento effect
 const { cardRef } = useMagicBento({

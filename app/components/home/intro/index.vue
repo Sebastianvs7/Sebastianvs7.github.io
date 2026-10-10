@@ -30,9 +30,9 @@
         </div>
 
         <div id="fun-shapes">
-          <div class="shape circle"></div>
-          <div class="shape square"></div>
-          <div class="shape triangle"></div>
+          <div class="shape circle" />
+          <div class="shape square" />
+          <div class="shape triangle" />
         </div>
       </div>
     </div>

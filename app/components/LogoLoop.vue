@@ -12,10 +12,10 @@
       <ul
         v-for="(_, copyIndex) in Array.from({ length: copyCount })"
         :key="`copy-${copyIndex}`"
+        :ref="copyIndex === 0 ? (el) => (seqRef = el) : undefined"
         class="logoloop__list"
         role="list"
         :aria-hidden="copyIndex > 0"
-        :ref="copyIndex === 0 ? (el) => (seqRef = el) : undefined"
       >
         <li
           v-for="(item, itemIndex) in props.logos"
@@ -151,7 +151,6 @@ const offsetRef = ref(0);
 const velocityRef = ref(0);
 const rafRef = ref(null);
 const lastTimestampRef = ref(null);
-const resizeObserverRef = ref(null);
 
 const toCssLength = (value) => {
   return typeof value === "number" ? `${value}px` : (value ?? undefined);
@@ -220,10 +219,6 @@ const updateDimensions = () => {
       ANIMATION_CONFIG.COPY_HEADROOM;
     copyCount.value = Math.max(ANIMATION_CONFIG.MIN_COPIES, copiesNeeded);
   }
-};
-
-const handleImageLoad = () => {
-  updateDimensions();
 };
 
 const setupImageLoader = () => {

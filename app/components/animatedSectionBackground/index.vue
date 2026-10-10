@@ -1,6 +1,6 @@
 <template>
   <div id="showAnimation">
-    <div class="hero" id="hero"></div>
+    <div id="hero" class="hero" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ let hero, boxes, cursor, isIdle, idleTimer, isMouseMoving, lastMouseMoveTime;
 let swirlAngle, highlight, highlight2;
 let highlightCol, highlightRow, direction, zig;
 let highlight2Col, highlight2Row, direction2, zig2;
-let crossElements, crossInterval;
+let crossElements;
 let intersectionObserver;
 
 // Click throttling
@@ -59,7 +59,6 @@ onUnmounted(() => {
   if (crossTimeline) crossTimeline.kill();
 
   // Cleanup intervals and observers
-  if (crossInterval) clearInterval(crossInterval);
   if (idleTimer) clearTimeout(idleTimer);
   if (intersectionObserver) intersectionObserver.disconnect();
 
@@ -69,7 +68,6 @@ onUnmounted(() => {
 });
 
 function initializeAnimation() {
-  const showAnimation = document.getElementById("showAnimation");
   hero = document.getElementById("hero");
   if (!hero) return;
 
@@ -222,7 +220,7 @@ function setupGridTimeline() {
 function animateGridFrame() {
   if (!isIdle) {
     swirlAngle += 0.03;
-    for (let { el, x, y, rotationOffset } of boxes) {
+    for (const { el, x, y, rotationOffset } of boxes) {
       const dx = cursor.x - (x + boxSize / 2);
       const dy = cursor.y - (y + boxSize / 2);
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -521,15 +519,12 @@ function handleClick(e) {
     : "elastic.out(1,0.3)"; // More elastic when stationary
   const forceMultiplier = wasMouseMoving ? 2 : 3; // Stronger force when stationary
 
-  let affectedElements = 0;
-
   boxes.forEach(({ el, x, y }) => {
     const dx = x + boxSize / 2 - clickX;
     const dy = y + boxSize / 2 - clickY;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
     if (dist < explosionRadius) {
-      affectedElements++;
       const angle = Math.atan2(dy, dx);
       const force = (explosionRadius - dist) * forceMultiplier; // Force varies based on movement
       const offsetX = Math.cos(angle) * force;
