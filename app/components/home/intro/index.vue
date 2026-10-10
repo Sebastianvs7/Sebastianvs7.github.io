@@ -38,7 +38,8 @@
     </div>
     <div class="intro-img" aria-label="Portrait of Sebastian Šanda" role="img">
       <img
-        src="/images/profile.webp"
+        src="/images/profile-220.webp"
+        srcset="/images/profile-220.webp 1x, /images/profile-440.webp 2x"
         alt="Sebastian Šanda"
         width="220"
         height="220"
