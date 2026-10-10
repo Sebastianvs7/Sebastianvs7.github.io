@@ -46,9 +46,7 @@
     "goHome": "Go back home"
   },
   "common": {
-    "loading": "Loading...",
     "error": "Error",
-    "projectNotFound": "Project not found",
     "backToProjects": "Back to projects"
   }
 }

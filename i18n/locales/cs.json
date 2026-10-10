@@ -46,9 +46,7 @@
     "goHome": "Zpět domů"
   },
   "common": {
-    "loading": "Načítání...",
     "error": "Chyba",
-    "projectNotFound": "Projekt nebyl nalezen",
     "backToProjects": "Zpět na projekty"
   }
 }

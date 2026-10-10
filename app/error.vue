@@ -1,18 +1,30 @@
 <template>
   <div class="error-page">
-    <h1>404</h1>
-    <p>{{ $t("error.notFound") }}</p>
-    <NuxtLink to="/" class="home-link">{{ $t("error.goHome") }}</NuxtLink>
+    <h1>{{ error.statusCode }}</h1>
+    <p>{{ message }}</p>
+    <NuxtLink :to="localePath('index')" class="home-link">
+      {{ $t("error.goHome") }}
+    </NuxtLink>
   </div>
 </template>
 
 <script setup>
-// Set the response code
-setResponseStatus(404);
+const props = defineProps({
+  error: {
+    type: Object,
+    required: true,
+  },
+});
 
-// Set page title
+const { t } = useI18n();
+const localePath = useLocalePath();
+
+const message = computed(() =>
+  props.error.statusCode === 404 ? t("error.notFound") : t("common.error")
+);
+
 useHead({
-  title: "404 - Page Not Found",
+  title: computed(() => `${props.error.statusCode} - ${message.value}`),
 });
 </script>
 
