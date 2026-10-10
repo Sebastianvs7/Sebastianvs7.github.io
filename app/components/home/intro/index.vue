@@ -1,7 +1,7 @@
 <template>
-  <section id="intro" tabindex="-1" aria-label="Introduction">
+  <section id="intro" tabindex="-1" aria-labelledby="intro-title">
     <div class="intro-text">
-      <h1>{{ $t("intro.name") }}</h1>
+      <h1 id="intro-title">{{ $t("intro.name") }}</h1>
       <h2 class="intro-subtitle">
         {{ $t("intro.subtitle1") }} | <span>{{ $t("intro.subtitle2") }}</span> |
         <span>{{ $t("intro.subtitle3") }}</span>
@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div class="intro-img" aria-label="Portrait of Sebastian Šanda" role="img">
+    <div class="intro-img">
       <img
         src="/images/profile-220.webp"
         srcset="/images/profile-220.webp 1x, /images/profile-440.webp 2x"

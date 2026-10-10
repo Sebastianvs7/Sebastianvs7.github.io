@@ -1,7 +1,7 @@
 <template>
-  <section id="projects" aria-label="Projects">
+  <section id="projects" tabindex="-1" aria-labelledby="projects-title">
     <div class="projects-header">
-      <h2>{{ $t("sections.projects") }}</h2>
+      <h2 id="projects-title">{{ $t("sections.projects") }}</h2>
     </div>
 
     <div class="projects-grid">
@@ -17,7 +17,7 @@
     </div>
 
     <div v-if="showAllProjects" class="projects-logo-loop">
-      <h3>Další projekty</h3>
+      <h3>{{ $t("projects.otherProjects") }}</h3>
       <LogoLoop
         :logos="logos"
         :speed="30"
@@ -28,7 +28,7 @@
         :pause-on-hover="true"
         :scale-on-hover="true"
         :fade-out="true"
-        aria-label="Technologies used in projects"
+        :aria-label="$t('projects.otherProjects')"
       />
     </div>
 

@@ -76,6 +76,7 @@
               :key="link.url"
               :href="link.url"
               target="_blank"
+              rel="noopener noreferrer"
               class="project-link"
             >
               <svg
@@ -99,6 +100,7 @@
             v-else-if="project.link"
             :href="project.link"
             target="_blank"
+            rel="noopener noreferrer"
             class="project-link"
           >
             <svg

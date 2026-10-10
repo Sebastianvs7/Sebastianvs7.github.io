@@ -1,7 +1,7 @@
 <template>
-  <section id="experiences" tabindex="-1" aria-label="Working Experiences">
+  <section id="experiences" tabindex="-1" aria-labelledby="experiences-title">
     <div class="experiences-header">
-      <h2>{{ $t("sections.experience") }}</h2>
+      <h2 id="experiences-title">{{ $t("sections.experience") }}</h2>
     </div>
 
     <div class="experiences-timeline">

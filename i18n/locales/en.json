@@ -37,7 +37,8 @@
     "viewProject": "View Project",
     "viewDetails": "View Details",
     "showMoreButton": "Show More Projects",
-    "showLessButton": "Show Less"
+    "showLessButton": "Show Less",
+    "otherProjects": "Other projects"
   },
   "about": {
     "content": "I am a Full-Stack developer specializing in React, Next.js, and WordPress. I enjoy working on modern websites and applications that combine clean design with functionality. With more than 8 years of development experience, I am continuously learning and exploring new technologies.\nIn my free time, I focus on photography, graphic design, and video production, and I also enjoy exploring game development in Roblox Studio with great enthusiasm."
