@@ -1,16 +1,27 @@
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
 
+// Frontmatter shared by Czech and English project pages
+const projectSchema = z.object({
+  image: z.string(),
+  position: z.number(),
+  type: z.string(),
+  link: z.string().optional(),
+  links: z.array(z.object({ url: z.string(), text: z.string() })).optional(),
+});
+
 export default defineContentConfig({
   collections: {
     // Czech projects
     projectsCs: defineCollection({
       type: "page",
       source: "cs/projects/*.md",
+      schema: projectSchema,
     }),
     // English projects
     projectsEn: defineCollection({
       type: "page",
       source: "en/projects/*.md",
+      schema: projectSchema,
     }),
     // Work experiences (one file per position, descriptions in both locales)
     experiences: defineCollection({
