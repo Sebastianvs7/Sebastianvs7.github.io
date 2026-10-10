@@ -9,6 +9,9 @@ header {
   justify-content: space-between;
   margin: 0 auto;
   max-width: 900px;
+  // backdrop-filter makes the header the containing block of the fixed mobile menu,
+  // so clip the closed (off-screen) menu instead of letting it widen the page
+  overflow-x: clip;
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
