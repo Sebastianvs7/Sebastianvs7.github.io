@@ -9,7 +9,6 @@
       <HomeProjects />
       <HomeExperiences />
       <HomeAbout />
-      <!-- <AppAnimatedSection /> -->
       <HomeContact />
     </main>
 
