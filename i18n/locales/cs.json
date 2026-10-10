@@ -5,7 +5,12 @@
     "experience": "Zkušenosti",
     "about": "O mně",
     "contact": "Kontakt",
-    "home": "Domů"
+    "home": "Domů",
+    "primaryLabel": "Hlavní navigace",
+    "mobileLabel": "Mobilní navigace",
+    "toggleMenu": "Otevřít nebo zavřít menu",
+    "toggleTheme": "Přepnout světlý nebo tmavý režim",
+    "switchLanguage": "Přepnout do angličtiny"
   },
   "sections": {
     "projects": "Projekty",

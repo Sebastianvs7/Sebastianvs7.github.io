@@ -5,7 +5,12 @@
     "experience": "Experience",
     "about": "About",
     "contact": "Contact",
-    "home": "Home"
+    "home": "Home",
+    "primaryLabel": "Primary navigation",
+    "mobileLabel": "Mobile navigation",
+    "toggleMenu": "Toggle menu",
+    "toggleTheme": "Toggle light or dark mode",
+    "switchLanguage": "Switch to Czech"
   },
   "sections": {
     "projects": "Projects",

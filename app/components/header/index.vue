@@ -1,46 +1,15 @@
 <template>
-  <header role="banner">
-    <nav class="desktop-menu" role="navigation" aria-label="Primary Navigation">
-      <NuxtLink v-if="!isProjectsPage" to="#intro">{{
-        $t("navigation.intro")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#projects">{{
-        $t("navigation.projects")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#experiences">{{
-        $t("navigation.experience")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#about">{{
-        $t("navigation.about")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#contact">{{
-        $t("navigation.contact")
-      }}</NuxtLink>
-      <NuxtLink v-if="isProjectsPage" :to="homePath">
-        {{ $t("navigation.home") }}</NuxtLink
-      >
-      <button
-        @click="toggleTheme"
-        aria-label="Toggle dark mode"
-        id="theme-toggle"
-        class="theme-toggle"
-      >
-        <span class="theme-icon-light" aria-hidden="true">🌙</span>
-        <span class="theme-icon-dark" aria-hidden="true">☀️</span>
-      </button>
-      <button
-        @click="toggleLanguage"
-        aria-label="Toggle language"
-        id="lang-toggle"
-      >
-        {{ currentLang === "cs" ? "EN" : "CS" }}
-      </button>
+  <header>
+    <nav class="desktop-menu" :aria-label="$t('navigation.primaryLabel')">
+      <HeaderNavItems />
     </nav>
 
     <button
       id="menu-toggle"
-      aria-label="Toggle menu"
-      aria-expanded="false"
+      type="button"
+      :class="{ open: isMobileMenuOpen }"
+      :aria-label="$t('navigation.toggleMenu')"
+      :aria-expanded="isMobileMenuOpen"
       aria-controls="mobile-menu"
       @click="toggleMobileMenu"
     >
@@ -52,45 +21,11 @@
     <nav
       id="mobile-menu"
       class="mobile-menu"
-      role="navigation"
-      aria-label="Mobile Navigation"
-      aria-hidden="true"
       :class="{ open: isMobileMenuOpen }"
+      :aria-label="$t('navigation.mobileLabel')"
+      :aria-hidden="!isMobileMenuOpen"
     >
-      <NuxtLink v-if="!isProjectsPage" to="#intro">{{
-        $t("navigation.intro")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#projects">{{
-        $t("navigation.projects")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#experiences">{{
-        $t("navigation.experience")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#about">{{
-        $t("navigation.about")
-      }}</NuxtLink>
-      <NuxtLink v-if="!isProjectsPage" to="#contact">{{
-        $t("navigation.contact")
-      }}</NuxtLink>
-      <NuxtLink v-if="isProjectsPage" :to="homePath">
-        {{ $t("navigation.home") }}</NuxtLink
-      >
-      <button
-        @click="toggleTheme"
-        aria-label="Toggle dark mode"
-        id="theme-toggle-mobile"
-        class="theme-toggle"
-      >
-        <span class="theme-icon-light" aria-hidden="true">🌙</span>
-        <span class="theme-icon-dark" aria-hidden="true">☀️</span>
-      </button>
-      <button
-        @click="toggleLanguage"
-        aria-label="Toggle language"
-        id="lang-toggle-mobile"
-      >
-        {{ currentLang === "cs" ? "EN" : "CS" }}
-      </button>
+      <HeaderNavItems @navigate="closeMobileMenu" />
     </nav>
   </header>
 </template>
@@ -98,46 +33,13 @@
 <script setup>
 import "./header.scss";
 
-const route = useRoute();
-const { locale, setLocale } = useI18n();
-const colorMode = useColorMode();
-
-const toggleTheme = () => {
-  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
-};
-
-const switchLocalePath = useSwitchLocalePath();
 const isMobileMenuOpen = ref(false);
-
-const currentLang = computed(() => locale.value);
-
-const homePath = computed(() => {
-  return locale.value === "en" ? "/en" : "/";
-});
-
-const isProjectsPage = computed(
-  () => route.path.includes("/projects/") || route.path.includes("/projekty/")
-);
-
-const toggleLanguage = () => {
-  const newLocale = locale.value === "cs" ? "en" : "cs";
-  const path = switchLocalePath(newLocale);
-  if (path) {
-    navigateTo(path, { replace: true });
-  }
-};
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
-  const menuToggle = document.getElementById("menu-toggle");
-  const mobileMenu = document.getElementById("mobile-menu");
+};
 
-  if (menuToggle && mobileMenu) {
-    const expanded =
-      menuToggle.getAttribute("aria-expanded") === "true" || false;
-    menuToggle.setAttribute("aria-expanded", !expanded);
-    menuToggle.classList.toggle("open");
-    mobileMenu.setAttribute("aria-hidden", expanded);
-  }
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false;
 };
 </script>

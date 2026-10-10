@@ -106,8 +106,7 @@ nav a:focus::after {
 }
 
 /* Language toggle button */
-#lang-toggle,
-#lang-toggle-mobile {
+.lang-toggle {
   background: none;
   border: none;
   border-radius: 5px;
@@ -121,8 +120,7 @@ nav a:focus::after {
     color 0.3s ease;
   user-select: none;
 }
-#theme-toggle,
-#theme-toggle-mobile {
+.theme-toggle {
   margin-left: auto;
   margin-top: -0.2rem;
 
@@ -133,22 +131,18 @@ nav a:focus::after {
     margin-top: 0;
   }
 }
-#lang-toggle:hover,
-#lang-toggle:focus,
-#lang-toggle-mobile:hover,
-#lang-toggle-mobile:focus {
+.lang-toggle:hover,
+.lang-toggle:focus {
   background-color: var(--color-accent);
   color: var(--color-bg-light);
 }
-.dark #lang-toggle:hover,
-.dark #lang-toggle:focus,
-.dark #lang-toggle-mobile:hover,
-.dark #lang-toggle-mobile:focus {
+.dark .lang-toggle:hover,
+.dark .lang-toggle:focus {
   background-color: var(--color-accent-dark);
   color: var(--color-bg-dark);
 }
 
-.dark #lang-toggle {
+.dark .lang-toggle {
   color: var(--color-text-dark);
 }
 
