@@ -53,7 +53,19 @@ export default defineNuxtConfig({
   },
 
   // Modules
-  modules: ["@nuxtjs/i18n", "@nuxt/content", "@nuxtjs/color-mode", "@nuxt/fonts", "nuxt-icons"],
+  modules: [
+    "@nuxtjs/i18n",
+    "@nuxt/content",
+    "@nuxtjs/color-mode",
+    "@nuxt/fonts",
+    "@nuxtjs/sitemap",
+    "nuxt-icons",
+  ],
+
+  // Site config used by the sitemap module
+  site: {
+    url: SITE_URL,
+  },
 
   // Color mode: adds `dark` / `light` class on <html> before hydration
   colorMode: {

@@ -1,2 +1,4 @@
 User-Agent: *
 Disallow:
+
+Sitemap: https://www.sebastiansanda.cz/sitemap_index.xml
