@@ -6,7 +6,7 @@
         :href="`mailto:${data.email}`"
         :aria-label="$t('intro.cta.emailLabel')"
       >
-        <nuxt-icon name="mail" /> {{ data.email }}
+        <Icon name="local:mail" /> {{ data.email }}
       </a>
       <a
         :href="data.linkedin"
@@ -14,7 +14,7 @@
         rel="noopener noreferrer"
         :aria-label="$t('intro.cta.linkedinLabel')"
       >
-        <nuxt-icon name="linkedin" /> LinkedIn
+        <Icon name="local:linkedin" /> LinkedIn
       </a>
     </div>
   </section>

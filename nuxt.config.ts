@@ -43,8 +43,17 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxtjs/sitemap",
     "@nuxt/eslint",
-    "nuxt-icons",
+    "@nuxt/icon",
   ],
+
+  // Inline SVG icons from app/assets/icons, bundled for the static client
+  icon: {
+    mode: "svg",
+    customCollections: [{ prefix: "local", dir: "./app/assets/icons" }],
+    clientBundle: {
+      scan: true,
+    },
+  },
 
   // Use Node's built-in SQLite (Node 22.5+) instead of the native better-sqlite3 addon
   content: {
