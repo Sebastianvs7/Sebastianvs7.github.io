@@ -17,28 +17,28 @@
       </div>
       <div class="project-content">
         <h3>{{ project.title }}</h3>
-        <div class="project-description-container" :data-project="project.id">
+        <div class="project-description-container" :data-project="project.slug">
           <p
             class="project-description"
-            :class="{ truncated: !expandedDescriptions[project.id] }"
+            :class="{ truncated: !expandedDescriptions[project.slug] }"
           >
             {{ project.description }}
           </p>
           <button
             v-if="shouldShowMoreButton"
             class="show-more-desc-btn"
-            :data-project="project.id"
-            @click="$emit('toggleDescription', project.id)"
+            :data-project="project.slug"
+            @click="$emit('toggleDescription', project.slug)"
           >
             <span
               class="show-more-desc-text"
-              :class="{ hidden: expandedDescriptions[project.id] }"
+              :class="{ hidden: expandedDescriptions[project.slug] }"
             >
               {{ $t("projects.showMore") }}
             </span>
             <span
               class="show-less-desc-text"
-              :class="{ hidden: !expandedDescriptions[project.id] }"
+              :class="{ hidden: !expandedDescriptions[project.slug] }"
             >
               {{ $t("projects.showLess") }}
             </span>

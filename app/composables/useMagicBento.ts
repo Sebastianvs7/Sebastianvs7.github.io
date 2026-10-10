@@ -1,10 +1,27 @@
-import { ref, onMounted, onBeforeUnmount } from "vue";
 import { gsap } from "gsap";
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_GLOW_COLOR = "122, 104, 83"; // Using site accent color
 
-const createParticleElement = (x, y, color = DEFAULT_GLOW_COLOR) => {
+export interface MagicBentoOptions {
+  clickEffect?: boolean;
+  disableAnimations?: boolean;
+  enableMagnetism?: boolean;
+  enableTilt?: boolean;
+  // RGB triplet, e.g. "122, 104, 83"
+  glowColor?: string;
+  particleCount?: number;
+}
+
+interface MagicBento {
+  cardRef: Ref<HTMLElement | null>;
+}
+
+const createParticleElement = (
+  x: number,
+  y: number,
+  color: string = DEFAULT_GLOW_COLOR
+): HTMLDivElement => {
   const el = document.createElement("div");
   el.className = "magic-particle";
   el.style.cssText = `
@@ -22,7 +39,7 @@ const createParticleElement = (x, y, color = DEFAULT_GLOW_COLOR) => {
   return el;
 };
 
-export const useMagicBento = (options = {}) => {
+export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
   const {
     particleCount = DEFAULT_PARTICLE_COUNT,
     glowColor = DEFAULT_GLOW_COLOR,
@@ -32,32 +49,34 @@ export const useMagicBento = (options = {}) => {
     disableAnimations = false,
   } = options;
 
-  const cardRef = ref(null);
-  const particlesRef = ref([]);
-  const timeoutsRef = ref([]);
-  const isHoveredRef = ref(false);
-  const memoizedParticles = ref([]);
-  const particlesInitialized = ref(false);
-  const magnetismAnimationRef = ref(null);
+  const cardRef = ref<HTMLElement | null>(null);
+
+  // Imperative effect state, never rendered
+  let particles: HTMLElement[] = [];
+  let timeouts: ReturnType<typeof setTimeout>[] = [];
+  let isHovered = false;
+  let particleTemplates: HTMLElement[] = [];
+  let particlesInitialized = false;
+  let magnetismTween: gsap.core.Tween | null = null;
 
   const initializeParticles = () => {
-    if (particlesInitialized.value || !cardRef.value) return;
+    if (particlesInitialized || !cardRef.value) return;
     const { width, height } = cardRef.value.getBoundingClientRect();
-    memoizedParticles.value = Array.from({ length: particleCount }, () =>
+    particleTemplates = Array.from({ length: particleCount }, () =>
       createParticleElement(
         Math.random() * width,
         Math.random() * height,
         glowColor
       )
     );
-    particlesInitialized.value = true;
+    particlesInitialized = true;
   };
 
   const clearAllParticles = () => {
-    timeoutsRef.value.forEach(clearTimeout);
-    timeoutsRef.value = [];
-    magnetismAnimationRef.value?.kill();
-    particlesRef.value.forEach((particle) => {
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+    magnetismTween?.kill();
+    particles.forEach((particle) => {
       gsap.to(particle, {
         scale: 0,
         opacity: 0,
@@ -68,20 +87,20 @@ export const useMagicBento = (options = {}) => {
         },
       });
     });
-    particlesRef.value = [];
+    particles = [];
   };
 
   const animateParticles = () => {
-    if (!cardRef.value || !isHoveredRef.value) return;
-    if (!particlesInitialized.value) {
+    if (!cardRef.value || !isHovered) return;
+    if (!particlesInitialized) {
       initializeParticles();
     }
-    memoizedParticles.value.forEach((particle, index) => {
+    particleTemplates.forEach((particle, index) => {
       const timeoutId = setTimeout(() => {
-        if (!isHoveredRef.value || !cardRef.value) return;
-        const clone = particle.cloneNode(true);
+        if (!isHovered || !cardRef.value) return;
+        const clone = particle.cloneNode(true) as HTMLElement;
         cardRef.value.appendChild(clone);
-        particlesRef.value.push(clone);
+        particles.push(clone);
         gsap.fromTo(
           clone,
           { scale: 0, opacity: 0 },
@@ -104,11 +123,11 @@ export const useMagicBento = (options = {}) => {
           yoyo: true,
         });
       }, index * 100);
-      timeoutsRef.value.push(timeoutId);
+      timeouts.push(timeoutId);
     });
   };
 
-  const updateGlowProperties = (mouseX, mouseY) => {
+  const updateGlowProperties = (mouseX: number, mouseY: number) => {
     if (!cardRef.value) return;
     const rect = cardRef.value.getBoundingClientRect();
     const relativeX = ((mouseX - rect.left) / rect.width) * 100;
@@ -123,14 +142,14 @@ export const useMagicBento = (options = {}) => {
     window.matchMedia("(hover: hover)").matches &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  let removeListeners;
+  let removeListeners: (() => void) | undefined;
 
   onMounted(() => {
     if (!cardRef.value || !shouldAnimate()) return;
     const element = cardRef.value;
 
     const handleMouseEnter = () => {
-      isHoveredRef.value = true;
+      isHovered = true;
       animateParticles();
       if (enableTilt) {
         gsap.to(element, {
@@ -144,7 +163,7 @@ export const useMagicBento = (options = {}) => {
     };
 
     const handleMouseLeave = () => {
-      isHoveredRef.value = false;
+      isHovered = false;
       clearAllParticles();
       if (enableTilt) {
         gsap.to(element, {
@@ -165,7 +184,7 @@ export const useMagicBento = (options = {}) => {
       element.style.setProperty("--glow-intensity", "0");
     };
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (!enableTilt && !enableMagnetism) {
         updateGlowProperties(e.clientX, e.clientY);
         element.style.setProperty("--glow-intensity", "1");
@@ -195,7 +214,7 @@ export const useMagicBento = (options = {}) => {
       if (enableMagnetism) {
         const magnetX = (x - centerX) * 0.05;
         const magnetY = (y - centerY) * 0.05;
-        magnetismAnimationRef.value = gsap.to(element, {
+        magnetismTween = gsap.to(element, {
           x: magnetX,
           y: magnetY,
           duration: 0.3,
@@ -204,7 +223,7 @@ export const useMagicBento = (options = {}) => {
       }
     };
 
-    const handleClick = (e) => {
+    const handleClick = (e: MouseEvent) => {
       if (!clickEffect) return;
       const rect = element.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -258,7 +277,7 @@ export const useMagicBento = (options = {}) => {
   });
 
   onBeforeUnmount(() => {
-    isHoveredRef.value = false;
+    isHovered = false;
     removeListeners?.();
     clearAllParticles();
   });

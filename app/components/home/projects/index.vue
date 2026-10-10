@@ -7,7 +7,7 @@
     <div class="projects-grid">
       <HomeProjectsProjectCard
         v-for="(project, index) in visibleProjects"
-        :key="project.id"
+        :key="project.slug"
         :project="project"
         :is-hidden="index >= 6"
         :should-show-more-button="shouldShowMoreButton(project)"
