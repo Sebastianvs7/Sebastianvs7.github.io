@@ -46,6 +46,13 @@ export default defineNuxtConfig({
     "nuxt-icons",
   ],
 
+  // Use Node's built-in SQLite (Node 22.5+) instead of the native better-sqlite3 addon
+  content: {
+    experimental: {
+      sqliteConnector: "native",
+    },
+  },
+
   // Site config used by the sitemap module
   site: {
     url: SITE_URL,
