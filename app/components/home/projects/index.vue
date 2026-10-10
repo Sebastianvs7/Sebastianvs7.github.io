@@ -42,52 +42,9 @@
 
 <script setup>
 const { projectsData } = await useProjectsData();
-const localePath = useLocalePath();
+const { logos } = await useOtherProjectsData();
 const showAllProjects = ref(false);
 const expandedDescriptions = ref({});
-
-// Technology logos for the loop
-const logos = computed(() => {
-  // You can customize these logos - add your actual logo images/URLs
-  return [
-    {
-      src: "/images/biocultus-logo.svg",
-      alt: "Biocultus",
-      href: "https://www.biocultus.com/cs",
-      title: "Biocultus",
-    },
-    {
-      src: "/images/logo-elements.svg",
-      alt: "Elements Lomnica",
-      href: "https://www.elementslomnica.sk/en",
-      title: "Elements Lomnica",
-    },
-    {
-      src: "/images/logo-joalis.png",
-      alt: "Joalis",
-      href: "https://www.joalis.cz",
-      title: "Joalis",
-    },
-    {
-      src: "/images/MA_logo.svg",
-      alt: "Magnus Art",
-      href: "https://magnusart.cz",
-      title: "Magnus Art",
-    },
-    {
-      src: "/images/logo-moonwood.svg",
-      alt: "Moonwood",
-      href: "https://moonwood.com",
-      title: "Moonwood",
-    },
-    {
-      src: "/images/logo-yogarden.svg",
-      alt: "Yogarden",
-      href: "https://www.yogarden.cz/cz",
-      title: "Yogarden",
-    },
-  ];
-});
 
 const visibleProjects = computed(() => {
   if (showAllProjects.value) {

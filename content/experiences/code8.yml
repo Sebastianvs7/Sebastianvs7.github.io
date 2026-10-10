@@ -1,0 +1,18 @@
+order: 2
+company: "Code8"
+position: "Frontend Developer"
+period: "2020 - 2025"
+current: false
+description:
+  cs:
+    - "Vývoj a údržba webových aplikací a interních systémů v React, Next.js, TypeScript a Angular."
+    - "Práce v prostředí monorepo (Nx) pro správu rozsáhlejších projektů."
+    - "Integrace REST API a GraphQL pro efektivní práci s daty."
+    - "Vývoj mobilních aplikací v React Native (Expo, Firebase, push notifikace)."
+    - "Optimalizace výkonu a SEO; testování pomocí Cypress, konfigurace Webpacku a ESlint."
+  en:
+    - "Development and maintenance of web applications and internal systems using React, Next.js, TypeScript, and Angular."
+    - "Working in a monorepo environment (Nx) for managing large-scale projects."
+    - "Integration of REST API and GraphQL for efficient data handling."
+    - "Development of mobile applications in React Native (Expo, Firebase, push notifications)."
+    - "Performance and SEO optimization; testing with Cypress, configuration of Webpack and ESlint."

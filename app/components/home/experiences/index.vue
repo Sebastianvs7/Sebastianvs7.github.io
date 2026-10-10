@@ -14,22 +14,11 @@
         <div class="experience-content" :class="getPositionClass(index)">
           <h3>{{ experience.position }} | {{ experience.company }}</h3>
           <div class="experience-role">
-            <ul
-              v-if="getRoleDescription(experience).includes('\n')"
-              class="experience-role-list"
-            >
-              <li
-                v-for="item in getRoleDescription(experience)
-                  .split('\n')
-                  .filter((item) => item.trim())"
-                :key="item"
-              >
-                {{ item.trim() }}
+            <ul class="experience-role-list">
+              <li v-for="item in experience.description[locale]" :key="item">
+                {{ item }}
               </li>
             </ul>
-            <p v-else class="experience-role">
-              {{ getRoleDescription(experience) }}
-            </p>
           </div>
           <p class="experience-date">
             {{ experience.period }}
@@ -57,15 +46,11 @@
 </template>
 
 <script setup>
-const { experiencesData } = useExperiencesData();
+const { experiencesData } = await useExperiencesData();
 const { locale } = useI18n();
 
 const getPositionClass = (index) => {
   return index % 2 === 0 ? "right" : "left";
-};
-
-const getRoleDescription = (experience) => {
-  return experience.description[locale.value] || experience.description.en;
 };
 </script>
 

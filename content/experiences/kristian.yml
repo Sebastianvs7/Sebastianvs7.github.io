@@ -1,0 +1,16 @@
+order: 4
+company: "Kristián S.R.O."
+position: "Webdesigner, Grafik, Kodér"
+period: "2016 - 2018"
+current: false
+description:
+  cs:
+    - "Návrh a realizace webů a microsites."
+    - "Kódování HTML, CSS a JavaScript."
+    - "Práce s October CMS při tvorbě webů a funkcionalit."
+    - "Spolupráce s grafickým oddělením na tvorbě vizuální identity."
+  en:
+    - "Design and development of websites and microsites."
+    - "Coding in HTML, CSS, and JavaScript."
+    - "Working with October CMS to build websites and functionalities."
+    - "Collaboration with the graphic design department on visual identity creation."

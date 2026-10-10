@@ -12,14 +12,14 @@
       <div class="intro-bottom">
         <div class="intro-cta">
           <a
-            href="mailto:info@sebastiansanda.cz"
+            :href="`mailto:${data.email}`"
             class="cta-button cta-email"
             :aria-label="$t('intro.cta.emailLabel')"
           >
             {{ $t("intro.cta.email") }}
           </a>
           <a
-            href="https://linkedin.com/in/sebastian-sanda"
+            :href="data.linkedin"
             class="cta-button cta-linkedin"
             :aria-label="$t('intro.cta.linkedinLabel')"
             target="_blank"
@@ -49,5 +49,9 @@
     </div>
   </section>
 </template>
+
+<script setup>
+const data = useData();
+</script>
 
 <style scoped lang="scss" src="./intro.scss"></style>

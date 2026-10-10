@@ -1,0 +1,16 @@
+order: 3
+company: "MCLED S.R.O."
+position: "Webmaster"
+period: "2018 - 2020"
+current: false
+description:
+  cs:
+    - "Správa a rozvoj firemního e-shopu."
+    - "Kódování HTML, CSS a JavaScript, implementace nových funkcí."
+    - "Zpracování produktové fotografie a úprava obsahu pro web."
+    - "Práce s CRM a logistickými systémy v souvislosti s e-shopem."
+  en:
+    - "Management and development of the company’s e-commerce store."
+    - "Coding in HTML, CSS, and JavaScript, implementation of new features."
+    - "Product photography and content editing for the website."
+    - "Working with CRM and logistics systems in connection with the e-shop."
