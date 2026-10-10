@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "^3.4.2",
+    "@nuxt/fonts": "^0.14.0",
     "@nuxtjs/color-mode": "^4.0.1",
     "@nuxtjs/i18n": "^10.6.0",
     "@types/node": "^26.6.5",

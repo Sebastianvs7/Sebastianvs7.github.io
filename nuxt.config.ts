@@ -51,13 +51,25 @@ export default defineNuxtConfig({
   },
 
   // Modules
-  modules: ["@nuxtjs/i18n", "@nuxt/content", "@nuxtjs/color-mode", "nuxt-icons"],
+  modules: ["@nuxtjs/i18n", "@nuxt/content", "@nuxtjs/color-mode", "@nuxt/fonts", "nuxt-icons"],
 
   // Color mode: adds `dark` / `light` class on <html> before hydration
   colorMode: {
     classSuffix: "",
     fallback: "light",
     storageKey: "color-mode",
+  },
+
+  // Self-hosted fonts; latin-ext is needed for Czech diacritics
+  fonts: {
+    defaults: {
+      subsets: ["latin", "latin-ext"],
+      styles: ["normal"],
+    },
+    families: [
+      { name: "Inter", weights: [400, 600, 700] },
+      { name: "Playfair Display", weights: [700] },
+    ],
   },
 
   // i18n configuration
@@ -101,19 +113,7 @@ export default defineNuxtConfig({
         },
         { name: "author", content: "Sebastian Šanda" },
       ],
-      link: [
-        { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
-          crossorigin: "",
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap",
-        },
-      ],
+      link: [{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
     },
   },
 
