@@ -10,74 +10,58 @@
   >
     <div ref="trackRef" class="logoloop__track">
       <ul
-        v-for="(_, copyIndex) in Array.from({ length: copyCount })"
+        v-for="copyIndex in copyCount"
         :key="`copy-${copyIndex}`"
-        :ref="copyIndex === 0 ? (el) => (seqRef = el) : undefined"
+        :ref="copyIndex === 1 ? setSequenceRef : undefined"
         class="logoloop__list"
         role="list"
-        :aria-hidden="copyIndex > 0"
+        :aria-hidden="copyIndex > 1"
       >
         <li
-          v-for="(item, itemIndex) in props.logos"
+          v-for="(item, itemIndex) in logos"
           :key="`${copyIndex}-${itemIndex}`"
           class="logoloop__item"
           role="listitem"
         >
-          <a
-            v-if="item.href"
-            :href="item.href"
-            class="logoloop__link"
-            :aria-label="getItemAriaLabel(item) || 'logo link'"
-            target="_blank"
-            rel="noreferrer noopener"
+          <component
+            :is="item.href ? 'a' : 'span'"
+            v-bind="getWrapperAttributes(item)"
           >
             <img
-              v-if="!isNodeItem(item)"
               :src="item.src"
-              :srcset="item.srcSet"
-              :sizes="item.sizes"
-              :width="item.width"
-              :height="item.height"
-              :alt="item.alt ?? ''"
+              :alt="item.alt"
               :title="item.title"
               loading="lazy"
               decoding="async"
               draggable="false"
             />
-            <span
-              v-else
-              class="logoloop__node"
-              :aria-hidden="!!item.href && !item.ariaLabel"
-            >
-              <component :is="item.node" />
-            </span>
-          </a>
-          <template v-else>
-            <img
-              v-if="!isNodeItem(item)"
-              :src="item.src"
-              :srcset="item.srcSet"
-              :sizes="item.sizes"
-              :width="item.width"
-              :height="item.height"
-              :alt="item.alt ?? ''"
-              :title="item.title"
-              loading="lazy"
-              decoding="async"
-              draggable="false"
-            />
-            <span v-else class="logoloop__node">
-              <component :is="item.node" />
-            </span>
-          </template>
+          </component>
         </li>
       </ul>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
+<script setup lang="ts">
+import type { ComponentPublicInstance } from "vue";
+import type { LogoLoopItem } from "~/types/logo-loop";
+
+interface LogoLoopProps {
+  ariaLabel?: string;
+  className?: string;
+  direction?: "left" | "right";
+  fadeOut?: boolean;
+  fadeOutColor?: string;
+  gap?: number;
+  logoHeight?: number;
+  // Undefined keeps the logo aspect ratio
+  logoWidth?: number | string;
+  logos: LogoLoopItem[];
+  pauseOnHover?: boolean;
+  scaleOnHover?: boolean;
+  speed?: number;
+  width?: number | string;
+}
 
 const ANIMATION_CONFIG = {
   SMOOTH_TAU: 0.25,
@@ -85,86 +69,55 @@ const ANIMATION_CONFIG = {
   COPY_HEADROOM: 2,
 };
 
-const props = defineProps({
-  logos: {
-    type: Array,
-    required: true,
-  },
-  speed: {
-    type: Number,
-    default: 120,
-  },
-  direction: {
-    type: String,
-    default: "left",
-    validator: (value) => ["left", "right"].includes(value),
-  },
-  width: {
-    type: [String, Number],
-    default: "100%",
-  },
-  logoHeight: {
-    type: Number,
-    default: 40,
-  },
-  logoWidth: {
-    type: [Number, String],
-    default: null, // null means auto (maintain aspect ratio)
-  },
-  gap: {
-    type: Number,
-    default: 32,
-  },
-  pauseOnHover: {
-    type: Boolean,
-    default: true,
-  },
-  fadeOut: {
-    type: Boolean,
-    default: false,
-  },
-  fadeOutColor: {
-    type: String,
-    default: null,
-  },
-  scaleOnHover: {
-    type: Boolean,
-    default: false,
-  },
-  ariaLabel: {
-    type: String,
-    default: "Partner logos",
-  },
-  className: {
-    type: String,
-    default: "",
-  },
+const props = withDefaults(defineProps<LogoLoopProps>(), {
+  ariaLabel: "Partner logos",
+  className: "",
+  direction: "left",
+  fadeOut: false,
+  fadeOutColor: undefined,
+  gap: 32,
+  logoHeight: 40,
+  logoWidth: undefined,
+  pauseOnHover: true,
+  scaleOnHover: false,
+  speed: 120,
+  width: "100%",
 });
 
-const containerRef = ref(null);
-const trackRef = ref(null);
-const seqRef = ref(null);
+const containerRef = ref<HTMLElement | null>(null);
+const trackRef = ref<HTMLElement | null>(null);
+const seqRef = ref<HTMLElement | null>(null);
 const seqWidth = ref(0);
 const copyCount = ref(ANIMATION_CONFIG.MIN_COPIES);
 const isHovered = ref(false);
-const offsetRef = ref(0);
-const velocityRef = ref(0);
-const rafRef = ref(null);
-const lastTimestampRef = ref(null);
 
-const toCssLength = (value) => {
-  return typeof value === "number" ? `${value}px` : (value ?? undefined);
+// Animation loop state, never rendered
+let offset = 0;
+let velocity = 0;
+let animationFrame: number | null = null;
+let lastTimestamp: number | null = null;
+let cleanupResizeObserver: (() => void) | null = null;
+
+const setSequenceRef = (el: Element | ComponentPublicInstance | null) => {
+  seqRef.value = el instanceof HTMLElement ? el : null;
 };
 
-const isNodeItem = (item) => {
-  return "node" in item;
+const toCssLength = (value: number | string): string => {
+  return typeof value === "number" ? `${value}px` : value;
 };
 
-const getItemAriaLabel = (item) => {
-  if (isNodeItem(item)) {
-    return item.ariaLabel ?? item.title;
+const getWrapperAttributes = (item: LogoLoopItem): Record<string, string> => {
+  if (!item.href) {
+    return {};
   }
-  return item.alt ?? item.title;
+
+  return {
+    "aria-label": item.alt,
+    class: "logoloop__link",
+    href: item.href,
+    rel: "noreferrer noopener",
+    target: "_blank",
+  };
 };
 
 const targetVelocity = computed(() => {
@@ -175,15 +128,12 @@ const targetVelocity = computed(() => {
 });
 
 const cssVariables = computed(() => {
-  const vars = {
+  const vars: Record<string, string> = {
     "--logoloop-gap": `${props.gap}px`,
     "--logoloop-logoHeight": `${props.logoHeight}px`,
   };
-  if (props.logoWidth !== null) {
-    vars["--logoloop-logoWidth"] =
-      typeof props.logoWidth === "number"
-        ? `${props.logoWidth}px`
-        : props.logoWidth;
+  if (props.logoWidth !== undefined) {
+    vars["--logoloop-logoWidth"] = toCssLength(props.logoWidth);
   }
   if (props.fadeOutColor) {
     vars["--logoloop-fadeColor"] = props.fadeOutColor;
@@ -201,7 +151,7 @@ const rootClassName = computed(() => {
 
 const containerStyle = computed(() => {
   return {
-    width: toCssLength(props.width) ?? "100%",
+    width: toCssLength(props.width),
     ...cssVariables.value,
   };
 });
@@ -209,8 +159,8 @@ const containerStyle = computed(() => {
 const updateDimensions = () => {
   if (!containerRef.value || !seqRef.value) return;
 
-  const containerWidth = containerRef.value.clientWidth ?? 0;
-  const sequenceWidth = seqRef.value.getBoundingClientRect()?.width ?? 0;
+  const containerWidth = containerRef.value.clientWidth;
+  const sequenceWidth = seqRef.value.getBoundingClientRect().width;
 
   if (sequenceWidth > 0) {
     seqWidth.value = Math.ceil(sequenceWidth);
@@ -224,7 +174,7 @@ const updateDimensions = () => {
 const setupImageLoader = () => {
   if (!seqRef.value) return;
 
-  const images = seqRef.value.querySelectorAll("img") ?? [];
+  const images = seqRef.value.querySelectorAll("img");
   if (images.length === 0) {
     updateDimensions();
     return;
@@ -248,76 +198,60 @@ const setupImageLoader = () => {
   });
 };
 
-const setupResizeObserver = () => {
-  if (!window.ResizeObserver) {
-    const handleResize = () => updateDimensions();
-    window.addEventListener("resize", handleResize);
-    updateDimensions();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }
-
-  const elements = [containerRef, seqRef].filter((ref) => ref.value);
-
-  const observers = elements.map((ref) => {
-    if (!ref.value) return null;
-    const observer = new ResizeObserver(updateDimensions);
-    observer.observe(ref.value);
-    return observer;
-  });
+const setupResizeObserver = (): (() => void) => {
+  const elements = [containerRef.value, seqRef.value].filter(
+    (element): element is HTMLElement => element !== null
+  );
+  const observer = new ResizeObserver(updateDimensions);
+  elements.forEach((element) => observer.observe(element));
 
   updateDimensions();
 
-  return () => {
-    observers.forEach((observer) => observer?.disconnect());
-  };
+  return () => observer.disconnect();
 };
 
-const animate = (timestamp) => {
-  if (lastTimestampRef.value === null) {
-    lastTimestampRef.value = timestamp;
+const normalizeOffset = (value: number): number => {
+  return ((value % seqWidth.value) + seqWidth.value) % seqWidth.value;
+};
+
+const animate = (timestamp: number) => {
+  if (lastTimestamp === null) {
+    lastTimestamp = timestamp;
   }
 
-  const deltaTime = Math.max(0, timestamp - lastTimestampRef.value) / 1000;
-  lastTimestampRef.value = timestamp;
+  const deltaTime = Math.max(0, timestamp - lastTimestamp) / 1000;
+  lastTimestamp = timestamp;
 
   const target =
     props.pauseOnHover && isHovered.value ? 0 : targetVelocity.value;
   const easingFactor = 1 - Math.exp(-deltaTime / ANIMATION_CONFIG.SMOOTH_TAU);
-  velocityRef.value += (target - velocityRef.value) * easingFactor;
+  velocity += (target - velocity) * easingFactor;
 
   if (seqWidth.value > 0 && trackRef.value) {
-    let nextOffset = offsetRef.value + velocityRef.value * deltaTime;
-    nextOffset =
-      ((nextOffset % seqWidth.value) + seqWidth.value) % seqWidth.value;
-    offsetRef.value = nextOffset;
-
-    const translateX = -offsetRef.value;
-    trackRef.value.style.transform = `translate3d(${translateX}px, 0, 0)`;
+    offset = normalizeOffset(offset + velocity * deltaTime);
+    trackRef.value.style.transform = `translate3d(${-offset}px, 0, 0)`;
   }
 
-  rafRef.value = requestAnimationFrame(animate);
+  animationFrame = requestAnimationFrame(animate);
 };
 
 const startAnimation = () => {
   if (!trackRef.value) return;
 
   if (seqWidth.value > 0) {
-    offsetRef.value =
-      ((offsetRef.value % seqWidth.value) + seqWidth.value) % seqWidth.value;
-    trackRef.value.style.transform = `translate3d(${-offsetRef.value}px, 0, 0)`;
+    offset = normalizeOffset(offset);
+    trackRef.value.style.transform = `translate3d(${-offset}px, 0, 0)`;
   }
 
-  rafRef.value = requestAnimationFrame(animate);
+  animationFrame = requestAnimationFrame(animate);
 };
 
 const stopAnimation = () => {
-  if (rafRef.value !== null) {
-    cancelAnimationFrame(rafRef.value);
-    rafRef.value = null;
+  if (animationFrame !== null) {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = null;
   }
-  lastTimestampRef.value = null;
+  lastTimestamp = null;
 };
 
 const handleMouseEnter = () => {
@@ -332,8 +266,6 @@ const handleMouseLeave = () => {
   }
 };
 
-let cleanupResizeObserver = null;
-
 watch(
   [
     () => props.logos,
@@ -344,7 +276,7 @@ watch(
   () => {
     updateDimensions();
     setupImageLoader();
-  },
+  }
 );
 
 watch(seqWidth, () => {
@@ -362,9 +294,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   stopAnimation();
-  if (cleanupResizeObserver) {
-    cleanupResizeObserver();
-  }
+  cleanupResizeObserver?.();
 });
 </script>
 
@@ -414,16 +344,6 @@ onBeforeUnmount(() => {
   margin-right: var(--logoloop-gap);
 }
 
-.logoloop__node {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--logoloop-logoHeight);
-  transform: translateZ(0) scale(1);
-  transform-origin: center center;
-  will-change: transform;
-}
-
 .logoloop__item img {
   width: 100%;
   // max-width: 100%;
@@ -455,13 +375,8 @@ onBeforeUnmount(() => {
   overflow: visible;
 }
 
-.logoloop--scale-hover .logoloop__item:hover img,
-.logoloop--scale-hover .logoloop__item:hover .logoloop__node {
+.logoloop--scale-hover .logoloop__item:hover img {
   transform: translateZ(0) scale(1.2);
-}
-
-.logoloop--scale-hover .logoloop__node {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .logoloop__link {
@@ -518,8 +433,7 @@ onBeforeUnmount(() => {
     transform: translate3d(0, 0, 0) !important;
   }
 
-  .logoloop__item img,
-  .logoloop__node {
+  .logoloop__item img {
     transition: none !important;
   }
 }
