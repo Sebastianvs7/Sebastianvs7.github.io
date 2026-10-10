@@ -1,43 +1,72 @@
 <template>
-  <div id="showAnimation">
-    <div id="hero" class="hero" />
+  <div id="showAnimation" ref="containerRef">
+    <div ref="heroRef" class="hero" />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { gsap } from "gsap";
+
+interface GridBox {
+  el: HTMLDivElement;
+  rotationOffset: number;
+  x: number;
+  y: number;
+}
+
+interface GridMetrics {
+  cols: number;
+  offsetX: number;
+  offsetY: number;
+  rows: number;
+  spacingX: number;
+  spacingY: number;
+}
+
+// A highlighted square that zig-zags horizontally across the grid
+interface Highlight {
+  col: number;
+  direction: 1 | -1;
+  el: HTMLDivElement;
+  row: number;
+  zig: 0 | 1 | 2;
+}
+
+const BOX_SIZE = 26;
+const SPACING = 40;
+const HOVER_RADIUS = 100;
+const IDLE_DELAY = 2500;
+const CLICK_THROTTLE_DELAY = 500;
+
+// Click animation settings
+const MOUSE_MOVE_THRESHOLD = 500; // Time in ms to consider mouse as "not moving"
+const EXPLOSION_RADIUS_MOVING = 150;
+const EXPLOSION_RADIUS_STATIONARY = 150;
 
 const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 
-// Animation elements and state
-let hero, boxes, cursor, isIdle, idleTimer, isMouseMoving, lastMouseMoveTime;
-let swirlAngle, highlight, highlight2;
-let highlightCol, highlightRow, direction, zig;
-let highlight2Col, highlight2Row, direction2, zig2;
-let crossElements;
-let intersectionObserver;
+const containerRef = ref<HTMLElement | null>(null);
+const heroRef = ref<HTMLElement | null>(null);
 
-// Click throttling
+// Imperative animation state, never rendered
+let boxes: GridBox[] = [];
+let crossElements: HTMLDivElement[] = [];
+let highlights: Highlight[] = [];
+let timelines: gsap.core.Timeline[] = [];
+let cursor = { x: 0, y: 0 };
+let swirlAngle = 0;
+let isIdle = false;
+let isMouseMoving = false;
+let lastMouseMoveTime = 0;
 let lastClickTime = 0;
-const clickThrottleDelay = 500; // 1000ms throttle
+let idleTimer: ReturnType<typeof setTimeout> | undefined;
+let startTimer: ReturnType<typeof setTimeout> | undefined;
+let intersectionObserver: IntersectionObserver | undefined;
 
-// GSAP Timelines
-let gridTimeline, highlightTimeline, highlight2Timeline, crossTimeline;
-
-const boxSize = 26;
-const spacing = 40;
-const hoverRadius = 100;
-
-// Click animation settings
-const mouseMoveThreshold = 500; // Time in ms to consider mouse as "not moving"
-const explosionRadiusMoving = 150; // Smaller radius when mouse is moving
-const explosionRadiusStationary = 150; // Much larger radius when mouse is not moving
-
-// Initialize everything when component mounts
 onMounted(() => {
-  // Wait a bit for DOM to be fully ready
-  setTimeout(() => {
+  // Wait a bit for the layout to settle before measuring
+  startTimer = setTimeout(() => {
     initializeAnimation();
 
     // Keep only the static grid for users preferring reduced motion
@@ -46,392 +75,282 @@ onMounted(() => {
     setupInteraction();
     setupTimelines();
     setupIntersectionObserver();
-    setupPageVisibilityListener();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
   }, 100);
 });
 
-// Cleanup when component unmounts
 onUnmounted(() => {
-  // Kill all timelines
-  if (gridTimeline) gridTimeline.kill();
-  if (highlightTimeline) highlightTimeline.kill();
-  if (highlight2Timeline) highlight2Timeline.kill();
-  if (crossTimeline) crossTimeline.kill();
+  clearTimeout(startTimer);
+  clearTimeout(idleTimer);
+  timelines.forEach((timeline) => timeline.kill());
+  intersectionObserver?.disconnect();
 
-  // Cleanup intervals and observers
-  if (idleTimer) clearTimeout(idleTimer);
-  if (intersectionObserver) intersectionObserver.disconnect();
-
-  // Remove event listeners
   window.removeEventListener("mousemove", handleMouseMove);
   document.removeEventListener("visibilitychange", handleVisibilityChange);
 });
 
+// Spread whole cells evenly over the hero area
+function getGridMetrics(hero: HTMLElement): GridMetrics {
+  const width = hero.offsetWidth;
+  const height = hero.offsetHeight;
+  const cols = Math.ceil(width / SPACING);
+  const rows = Math.ceil(height / SPACING);
+  const spacingX = width / cols;
+  const spacingY = height / rows;
+
+  return {
+    cols,
+    offsetX: (width - cols * spacingX) / 2,
+    offsetY: (height - rows * spacingY) / 2,
+    rows,
+    spacingX,
+    spacingY,
+  };
+}
+
+function createElement(hero: HTMLElement, ...classNames: string[]) {
+  const el = document.createElement("div");
+  el.classList.add(...classNames);
+  hero.appendChild(el);
+  return el;
+}
+
 function initializeAnimation() {
-  hero = document.getElementById("hero");
+  const hero = heroRef.value;
   if (!hero) return;
 
-  // Use the actual hero section dimensions (25vh)
-  const containerWidth = hero.offsetWidth;
-  const containerHeight = hero.offsetHeight;
-
-  // Calculate grid dimensions to fill the container completely
-  // Use Math.ceil to ensure we have enough rows/cols to fill the entire space
-  const cols = Math.ceil(containerWidth / spacing);
-  const rows = Math.ceil(containerHeight / spacing);
-
-  // Calculate actual spacing to fill the container exactly
-  const actualSpacingX = containerWidth / cols;
-  const actualSpacingY = containerHeight / rows;
-
-  // Calculate centering offsets (should be 0 if spacing is calculated correctly)
-  const totalGridWidth = cols * actualSpacingX;
-  const totalGridHeight = rows * actualSpacingY;
-  const offsetX = (containerWidth - totalGridWidth) / 2;
-  const offsetY = (containerHeight - totalGridHeight) / 2;
+  const grid = getGridMetrics(hero);
 
   boxes = [];
-
-  // --- Create grid boxes ---
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      const box = document.createElement("div");
-      box.classList.add("rect");
-      const leftPos = offsetX + x * actualSpacingX;
-      const topPos = offsetY + y * actualSpacingY;
+  for (let y = 0; y < grid.rows; y++) {
+    for (let x = 0; x < grid.cols; x++) {
+      const box = createElement(hero, "rect");
+      const leftPos = grid.offsetX + x * grid.spacingX;
+      const topPos = grid.offsetY + y * grid.spacingY;
       box.style.left = `${leftPos}px`;
       box.style.top = `${topPos}px`;
-      hero.appendChild(box);
       boxes.push({
         el: box,
+        rotationOffset: Math.random() * 360,
         x: leftPos,
         y: topPos,
-        rotationOffset: Math.random() * 360,
       });
     }
   }
 
-  cursor = {
-    x: containerWidth / 2,
-    y: containerHeight / 2,
-  };
+  cursor = { x: hero.offsetWidth / 2, y: hero.offsetHeight / 2 };
   isIdle = false;
   isMouseMoving = false;
   lastMouseMoveTime = 0;
+  swirlAngle = 0;
 
   resetIdleTimer();
 
-  // --- Hover radius swirl ---
-  swirlAngle = 0;
+  // First highlight starts in the top-left cell and moves right
+  const firstHighlight: Highlight = {
+    col: 0,
+    direction: 1,
+    el: createElement(hero, "highlight"),
+    row: Math.floor(grid.rows / 2),
+    zig: 0,
+  };
 
-  // --- Moving Highlight Rect 1 ---
-  highlight = document.createElement("div");
-  highlight.classList.add("highlight");
-  hero.appendChild(highlight);
+  // Second highlight starts on the right, lower in the grid, and moves left
+  const secondHighlight: Highlight = {
+    col: grid.cols - 1,
+    direction: -1,
+    el: createElement(hero, "highlight", "highlight-2"),
+    row: Math.floor(grid.rows * 0.75),
+    zig: 0,
+  };
+  secondHighlight.el.style.left = `${
+    grid.offsetX + secondHighlight.col * grid.spacingX
+  }px`;
+  secondHighlight.el.style.top = `${
+    grid.offsetY + secondHighlight.row * grid.spacingY
+  }px`;
 
-  highlightCol = 0;
-  highlightRow = Math.floor(rows / 2);
-  direction = 1;
-  zig = 0;
+  highlights = [firstHighlight, secondHighlight];
 
-  // --- Moving Highlight Rect 2 (reversed, bottom) ---
-  highlight2 = document.createElement("div");
-  highlight2.classList.add("highlight", "highlight-2");
-
-  // Set initial position to the right side immediately
-  const initialX = offsetX + (cols - 1) * actualSpacingX;
-  const initialY = offsetY + Math.floor(rows * 0.75) * actualSpacingY;
-  highlight2.style.left = `${initialX}px`;
-  highlight2.style.top = `${initialY}px`;
-
-  hero.appendChild(highlight2);
-
-  highlight2Col = cols - 1; // Start from the right
-  highlight2Row = Math.floor(rows * 0.75); // Position more towards bottom
-  direction2 = -1; // Move left (from right to left)
-  zig2 = 0;
-
-  // --- Random Crosses ---
   crossElements = boxes.map((box) => {
-    const cross = document.createElement("div");
-    cross.classList.add("cross");
+    const cross = createElement(hero, "cross");
     cross.style.left = `${box.x + 1}px`;
     cross.style.top = `${box.y + 1}px`;
     cross.textContent = "×";
-    hero.appendChild(cross);
     return cross;
   });
-
-  // Initialize counter
-  // crossCounter = 0;
-  // counterElement = document.createElement("div");
-  // counterElement.classList.add("cross-counter");
-  // counterElement.textContent = "00";
-  // hero.appendChild(counterElement);
-
-  // Animations will be started by timelines
 }
 
 function setupInteraction() {
-  if (!hero) return;
-
   window.addEventListener("mousemove", handleMouseMove);
-  hero.addEventListener("click", handleClick);
+  heroRef.value?.addEventListener("click", handleClick);
 }
 
 function setupTimelines() {
-  // Create paused timelines
-  gridTimeline = gsap.timeline({ paused: true, repeat: -1 });
-  highlightTimeline = gsap.timeline({ paused: true, repeat: -1 });
-  highlight2Timeline = gsap.timeline({ paused: true, repeat: -1 });
-  crossTimeline = gsap.timeline({ paused: true, repeat: -1 });
-
-  // Setup grid animation timeline
-  setupGridTimeline();
-
-  // Setup highlight animation timelines
-  setupHighlightTimeline();
-  setupHighlight2Timeline();
-
-  // Setup cross animation timeline
-  setupCrossTimeline();
-
-  // Start all timelines
-  startTimelines();
-}
-
-function startTimelines() {
-  // Start all timelines
-  gridTimeline.resume();
-  highlightTimeline.resume();
-  highlight2Timeline.resume();
-  crossTimeline.resume();
-}
-
-function setupGridTimeline() {
-  // Grid animation timeline - this will be controlled by requestAnimationFrame
-  // but we'll use the timeline to manage the overall animation state
+  const gridTimeline = gsap.timeline({ paused: true, repeat: -1 });
   gridTimeline.to(
     {},
     { duration: 0.016, repeat: -1, onRepeat: animateGridFrame }
   );
+
+  const highlightTimelines = highlights.map(createHighlightTimeline);
+
+  const crossTimeline = gsap.timeline({ paused: true, repeat: -1 });
+  crossTimeline.call(showRandomCrosses);
+  crossTimeline.to({}, { duration: 3.5 }); // Wait between cross appearances
+
+  timelines = [gridTimeline, ...highlightTimelines, crossTimeline];
+  resumeTimelines();
+}
+
+function resumeTimelines() {
+  timelines.forEach((timeline) => timeline.resume());
+}
+
+function pauseTimelines() {
+  timelines.forEach((timeline) => timeline.pause());
 }
 
 function animateGridFrame() {
-  if (!isIdle) {
-    swirlAngle += 0.03;
-    for (const { el, x, y, rotationOffset } of boxes) {
-      const dx = cursor.x - (x + boxSize / 2);
-      const dy = cursor.y - (y + boxSize / 2);
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const effect = Math.max(0, 1 - dist / hoverRadius);
+  if (isIdle) return;
 
-      if (effect > 0) {
-        const angle = Math.atan2(dy, dx);
-        const rotation =
-          (swirlAngle * 180) / Math.PI + rotationOffset + effect * 50;
-        const scale = 1 + effect * 0.3;
-        const shadow = isDark.value
-          ? `0 4px 8px rgba(212,201,179,${0.3 * effect})`
-          : `0 4px 8px rgba(122,104,83,${0.3 * effect})`;
-        const offsetX = Math.cos(angle + swirlAngle) * effect * 1;
-        const offsetY = Math.sin(angle + swirlAngle) * effect * 1;
+  swirlAngle += 0.03;
+  for (const { el, x, y, rotationOffset } of boxes) {
+    const dx = cursor.x - (x + BOX_SIZE / 2);
+    const dy = cursor.y - (y + BOX_SIZE / 2);
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const effect = Math.max(0, 1 - dist / HOVER_RADIUS);
 
-        gsap.to(el, {
-          x: offsetX,
-          y: offsetY,
-          scale,
-          rotation,
-          boxShadow: shadow,
-          duration: 0.1,
-          ease: "sine.out",
-        });
-      } else {
-        gsap.to(el, {
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          boxShadow: "none",
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
+    if (effect > 0) {
+      const angle = Math.atan2(dy, dx);
+      const rotation =
+        (swirlAngle * 180) / Math.PI + rotationOffset + effect * 50;
+      const scale = 1 + effect * 0.3;
+      const shadow = isDark.value
+        ? `0 4px 8px rgba(212,201,179,${0.3 * effect})`
+        : `0 4px 8px rgba(122,104,83,${0.3 * effect})`;
+      const offsetX = Math.cos(angle + swirlAngle) * effect;
+      const offsetY = Math.sin(angle + swirlAngle) * effect;
+
+      gsap.to(el, {
+        x: offsetX,
+        y: offsetY,
+        scale,
+        rotation,
+        boxShadow: shadow,
+        duration: 0.1,
+        ease: "sine.out",
+      });
+    } else {
+      gsap.to(el, {
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+        boxShadow: "none",
+        duration: 0.3,
+        ease: "power2.out",
+      });
     }
   }
 }
 
-function setupHighlightTimeline() {
-  // Highlight animation timeline
-  highlightTimeline.call(() => {
-    const containerWidth = hero.offsetWidth;
-    const containerHeight = hero.offsetHeight;
-    const cols = Math.ceil(containerWidth / spacing);
-    const rows = Math.ceil(containerHeight / spacing);
-    const actualSpacingX = containerWidth / cols;
-    const actualSpacingY = containerHeight / rows;
-    const offsetX = (containerWidth - cols * actualSpacingX) / 2;
-    const offsetY = (containerHeight - rows * actualSpacingY) / 2;
+function createHighlightTimeline(highlight: Highlight): gsap.core.Timeline {
+  const timeline = gsap.timeline({ paused: true, repeat: -1 });
 
-    // Move highlight using the original logic
-    highlightCol += direction;
+  timeline.call(() => {
+    const hero = heroRef.value;
+    if (!hero) return;
 
-    if (zig === 1) {
-      highlightRow = Math.max(0, highlightRow - 1);
-      zig = 2;
-    } else if (zig === 2) {
-      highlightRow = Math.min(rows - 1, highlightRow + 1);
-      zig = 0;
+    const grid = getGridMetrics(hero);
+
+    highlight.col += highlight.direction;
+
+    // Zig-zag: up one row, down one row, then straight
+    if (highlight.zig === 1) {
+      highlight.row = Math.max(0, highlight.row - 1);
+      highlight.zig = 2;
+    } else if (highlight.zig === 2) {
+      highlight.row = Math.min(grid.rows - 1, highlight.row + 1);
+      highlight.zig = 0;
     } else {
-      zig = 1;
+      highlight.zig = 1;
     }
 
-    if (highlightCol >= cols - 1) direction = -1;
-    if (highlightCol <= 0) direction = 1;
+    // Bounce off the grid edges
+    if (highlight.col >= grid.cols - 1) highlight.direction = -1;
+    if (highlight.col <= 0) highlight.direction = 1;
 
-    gsap.to(highlight, {
-      left: `${offsetX + highlightCol * actualSpacingX}px`,
-      top: `${offsetY + highlightRow * actualSpacingY}px`,
+    gsap.to(highlight.el, {
+      left: `${grid.offsetX + highlight.col * grid.spacingX}px`,
+      top: `${grid.offsetY + highlight.row * grid.spacingY}px`,
       duration: 2.2,
       ease: "power1.inOut",
     });
   });
 
-  highlightTimeline.to({}, { duration: 2.4 }); // Wait between movements
-}
+  timeline.to({}, { duration: 2.4 }); // Wait between movements
 
-function setupHighlight2Timeline() {
-  // Second highlight animation timeline
-  highlight2Timeline.call(() => {
-    const containerWidth = hero.offsetWidth;
-    const containerHeight = hero.offsetHeight;
-    const cols = Math.ceil(containerWidth / spacing);
-    const rows = Math.ceil(containerHeight / spacing);
-    const actualSpacingX = containerWidth / cols;
-    const actualSpacingY = containerHeight / rows;
-    const offsetX = (containerWidth - cols * actualSpacingX) / 2;
-    const offsetY = (containerHeight - rows * actualSpacingY) / 2;
-
-    // Move highlight2 using the original logic
-    highlight2Col += direction2;
-
-    if (zig2 === 1) {
-      highlight2Row = Math.max(0, highlight2Row - 1);
-      zig2 = 2;
-    } else if (zig2 === 2) {
-      highlight2Row = Math.min(rows - 1, highlight2Row + 1);
-      zig2 = 0;
-    } else {
-      zig2 = 1;
-    }
-
-    // Reverse the boundary logic for right-to-left movement
-    if (highlight2Col <= 0) direction2 = 1; // When reaching left edge, go right
-    if (highlight2Col >= cols - 1) direction2 = -1; // When reaching right edge, go left
-
-    gsap.to(highlight2, {
-      left: `${offsetX + highlight2Col * actualSpacingX}px`,
-      top: `${offsetY + highlight2Row * actualSpacingY}px`,
-      duration: 2.2,
-      ease: "power1.inOut",
-    });
-  });
-
-  highlight2Timeline.to({}, { duration: 2.4 }); // Wait between movements
-}
-
-function setupCrossTimeline() {
-  // Cross animation timeline
-  crossTimeline.call(() => {
-    showRandomCrosses();
-  });
-
-  crossTimeline.to({}, { duration: 3.5 }); // Wait between cross appearances
+  return timeline;
 }
 
 function setupIntersectionObserver() {
-  const showAnimation = document.getElementById("showAnimation");
-  if (!showAnimation) return;
+  if (!containerRef.value) return;
 
+  // Only animate while the hero is visible
   intersectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !document.hidden) {
-          // Resume all timelines when in viewport and page is visible
-          gridTimeline.resume();
-          highlightTimeline.resume();
-          highlight2Timeline.resume();
-          crossTimeline.resume();
+          resumeTimelines();
         } else {
-          // Pause all timelines when out of viewport or page is hidden
-          gridTimeline.pause();
-          highlightTimeline.pause();
-          highlight2Timeline.pause();
-          crossTimeline.pause();
+          pauseTimelines();
         }
       });
     },
     { threshold: 0.1 }
   );
 
-  intersectionObserver.observe(showAnimation);
-}
-
-function setupPageVisibilityListener() {
-  document.addEventListener("visibilitychange", handleVisibilityChange);
+  intersectionObserver.observe(containerRef.value);
 }
 
 function handleVisibilityChange() {
   if (document.hidden) {
-    // Page is hidden - pause all timelines
-    gridTimeline.pause();
-    highlightTimeline.pause();
-    highlight2Timeline.pause();
-    crossTimeline.pause();
+    pauseTimelines();
 
     // Hide all visible crosses
-    if (crossElements) {
-      crossElements.forEach((cross) => {
-        if (cross.dataset.active === "true") {
-          gsap.to(cross, {
-            opacity: 0,
-            scale: 0.5,
-            duration: 0.3,
-            ease: "power2.out",
-            onComplete: () => {
-              cross.dataset.active = "false";
-            },
-          });
-        }
-      });
-    }
-  } else {
-    // Page is visible - check if element is in viewport and resume if so
-    const showAnimation = document.getElementById("showAnimation");
-    if (showAnimation) {
-      const rect = showAnimation.getBoundingClientRect();
-      const isInView = rect.top < window.innerHeight && rect.bottom > 0;
-
-      if (isInView) {
-        gridTimeline.resume();
-        highlightTimeline.resume();
-        highlight2Timeline.resume();
-        crossTimeline.resume();
+    crossElements.forEach((cross) => {
+      if (cross.dataset.active === "true") {
+        gsap.to(cross, {
+          opacity: 0,
+          scale: 0.5,
+          duration: 0.3,
+          ease: "power2.out",
+          onComplete: () => {
+            cross.dataset.active = "false";
+          },
+        });
       }
-    }
+    });
+    return;
+  }
+
+  // Page is visible again - resume only when the hero is in the viewport
+  const rect = containerRef.value?.getBoundingClientRect();
+  if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+    resumeTimelines();
   }
 }
 
-function handleMouseMove(e) {
-  const showAnimation = document.getElementById("showAnimation");
-  const rect = showAnimation.getBoundingClientRect();
+function handleMouseMove(e: MouseEvent) {
+  const rect = containerRef.value?.getBoundingClientRect();
+  if (!rect) return;
+
   cursor.x = e.clientX - rect.left;
   cursor.y = e.clientY - rect.top;
   resetIdleTimer();
   lastMouseMoveTime = Date.now();
-  if (!isMouseMoving) {
-    isMouseMoving = true;
-  }
+  isMouseMoving = true;
 }
 
 function resetIdleTimer() {
@@ -439,7 +358,7 @@ function resetIdleTimer() {
   clearTimeout(idleTimer);
   idleTimer = setTimeout(() => {
     isIdle = true;
-    isMouseMoving = false; // Reset mouse moving state when idle
+    isMouseMoving = false;
     boxes.forEach(({ el }) => {
       gsap.to(el, {
         scale: 1,
@@ -451,7 +370,7 @@ function resetIdleTimer() {
         ease: "power2.out",
       });
     });
-  }, 2500);
+  }, IDLE_DELAY);
 }
 
 function showRandomCrosses() {
@@ -459,7 +378,7 @@ function showRandomCrosses() {
   for (let i = 0; i < numToShow; i++) {
     const cross =
       crossElements[Math.floor(Math.random() * crossElements.length)];
-    if (cross.dataset.active === "true") continue;
+    if (!cross || cross.dataset.active === "true") continue;
     cross.dataset.active = "true";
 
     gsap.fromTo(
@@ -477,7 +396,9 @@ function showRandomCrosses() {
             duration: 1.5,
             scale: 0.8,
             ease: "power2.inOut",
-            onComplete: () => (cross.dataset.active = "false"),
+            onComplete: () => {
+              cross.dataset.active = "false";
+            },
           });
         },
       }
@@ -485,143 +406,88 @@ function showRandomCrosses() {
   }
 }
 
-function handleClick(e) {
+function handleClick(e: MouseEvent) {
   const currentTime = Date.now();
 
   // Throttle clicks - only allow one click per throttle delay
-  if (currentTime - lastClickTime < clickThrottleDelay) {
-    return;
-  }
-
+  if (currentTime - lastClickTime < CLICK_THROTTLE_DELAY) return;
   lastClickTime = currentTime;
 
-  const showAnimation = document.getElementById("showAnimation");
-  const rect = showAnimation.getBoundingClientRect();
+  const rect = containerRef.value?.getBoundingClientRect();
+  if (!rect) return;
+
   const clickX = e.clientX - rect.left;
   const clickY = e.clientY - rect.top;
 
-  // Determine if mouse was moving recently
-  const timeSinceLastMove = currentTime - lastMouseMoveTime;
+  // Stationary clicks get a slower, stronger explosion
   const wasMouseMoving =
-    timeSinceLastMove < mouseMoveThreshold && isMouseMoving;
-
-  // Different explosion radius and animation style based on mouse movement
+    currentTime - lastMouseMoveTime < MOUSE_MOVE_THRESHOLD && isMouseMoving;
   const explosionRadius = wasMouseMoving
-    ? explosionRadiusMoving
-    : explosionRadiusStationary;
-
-  // Different animation parameters based on movement
-  const animationDuration = wasMouseMoving ? 0.4 : 1; // Slower when stationary
-  const animationEase = wasMouseMoving ? "power2.out" : "power3.out"; // Different easing
-  const returnDuration = wasMouseMoving ? 0.4 : 1.5; // Slower return when stationary
+    ? EXPLOSION_RADIUS_MOVING
+    : EXPLOSION_RADIUS_STATIONARY;
+  const animationDuration = wasMouseMoving ? 0.4 : 1;
+  const animationEase = wasMouseMoving ? "power2.out" : "power3.out";
+  const returnDuration = wasMouseMoving ? 0.4 : 1.5;
   const returnEase = wasMouseMoving
     ? "elastic.out(1,0.4)"
-    : "elastic.out(1,0.3)"; // More elastic when stationary
-  const forceMultiplier = wasMouseMoving ? 2 : 3; // Stronger force when stationary
+    : "elastic.out(1,0.3)";
+  const forceMultiplier = wasMouseMoving ? 2 : 3;
+  const shadowIntensity = wasMouseMoving ? 0.3 : 0.5;
+  const shadowBlur = wasMouseMoving ? 10 : 15;
+  const fadeDelay = wasMouseMoving ? 0.3 : 0.7;
 
   boxes.forEach(({ el, x, y }) => {
-    const dx = x + boxSize / 2 - clickX;
-    const dy = y + boxSize / 2 - clickY;
+    const dx = x + BOX_SIZE / 2 - clickX;
+    const dy = y + BOX_SIZE / 2 - clickY;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
-    if (dist < explosionRadius) {
-      const angle = Math.atan2(dy, dx);
-      const force = (explosionRadius - dist) * forceMultiplier; // Force varies based on movement
-      const offsetX = Math.cos(angle) * force;
-      const offsetY = Math.sin(angle) * force;
+    if (dist >= explosionRadius) return;
 
-      // Different shadow intensity based on movement
-      const shadowIntensity = wasMouseMoving ? 0.3 : 0.5;
-      const shadowBlur = wasMouseMoving ? 10 : 15;
+    const angle = Math.atan2(dy, dx);
+    const force = (explosionRadius - dist) * forceMultiplier;
 
-      // animate away and back with different styles
-      gsap.fromTo(
-        el,
-        { x: 0, y: 0 },
-        {
-          x: offsetX,
-          y: offsetY,
-          duration: animationDuration,
-          ease: animationEase,
-          onStart: () => {
-            // Make color darker for click effect
-            const darkerColor = isDark.value
-              ? "rgba(150, 140, 120, 1)" // Darker version of dark theme color
-              : "rgba(80, 65, 50, 1)"; // Darker version of light theme color
-            el.style.borderColor = darkerColor;
-            el.style.boxShadow = `0 0 ${shadowBlur}px rgba(${isDark.value ? "150, 140, 120" : "80, 65, 50"}, ${shadowIntensity})`;
-          },
-          onComplete: () => {
-            gsap.to(el, {
-              x: 0,
-              y: 0,
-              duration: returnDuration,
-              ease: returnEase,
-              onComplete: () => {
-                // Fade back to default color and clear inline styles
-                const defaultColor = isDark.value
-                  ? "rgba(212, 201, 179, 0.3)"
-                  : "rgba(122, 104, 83, 0.3)";
-                const fadeDelay = wasMouseMoving ? 0.3 : 0.7; // Longer delay when stationary
-                gsap.to(el, {
-                  borderColor: defaultColor,
-                  boxShadow: "none",
-                  duration: 1,
-                  delay: fadeDelay,
-                  ease: "power2.out",
-                  onComplete: () => {
-                    // Clear inline styles to let CSS take over
-                    el.style.borderColor = "";
-                    el.style.boxShadow = "";
-                  },
-                });
-              },
-            });
-          },
-        }
-      );
-    }
+    // Animate away and back, darkening the box while it moves
+    gsap.fromTo(
+      el,
+      { x: 0, y: 0 },
+      {
+        x: Math.cos(angle) * force,
+        y: Math.sin(angle) * force,
+        duration: animationDuration,
+        ease: animationEase,
+        onStart: () => {
+          const darkerRgb = isDark.value ? "150, 140, 120" : "80, 65, 50";
+          el.style.borderColor = `rgba(${darkerRgb}, 1)`;
+          el.style.boxShadow = `0 0 ${shadowBlur}px rgba(${darkerRgb}, ${shadowIntensity})`;
+        },
+        onComplete: () => {
+          gsap.to(el, {
+            x: 0,
+            y: 0,
+            duration: returnDuration,
+            ease: returnEase,
+            onComplete: () => {
+              // Fade back to the default color, then let CSS take over
+              const defaultColor = isDark.value
+                ? "rgba(212, 201, 179, 0.3)"
+                : "rgba(122, 104, 83, 0.3)";
+              gsap.to(el, {
+                borderColor: defaultColor,
+                boxShadow: "none",
+                duration: 1,
+                delay: fadeDelay,
+                ease: "power2.out",
+                onComplete: () => {
+                  el.style.borderColor = "";
+                  el.style.boxShadow = "";
+                },
+              });
+            },
+          });
+        },
+      }
+    );
   });
-
-  // Check if click is directly on a visible cross
-  // let clickedCross = null;
-
-  /*  crossElements.forEach((cross) => {
-    const crossRect = cross.getBoundingClientRect();
-
-    // Check if click is within the cross bounds
-    const isClickOnCross =
-      e.clientX >= crossRect.left &&
-      e.clientX <= crossRect.right &&
-      e.clientY >= crossRect.top &&
-      e.clientY <= crossRect.bottom;
-
-    // Check if cross is currently visible (100% opacity only)
-    const currentOpacity = parseFloat(cross.style.opacity) || 1;
-    const isCurrentlyVisible =
-      cross.dataset.active === "true" && currentOpacity >= 1.0;
-
-    // If click is directly on a visible cross
-    if (isClickOnCross && isCurrentlyVisible) {
-      clickedCross = cross;
-    }
-  });
-
-  // Fade out the clicked cross
-  if (clickedCross) {
-    gsap.to(clickedCross, {
-      opacity: 0,
-      scale: 0.5,
-      duration: 0.5,
-      ease: "power2.out",
-      onComplete: () => {
-        clickedCross.dataset.active = "false";
-        // Only increment counter when cross is actually destroyed
-        crossCounter++;
-        counterElement.textContent = crossCounter.toString().padStart(2, "0");
-      },
-    });
-  } */
 }
 </script>
 
