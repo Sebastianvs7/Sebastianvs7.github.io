@@ -374,10 +374,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-ul {
-  padding: 0;
-  margin: 0;
-}
 .logoloop {
   position: relative;
   overflow-x: hidden;
@@ -403,6 +399,8 @@ ul {
 .logoloop__list {
   display: flex;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .logoloop__item {
