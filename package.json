@@ -10,7 +10,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "nuxi typecheck"
   },
   "devDependencies": {
     "@nuxt/devtools": "^3.4.2",
@@ -23,7 +24,9 @@
     "eslint": "^10.12.0",
     "nuxt": "^4.6.1",
     "nuxt-icons": "^4.0.0",
-    "sass": "^1.105.1"
+    "sass": "^1.105.1",
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.3.13"
   },
   "dependencies": {
     "@nuxt/content": "^3.16.1",
