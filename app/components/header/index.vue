@@ -30,7 +30,7 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const isMobileMenuOpen = ref(false);
 
 const toggleMobileMenu = () => {

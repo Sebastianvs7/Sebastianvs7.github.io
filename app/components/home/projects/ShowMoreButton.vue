@@ -11,15 +11,16 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  showAllProjects: {
-    type: Boolean,
-    required: true,
-  },
-});
+<script setup lang="ts">
+interface ShowMoreButtonProps {
+  showAllProjects: boolean;
+}
 
-const emit = defineEmits(["toggle"]);
+defineProps<ShowMoreButtonProps>();
+
+const emit = defineEmits<{
+  toggle: [];
+}>();
 
 const handleToggle = () => {
   emit("toggle");

@@ -9,7 +9,7 @@
         v-for="(project, index) in visibleProjects"
         :key="project.slug"
         :project="project"
-        :is-hidden="index >= 6"
+        :is-hidden="index >= VISIBLE_PROJECT_COUNT"
         :should-show-more-button="shouldShowMoreButton(project)"
         :expanded-descriptions="expandedDescriptions"
         @toggle-description="toggleDescription"
@@ -40,32 +40,35 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { ProjectSummary } from "~/types/project";
+
+const VISIBLE_PROJECT_COUNT = 6;
+const DESCRIPTION_PREVIEW_LENGTH = 150;
+
 const { projectsData } = await useProjectsData();
 const { logos } = await useOtherProjectsData();
 const showAllProjects = ref(false);
-const expandedDescriptions = ref({});
+const expandedDescriptions = ref<Record<string, boolean>>({});
 
 const visibleProjects = computed(() => {
   if (showAllProjects.value) {
     return projectsData.value;
   }
 
-  return [...projectsData.value].slice(0, 6);
+  return projectsData.value.slice(0, VISIBLE_PROJECT_COUNT);
 });
 
 const hasHiddenProjects = computed(() => {
-  return projectsData.value.length > 6;
+  return projectsData.value.length > VISIBLE_PROJECT_COUNT;
 });
 
-const shouldShowMoreButton = (project) => {
-  const description = project.description;
-  return description && description.length > 150;
+const shouldShowMoreButton = (project: ProjectSummary): boolean => {
+  return project.description.length > DESCRIPTION_PREVIEW_LENGTH;
 };
 
-const toggleDescription = (projectId) => {
-  expandedDescriptions.value[projectId] =
-    !expandedDescriptions.value[projectId];
+const toggleDescription = (slug: string) => {
+  expandedDescriptions.value[slug] = !expandedDescriptions.value[slug];
 };
 
 const handleShowMoreToggle = () => {

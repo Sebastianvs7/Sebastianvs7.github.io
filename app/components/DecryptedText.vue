@@ -11,34 +11,31 @@
   </h1>
 </template>
 
-<script setup>
-const props = defineProps({
-  text: {
-    type: String,
-    required: true,
-  },
-  duration: {
-    type: Number,
-    default: 1500, // Total duration in ms
-  },
-  characters: {
-    type: String,
-    default:
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?",
-  },
+<script setup lang="ts">
+interface DecryptedTextProps {
+  characters?: string;
+  // Total duration in ms
+  duration?: number;
+  text: string;
+}
+
+const props = withDefaults(defineProps<DecryptedTextProps>(), {
+  characters:
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?",
+  duration: 1500,
 });
 
 const ITERATIONS = 30; // Number of random character cycles
 
 // Start with the real text so the server render contains the actual title
 const displayText = ref(props.text);
-let decryptInterval;
+let decryptInterval: ReturnType<typeof setInterval> | undefined;
 
 const getRandomChar = () => {
   return props.characters[Math.floor(Math.random() * props.characters.length)];
 };
 
-const scramble = (targetText, revealedIndices) => {
+const scramble = (targetText: string, revealedIndices: Set<number>) => {
   return targetText
     .split("")
     .map((char, index) =>
@@ -57,7 +54,7 @@ const decryptText = () => {
   const revealOrder = Array.from({ length: targetText.length }, (_, i) => i)
     .filter((i) => targetText[i] !== " ")
     .sort(() => Math.random() - 0.5);
-  const revealedIndices = new Set();
+  const revealedIndices = new Set<number>();
 
   displayText.value = scramble(targetText, revealedIndices);
 
@@ -68,9 +65,9 @@ const decryptText = () => {
     const targetRevealCount = Math.floor(
       (iteration / ITERATIONS) * revealOrder.length
     );
-    while (revealedIndices.size < targetRevealCount) {
-      revealedIndices.add(revealOrder[revealedIndices.size]);
-    }
+    revealOrder
+      .slice(revealedIndices.size, targetRevealCount)
+      .forEach((index) => revealedIndices.add(index));
 
     if (iteration >= ITERATIONS) {
       clearInterval(decryptInterval);

@@ -36,8 +36,13 @@
   </button>
 </template>
 
-<script setup>
-const SECTION_LINKS = [
+<script setup lang="ts">
+interface SectionLink {
+  hash: string;
+  labelKey: string;
+}
+
+const SECTION_LINKS: SectionLink[] = [
   { hash: "#intro", labelKey: "navigation.intro" },
   { hash: "#projects", labelKey: "navigation.projects" },
   { hash: "#experiences", labelKey: "navigation.experience" },
@@ -45,7 +50,9 @@ const SECTION_LINKS = [
   { hash: "#contact", labelKey: "navigation.contact" },
 ];
 
-const emit = defineEmits(["navigate"]);
+const emit = defineEmits<{
+  navigate: [];
+}>();
 
 const route = useRoute();
 const { locale } = useI18n();

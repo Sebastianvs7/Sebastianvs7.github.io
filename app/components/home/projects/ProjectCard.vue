@@ -17,7 +17,7 @@
       </div>
       <div class="project-content">
         <h3>{{ project.title }}</h3>
-        <div class="project-description-container" :data-project="project.slug">
+        <div class="project-description-container">
           <p
             class="project-description"
             :class="{ truncated: !expandedDescriptions[project.slug] }"
@@ -27,7 +27,6 @@
           <button
             v-if="shouldShowMoreButton"
             class="show-more-desc-btn"
-            :data-project="project.slug"
             @click="$emit('toggleDescription', project.slug)"
           >
             <span
@@ -125,29 +124,27 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { ProjectSummary } from "~/types/project";
+
+interface ProjectCardProps {
+  expandedDescriptions?: Record<string, boolean>;
+  isHidden?: boolean;
+  project: ProjectSummary;
+  shouldShowMoreButton?: boolean;
+}
+
 const localePath = useLocalePath();
 
-defineProps({
-  project: {
-    type: Object,
-    required: true,
-  },
-  isHidden: {
-    type: Boolean,
-    default: false,
-  },
-  shouldShowMoreButton: {
-    type: Boolean,
-    default: false,
-  },
-  expandedDescriptions: {
-    type: Object,
-    default: () => ({}),
-  },
+withDefaults(defineProps<ProjectCardProps>(), {
+  expandedDescriptions: () => ({}),
+  isHidden: false,
+  shouldShowMoreButton: false,
 });
 
-defineEmits(["toggleDescription"]);
+defineEmits<{
+  toggleDescription: [slug: string];
+}>();
 
 // Magic Bento effect
 const { cardRef } = useMagicBento({

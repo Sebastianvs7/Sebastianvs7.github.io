@@ -50,7 +50,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const data = useData();
 </script>
 

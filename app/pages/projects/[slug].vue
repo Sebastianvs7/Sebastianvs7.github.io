@@ -30,23 +30,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const route = useRoute();
 const { locale } = useI18n();
 const localePath = useLocalePath();
 
-const slug = route.params.slug;
+const slug = String(route.params.slug);
 const collectionName = locale.value === "en" ? "projectsEn" : "projectsCs";
 
-const { data: project } = await useAsyncData(
-  `projects-${slug}-${locale.value}`,
-  () =>
-    queryCollection(collectionName)
-      .path(`/${locale.value}/projects/${slug}`)
-      .first()
+const { data } = await useAsyncData(`projects-${slug}-${locale.value}`, () =>
+  queryCollection(collectionName)
+    .path(`/${locale.value}/projects/${slug}`)
+    .first()
 );
 
-if (!project.value) {
+if (!data.value) {
   throw createError({
     statusCode: 404,
     statusMessage: "Project not found",
@@ -54,11 +52,14 @@ if (!project.value) {
   });
 }
 
+// Each slug and locale is its own page instance, so the project never changes here
+const project = data.value;
+
 useSeoMeta({
-  title: () => project.value.title,
-  description: () => project.value.description,
-  ogTitle: () => `${project.value.title} | Sebastian Šanda`,
-  ogDescription: () => project.value.description,
+  title: project.title,
+  description: project.description,
+  ogTitle: `${project.title} | Sebastian Šanda`,
+  ogDescription: project.description,
 });
 </script>
 

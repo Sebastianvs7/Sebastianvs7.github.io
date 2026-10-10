@@ -2,7 +2,7 @@
   <NuxtPage />
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { t } = useI18n();
 const route = useRoute();
 const colorMode = useColorMode();
@@ -17,7 +17,7 @@ useHead({
   htmlAttrs: {
     lang: computed(() => i18nHead.value.htmlAttrs.lang),
   },
-  titleTemplate: (title) =>
+  titleTemplate: (title?: string) =>
     title ? `${title} | Sebastian Šanda` : defaultTitle.value,
   link: computed(() => i18nHead.value.link),
   meta: computed(() => [

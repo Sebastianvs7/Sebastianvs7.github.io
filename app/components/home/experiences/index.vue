@@ -45,11 +45,11 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { experiencesData } = await useExperiencesData();
 const { locale } = useI18n();
 
-const getPositionClass = (index) => {
+const getPositionClass = (index: number): "left" | "right" => {
   return index % 2 === 0 ? "right" : "left";
 };
 </script>

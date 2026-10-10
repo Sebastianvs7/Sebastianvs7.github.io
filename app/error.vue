@@ -8,13 +8,14 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  error: {
-    type: Object,
-    required: true,
-  },
-});
+<script setup lang="ts">
+import type { NuxtError } from "#app";
+
+interface ErrorPageProps {
+  error: NuxtError;
+}
+
+const props = defineProps<ErrorPageProps>();
 
 const { t } = useI18n();
 const localePath = useLocalePath();
