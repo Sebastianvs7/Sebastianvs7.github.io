@@ -48,7 +48,16 @@ a {
   &:hover,
   &:focus {
     color: var(--color-accent-dark);
-    outline: none;
+  }
+}
+
+:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+
+  .dark & {
+    outline-color: var(--color-accent-dark);
   }
 }
 
