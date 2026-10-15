@@ -73,6 +73,24 @@
     opacity: 1;
   }
 
+  // Light spot under the cursor, dark theme only
+  :root.dark &.magic-bento-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+      rgba(var(--glow-color), 0.25) 0%,
+      rgba(var(--glow-color), 0.1) 40%,
+      transparent 70%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: var(--glow-intensity);
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+
   // Magic particle styles
   :deep(.magic-particle) {
     position: absolute;
@@ -190,7 +208,6 @@
       font-weight: 600;
       margin: 0 0 0.5rem 0;
     }
-
 
     .project-description-container {
       margin-bottom: 1rem;
