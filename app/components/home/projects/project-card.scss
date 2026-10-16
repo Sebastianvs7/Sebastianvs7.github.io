@@ -55,14 +55,10 @@
       transparent 60%
     );
     border-radius: inherit;
+    // Composite inside the shorthand: the minifier hoists a separate mask-composite above `mask`, which resets it
     mask:
-      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0) content-box exclude,
       linear-gradient(#fff 0 0);
-    mask-composite: subtract;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
     pointer-events: none;
     opacity: var(--glow-intensity);
     transition: opacity 0.3s ease;
