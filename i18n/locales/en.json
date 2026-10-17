@@ -65,5 +65,14 @@
     "download": "Download CV",
     "downloadLabel": "Download CV as PDF",
     "short": "CV"
+  },
+  "game": {
+    "stop": "Quit game",
+    "clear": "Clear",
+    "you": "You",
+    "computer": "Computer",
+    "won": "You won!",
+    "lost": "Computer won",
+    "draw": "Draw"
   }
 }

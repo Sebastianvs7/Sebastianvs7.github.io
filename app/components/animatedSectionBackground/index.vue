@@ -1,11 +1,57 @@
 <template>
-  <div id="showAnimation" ref="containerRef">
-    <div ref="heroRef" class="hero" />
+  <div id="showAnimation" ref="containerRef" :class="{ 'is-playing': game }">
+    <div
+      ref="heroRef"
+      class="hero"
+      :class="{ 'is-clickable': isHoverPlayable }"
+    />
+    <div v-if="game" class="game-layer" aria-hidden="true">
+      <span
+        v-if="flash"
+        :key="flash.id"
+        class="cell-flash"
+        :style="{ left: `${flash.x}px`, top: `${flash.y}px` }"
+      />
+      <span
+        v-for="mark in marks"
+        :key="mark.index"
+        class="mark"
+        :class="[`mark--${mark.mark}`, { 'mark--win': mark.isWinning }]"
+        :style="{ left: `${mark.x}px`, top: `${mark.y}px` }"
+      />
+    </div>
+    <span role="status" class="visually-hidden">
+      {{ resultKey ? $t(resultKey) : "" }}
+    </span>
+    <div class="game-controls">
+      <button
+        v-if="resultKey"
+        type="button"
+        class="game-button"
+        @click="handleGameClear"
+      >
+        {{ $t("game.clear") }}
+      </button>
+      <button
+        v-else-if="game"
+        type="button"
+        class="game-button game-button--icon"
+        :aria-label="$t('game.stop')"
+        @click="handleGameClear"
+      >
+        <svg viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M2 2l8 8M10 2l-8 8" />
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { gsap } from "gsap";
+
+import { computerMove, createGame, playerMove } from "~/utils/gomoku";
+import type { GomokuGame, GomokuMark, GomokuStatus } from "~/utils/gomoku";
 
 interface GridBox {
   el: HTMLDivElement;
@@ -21,6 +67,20 @@ interface GridMetrics {
   rows: number;
   spacingX: number;
   spacingY: number;
+}
+
+interface CellFlash {
+  id: number;
+  x: number;
+  y: number;
+}
+
+interface GameMarkView {
+  index: number;
+  isWinning: boolean;
+  mark: GomokuMark;
+  x: number;
+  y: number;
 }
 
 // A highlighted square that zig-zags horizontally across the grid
@@ -43,11 +103,47 @@ const MOUSE_MOVE_THRESHOLD = 500; // Time in ms to consider mouse as "not moving
 const EXPLOSION_RADIUS_MOVING = 150;
 const EXPLOSION_RADIUS_STATIONARY = 150;
 
+// Pause before the computer answers, so its move reads as a reply
+const COMPUTER_MOVE_DELAY = 400;
+const GAME_RESULT_KEYS: Partial<Record<GomokuStatus, string>> = {
+  draw: "game.draw",
+  lost: "game.lost",
+  won: "game.won",
+};
+
 const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 
 const containerRef = ref<HTMLElement | null>(null);
 const heroRef = ref<HTMLElement | null>(null);
+
+// null while the game is off; the board maps 1:1 onto `boxes`
+const game = shallowRef<GomokuGame | null>(null);
+// Set once the game has ended, so it also tells whether it has
+const resultKey = computed(() =>
+  game.value ? GAME_RESULT_KEYS[game.value.status] : undefined
+);
+const flash = shallowRef<CellFlash | null>(null);
+const hoverIndex = ref(-1);
+const isHoverPlayable = computed(() => {
+  if (hoverIndex.value === -1) return false;
+  if (!game.value) return true;
+  return (
+    game.value.status === "playerTurn" &&
+    game.value.board[hoverIndex.value] === null
+  );
+});
+const marks = computed<GameMarkView[]>(() => {
+  const current = game.value;
+  if (!current) return [];
+
+  return current.board.flatMap((mark, index) => {
+    const box = boxes[index];
+    if (!mark || !box) return [];
+    const isWinning = current.winningLine.includes(index);
+    return [{ index, isWinning, mark, x: box.x, y: box.y }];
+  });
+});
 
 // Imperative animation state, never rendered
 let boxes: GridBox[] = [];
@@ -63,14 +159,24 @@ let lastClickTime = 0;
 let idleTimer: ReturnType<typeof setTimeout> | undefined;
 let startTimer: ReturnType<typeof setTimeout> | undefined;
 let intersectionObserver: IntersectionObserver | undefined;
+let gridMetrics: GridMetrics | undefined;
+let isReducedMotion = false;
+let computerMoveTimer: ReturnType<typeof setTimeout> | undefined;
+let flashId = 0;
 
 onMounted(() => {
   // Wait a bit for the layout to settle before measuring
   startTimer = setTimeout(() => {
     initializeAnimation();
+    // Registered before the reduced-motion exit, so everyone can play
+    heroRef.value?.addEventListener("click", handleClick);
+    heroRef.value?.addEventListener("pointermove", handleHeroPointerMove);
 
     // Keep only the static grid for users preferring reduced motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    isReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (isReducedMotion) return;
 
     setupInteraction();
     setupTimelines();
@@ -82,6 +188,7 @@ onMounted(() => {
 onUnmounted(() => {
   clearTimeout(startTimer);
   clearTimeout(idleTimer);
+  clearTimeout(computerMoveTimer);
   timelines.forEach((timeline) => timeline.kill());
   intersectionObserver?.disconnect();
 
@@ -120,6 +227,7 @@ function initializeAnimation() {
   if (!hero) return;
 
   const grid = getGridMetrics(hero);
+  gridMetrics = grid;
 
   boxes = [];
   for (let y = 0; y < grid.rows; y++) {
@@ -183,7 +291,6 @@ function initializeAnimation() {
 
 function setupInteraction() {
   window.addEventListener("mousemove", handleMouseMove);
-  heroRef.value?.addEventListener("click", handleClick);
 }
 
 function setupTimelines() {
@@ -317,21 +424,7 @@ function setupIntersectionObserver() {
 function handleVisibilityChange() {
   if (document.hidden) {
     pauseTimelines();
-
-    // Hide all visible crosses
-    crossElements.forEach((cross) => {
-      if (cross.dataset.active === "true") {
-        gsap.to(cross, {
-          opacity: 0,
-          scale: 0.5,
-          duration: 0.3,
-          ease: "power2.out",
-          onComplete: () => {
-            cross.dataset.active = "false";
-          },
-        });
-      }
-    });
+    hideActiveCrosses();
     return;
   }
 
@@ -340,6 +433,24 @@ function handleVisibilityChange() {
   if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
     resumeTimelines();
   }
+}
+
+function hideActiveCrosses() {
+  crossElements.forEach((cross) => {
+    if (cross.dataset.active === "true") {
+      gsap.to(cross, {
+        opacity: 0,
+        scale: 0.5,
+        duration: 0.3,
+        ease: "power2.out",
+        // Kill the running fade-in, or it keeps the cross visible
+        overwrite: true,
+        onComplete: () => {
+          cross.dataset.active = "false";
+        },
+      });
+    }
+  });
 }
 
 function handleMouseMove(e: MouseEvent) {
@@ -374,6 +485,9 @@ function resetIdleTimer() {
 }
 
 function showRandomCrosses() {
+  // Decorative crosses would read as computer moves during a game
+  if (game.value) return;
+
   const numToShow = 4 + Math.floor(Math.random() * 2);
   for (let i = 0; i < numToShow; i++) {
     const cross =
@@ -407,6 +521,11 @@ function showRandomCrosses() {
 }
 
 function handleClick(e: MouseEvent) {
+  // Playable cells belong to the game; the free last row keeps the explosion
+  const index = getPlayableCellIndex(e);
+  if (index !== -1) return handleGameMove(index);
+  if (isReducedMotion) return;
+
   const currentTime = Date.now();
 
   // Throttle clicks - only allow one click per throttle delay
@@ -488,6 +607,58 @@ function handleClick(e: MouseEvent) {
       }
     );
   });
+}
+
+// Index of the box nearest to the pointer, -1 outside the playable rows
+function getPlayableCellIndex(e: MouseEvent): number {
+  const rect = heroRef.value?.getBoundingClientRect();
+  if (!rect || !gridMetrics) return -1;
+
+  const { cols, offsetX, offsetY, rows, spacingX, spacingY } = gridMetrics;
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const col = Math.round((x - offsetX - BOX_SIZE / 2) / spacingX);
+  const row = Math.round((y - offsetY - BOX_SIZE / 2) / spacingY);
+  const isInside = col >= 0 && col < cols && row >= 0 && row < rows - 1;
+  return isInside ? row * cols + col : -1;
+}
+
+function handleHeroPointerMove(e: PointerEvent) {
+  hoverIndex.value = getPlayableCellIndex(e);
+}
+
+function handleGameMove(index: number) {
+  if (!gridMetrics) return;
+
+  const current = game.value ?? createHeroGame(gridMetrics);
+  const next = playerMove(current, index);
+  if (next === current) return;
+
+  if (!game.value) hideActiveCrosses();
+  const box = boxes[index];
+  if (box) flash.value = { id: ++flashId, x: box.x, y: box.y };
+  setGame(next);
+
+  if (next.status !== "computerTurn") return;
+  computerMoveTimer = setTimeout(() => {
+    if (game.value) setGame(computerMove(game.value));
+  }, COMPUTER_MOVE_DELAY);
+}
+
+function setGame(next: GomokuGame) {
+  game.value = next;
+}
+
+// Quit and Clear both return to the idle animation
+function handleGameClear() {
+  clearTimeout(computerMoveTimer);
+  game.value = null;
+  flash.value = null;
+}
+
+// The last row stays free for the game controls, so no move hides under them
+function createHeroGame(grid: GridMetrics): GomokuGame {
+  return createGame(grid.cols, grid.rows - 1);
 }
 </script>
 

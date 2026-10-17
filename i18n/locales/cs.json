@@ -65,5 +65,14 @@
     "download": "Stáhnout CV",
     "downloadLabel": "Stáhnout CV v PDF",
     "short": "CV"
+  },
+  "game": {
+    "stop": "Ukončit hru",
+    "clear": "Vyčistit",
+    "you": "Ty",
+    "computer": "Počítač",
+    "won": "Výhra!",
+    "lost": "Počítač vyhrál",
+    "draw": "Remíza"
   }
 }
