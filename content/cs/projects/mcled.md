@@ -21,10 +21,10 @@ Společnost McLED s.r.o. představuje vlastní značku profesionálního LED osv
 
 ## O pozici
 
-U firmy McLED jsem pracoval jako Webmaster a měl jsem na starosti správu webu a komunikaci se zákazníky jako technická podpora.
-Na této pizici jsem byl v úzkém kontaktu s grafickým oddělením které připravovalo grafické podklady a produktové fotografie pro katalogy tak i webové použití na kterém jsem částečně podílel.
-Web byl pod správou agentury se kterou jsem byl v pravidelném kontaktu při přípravách nových funkcionalit tak úpravách klíčových částí eshopu.
-Za účelem zlepšení SEO rankingu a pozici ve vyhledávačích se firma rozhodla pro využití marketingové agentury se kterou jsem posléze web upravoval tak aby dodržoval zýsady pro správné SEO, generoval XML feedy pro k automatizovanému sdílení strukturovaných dat mezi různými systémy jako Heureka.
+U firmy McLED jsem pracoval jako webmaster a měl jsem na starosti správu webu a komunikaci se zákazníky jako technická podpora.
+Na této pozici jsem byl v úzkém kontaktu s grafickým oddělením, které připravovalo grafické podklady a produktové fotografie pro katalogy i pro web, a na jejich přípravě jsem se částečně podílel.
+Web byl pod správou agentury, se kterou jsem byl v pravidelném kontaktu při přípravě nových funkcí i úpravách klíčových částí e-shopu.
+Za účelem zlepšení SEO rankingu a pozice ve vyhledávačích se firma rozhodla pro spolupráci s marketingovou agenturou, se kterou jsem posléze web upravoval tak, aby dodržoval zásady správného SEO a generoval XML feedy pro automatizované sdílení strukturovaných dat s dalšími systémy, jako je Heureka.
 
 ::
 
@@ -34,7 +34,7 @@ Za účelem zlepšení SEO rankingu a pozici ve vyhledávačích se firma rozhod
 
 - **HTML**
 - **CSS**
-- **Javascript**
+- **JavaScript**
 - **Photoshop**
 
 ::

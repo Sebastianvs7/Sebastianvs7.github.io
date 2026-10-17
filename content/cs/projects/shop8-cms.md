@@ -13,35 +13,47 @@ tags: ["React", "TypeScript", "GraphQL", "Nx", "Cypress"]
 
 <!-- # Shop8 CMS -->
 
-Shop 8 je mid-size e-commerce řešení na míru pro zákazníky.
+## Kontext
+
+Shop8 je e-commerce řešení na míru pro středně velké e-shopy. Úkolem bylo připravit kompletní administraci, ve které klienti ovládají všechny části svého e-shopu tak, jak potřebují.
 ::
 
 ::div{.row}
 
-## O projektu
+## Moje role
 
-Úkolem bylo připravit kompletní administraci pro správu eshopu, kde budou moci klienti ovládat všechny části svého eshopu tak aby to vyhovovalo jejich potřebám.
-Na projektu jsem pracoval s kolegy kteří mě hodně naučily o celkové stavbě systému a byl jsem součástí teamu jak backendu tak i frontendu.
-Administrace zahrnuje několik modulů pro správu eshopu jako je uživatelský účet, dopravy, platby, pobočky, slevové kupóny a jiné. V obsahové části lze mimo jiné spravovat kategorie, vlastní eventy ale nejhlavnější jsou produkty kde uživatel může využít správů verzí tedy historie produktu, varianty produkty nebo jazykové mutace a mnoho dalšího.
-Projekt byl posléze uprav pro Monorepo NX aby se dal lépe škálovat a mohlo se lépe využít již hotových modulů pro více klientů.
-Projekt je postaven na React Router pro navigaci mezi stránkami. Využívá nativní fetch spolu s graphql a react-query pro snadnější komunikaci s API. Značnou část administrace tvoří tabulky Material Table se seznamem dat pro danný modul které umějí vyhledávat, filtrovat, řadit a automaticky ukládají poslední stav. Další značnou částí tvoří samotné detaily pro tvorbu nebo správu obsahu kde se hodně využívá práce s formuláři za pomoci React Hook Forms nebo TinyMCE. Pro klíčové komponenty a layout admninistrace byl použit Material UI a vlastní SCSS styly.
-Projekt je napsán v Typescriptu a využívá Eslint pro kontrolu kvality kódu, Prettier pro formátování kódu. Aplikace je rozdělena na klíčové moduly a komponenty které lze používat napříč všemi části aplikace. Každá aplikace má svoji konfikuraci pro interní potřeby klienta tak i stylové úpravy např. administrace v barvách kterou klient využívá.
-Administrace na nástěnce za pomocí Chart.js zobrazuje různé grafy o objednávkách a kompletní informace o záznamech v CMS.
-Pro admninistraci jsem, napsal automatické E2E testy pomocí Jest ale později jsem přešel na Cypress se kterým se mi pracovalo po všech stránkách lépe.
-Administrace se neustále rozvíjí. Přidáváme nové funkcionality, pravidelně aktualizuji knihovny nebo refakturuji starší kód.
-Výsledkem je plně funkční administrace s API které se dokáží přizpůsobit potřebám projektu.
-
+Na projektu jsem pracoval s kolegy, kteří mě hodně naučili o celkové stavbě systému, a byl jsem součástí týmu backendu i frontendu.
 ::
 
 ::div{.row}
 
-## Klíčové funkce
+## Výzva
 
-- **Vývoj CMS na míru** - Přizpůsobené řešení pro každého klienta
-- **E-commerce řešení** - Kompletní online obchodní platformy
-- **Škálovatelná architektura** - Růst spolu s byznysem klienta
-- **Zaměření na růst byznysu** - Řešení pro rozvíjející se firmy
+Administrace zahrnuje mnoho modulů pro správu e-shopu: uživatelský účet, dopravy, platby, pobočky, slevové kupóny a další. V obsahové části se spravují kategorie a vlastní eventy, hlavně ale produkty – včetně správy verzí (historie produktu), variant a jazykových mutací.
 
+Stejné moduly navíc musely sloužit více klientům, každému s vlastní konfigurací.
+::
+
+::div{.row}
+
+## Řešení
+
+- Projekt jsme převedli do Nx monorepa, aby lépe škáloval a hotové moduly šly použít pro více klientů.
+- Navigaci mezi stránkami řeší React Router, komunikaci s API nativní fetch spolu s GraphQL a React Query.
+- Seznamy dat jednotlivých modulů tvoří tabulky Material Table, které umí vyhledávat, filtrovat, řadit a automaticky ukládají poslední stav.
+- Detaily pro tvorbu a správu obsahu stojí na formulářích v React Hook Form a editoru TinyMCE.
+- Pro klíčové komponenty a layout administrace jsme použili Material UI a vlastní SCSS styly.
+- Každá aplikace má vlastní konfiguraci pro interní potřeby klienta i stylové úpravy, například administraci v barvách klienta.
+- Nástěnka zobrazuje pomocí Chart.js grafy objednávek a přehled záznamů v CMS.
+- Automatické E2E testy jsem nejdřív psal v Jestu, později jsem přešel na Cypress, se kterým se mi pracovalo lépe.
+- Kód je v TypeScriptu, kvalitu hlídá ESLint a formátování Prettier.
+::
+
+::div{.row}
+
+## Výsledek
+
+Plně funkční administrace s API, která se dokáže přizpůsobit potřebám projektu. Administrace se dál rozvíjí: přidáváme nové funkce, pravidelně aktualizuji knihovny a refaktoruji starší kód.
 ::
 
 ::div{.row}
@@ -49,7 +61,7 @@ Výsledkem je plně funkční administrace s API které se dokáží přizpůsob
 ## Technologie
 
 - React (TypeScript)
-- NX Monorepo — pro škálovatelný a konzistentní kód mezi aplikacemi
+- Nx monorepo – pro škálovatelný a konzistentní kód mezi aplikacemi
 - React Router
 - React Query
 - React Hook Form
@@ -59,7 +71,7 @@ Výsledkem je plně funkční administrace s API které se dokáží přizpůsob
 - Cypress (E2E)
 - ESLint + Prettier
 - Material UI (MUI)
-- Ant Design (antd) — especially Tree
+- Ant Design (antd) – hlavně Tree
 - Chonky (data grid)
 - React DnD
 - Chart.js

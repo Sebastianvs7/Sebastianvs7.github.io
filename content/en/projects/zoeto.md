@@ -17,64 +17,60 @@ tags: ["React Native", "Expo", "Firebase", "TypeScript"]
 
 <!-- # Zoeto -->
 
-Zoeto is a comprehensive mobile application that enables veterinarians easy access to Zoetis’s product catalog. The app includes detailed information about medications, including composition, indications, packaging, and pricing.
+## Context
+
+Zoeto is a mobile app that gives veterinarians easy access to the Zoetis product catalogue. It includes detailed information about medicines, including composition, indications, packaging and prices.
+
+We developed the app for an external company that hired us to build it.
 ::
 
 ::div{.row}
 
-## About the app
+## My role
 
-App Zoeto was my first experience with native apps — and specifically, React Native.
-My task on this project was to code the app according to the graphic design being prepared in-house.
-To get started in this space, I used the course React Native - The Practical Guide by Maximilian Schwarzmüller from Udemy, which gave me an excellent introduction to native app development.
+I coded the app according to the graphic design prepared in-house. I was in contact with the external company and usually led the meetings for our side, together with a colleague responsible for the backend.
 
-The project initially was built on Expo, but over time, we transitioned to classic React Native.
-During development, I encountered many new concepts — working with Xcode and Android Studio, using simulators, and even writing native code.
-I worked alongside an external company that had been hired to develop this app.
-This required occasional meetings, which I often led for our side, together with a colleague responsible for the backend.
-
-For the app, I used React Navigation as the routing system — essential for determining whether the user is logged in, and thus unlocking the main app content.
-For API communication, I used Axios.
-The app also includes several animations, which I implemented using React Native Reanimated.
-The main feature is the product catalog expansion: when users expand nested categories, they are presented with different products based on specific filters.
-For state management, I used Redux.js, which handles the app’s core logic.
-Later, the client decided to switch to Gigya — SAP Customer Data Cloud for easier user registration and login.
-To integrate with React Native, I used the plugin:
-"@sap_oss/gigya-react-native-plugin-for-sap-customer-data-cloud".
-This required refactoring parts of the frontend logic, as well as API-side changes.
-
-I regularly managed library updates and the React Native framework itself.
-I also uploaded new builds for internal testing on Google Play, or generated APK files so developers could test the app directly.
-An interesting challenge for me was working with Xcode — to build the app and submit it to TestFlight, I needed to use appropriate signing certificates and provisioning profiles, which I received from the Zoetis development team.
-Another phase of development involved implementing Push Notifications, for which we chose Firebase for notifications delivery.
-Preparing the notification feature turned out to be a longer journey than expected — as the functionality kept expanding.
-We had to not only design screens such as the notification list, detail view, and settings, but also ensure full compatibility across both platforms.
-This eventually led to modifications in the .NET-based API.
-
-The result is an app designed to help veterinarians navigate and purchase medications more easily.
+After the launch I regularly updated the libraries and React Native itself, uploaded new releases for internal testing on Google Play and generated APK files so developers could test the app.
 ::
 
 ::div{.row}
 
-## Key Features
+## Challenge
 
-- **Cross-platform mobile app** - Available for iOS and Android
-- **Access to product catalog** - Detailed information about medications
-- **Order management system** - Easy creation and tracking of orders
-- **User account management** - Personalized environment
+This was my first experience with native apps and with React Native. To get started I took the course React Native – The Practical Guide by Maximilian Schwarzmüller on Udemy.
 
+While building the screens I met many new things: Xcode, Android Studio, simulators and native code. To build the app and submit it to TestFlight I signed it with the certificates and provisioning profiles I received from the Zoetis developers.
 ::
 
 ::div{.row}
 
-## Technology
+## Solution
+
+- The project started on Expo and over time we moved to plain React Native.
+- React Navigation serves as the router and checks whether the user is logged in, unlocking the main app content.
+- Axios handles API communication and Redux handles the core app logic.
+- I built the animations in React Native Reanimated. The main one is the expanding catalogue, where users open nested categories and see products by specification.
+- The client later chose Gigya (SAP Customer Data Cloud) for registration and login. I integrated the `@sap_oss/gigya-react-native-plugin-for-sap-customer-data-cloud` plugin and refactored part of the logic on the frontend and on the API side.
+- We chose Firebase for push notifications. The feature kept growing: besides the notification list, detail and settings screens it had to work correctly on both platforms, which led me to changes in the .NET API.
+::
+
+::div{.row}
+
+## Result
+
+The app is released on iOS and Android and helps veterinarians find their way around medicines and buy them.
+::
+
+::div{.row}
+
+## Technologies
 
 - React Native
 - SAP Gigya plugin for processing user data
-- Firebase — Messaging, Notifee
+- Firebase (Messaging, Notifee)
 - React Native Reanimated
 - React Navigation
 - Redux.js
-- Axios — for REST APIs
+- Axios (for REST APIs)
 
 ::

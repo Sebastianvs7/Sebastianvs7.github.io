@@ -13,44 +13,43 @@ tags: ["WordPress", "WooCommerce", "PHP", "WooPayments"]
 
 <!-- # NoGrays -->
 
-NoGrays is an e-shop built on WordPress and WooCommerce, promoting a product that offers a revolution in hair care.
+## Context
+
+NoGrays is a WordPress and WooCommerce e-shop promoting a hair-care product.
 ::
 
 ::div{.row}
 
-## About the Project
+## My role
 
-For NoGrays, I created an e-shop built using WooCommerce.
-The website was coded according to the visual design from Figma.
-It uses a classic WordPress theme and includes a content management system for pages, blog posts, menus, and custom sections — which I prepared as PHP functions.
-WooCommerce is integrated with the Woopayments payment gateway.
-It supports not only card payments but also fast payment methods such as Google Pay and Apple Pay.
-For the website, I developed a custom contact form for handling product returns, styled to match WooCommerce’s email templates.
-Users can also register and access their personal account, where they can manage their orders and shipping addresses.
-
-The biggest challenge for me in this project was working with the WooCommerce API, modifying the cart template, and debugging server-side code to prepare server events for Facebook Conversion API.
+As a WordPress developer I built the whole NoGrays e-shop on WooCommerce.
 ::
 
 ::div{.row}
 
-## Key Features
+## Challenge
 
-- **Woocommerce - Woopayments** -
-- **Custom Sections** -
-- **User Account** -
-- **Return/Refund Option** -
-
+The biggest challenge for me was working with the WooCommerce API, customizing the cart template and debugging on the server side while preparing server-side events for the Facebook Conversion API.
 ::
 
 ::div{.row}
 
-## Technology
+## Solution
+
+- The website is coded from a Figma design as a classic WordPress theme, with content management for pages, the blog, menus and separate sections that I prepared as PHP functions.
+- WooCommerce is connected to the WooPayments gateway, which supports card payments as well as Google Pay and Apple Pay.
+- I built a custom contact form for product returns that reuses the look of the WooCommerce email templates.
+- Customers can register and manage their orders and addresses in their account.
+::
+
+::div{.row}
+
+## Technologies
 
 - WordPress
 - WooCommerce
 - WooPayments
-- Custom Sections, Pages, Customer Account, Blog
-- Custom Refund Emails
+- PHP
 - gtag, Facebook Pixel (FB CAPI)
 
 ::

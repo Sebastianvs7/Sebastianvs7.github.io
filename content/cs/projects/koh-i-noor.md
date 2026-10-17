@@ -13,32 +13,44 @@ tags: ["Next.js", "TypeScript", "Redux", "WordPress/ACF", "Cypress"]
 
 <!-- # Koh-I-Noor Deutschland -->
 
+## Kontext
+
 KOH-I-NOOR Deutschland GmbH je německá pobočka renomované české společnosti KOH-I-NOOR Hardtmuth, která se specializuje na kvalitní psací a výtvarné potřeby.
 
-Tento projekt představuje moderní e-commerce řešení pro německý trh s psacími a výtvarnými potřebami. Webová stránka nabízí široký sortiment produktů pro umělce, studenty a kanceláře, včetně akčních nabídek a novinek.
+Pro německý trh potřebovala moderní e-shop se sortimentem pro umělce, studenty i kanceláře, včetně akčních nabídek a novinek.
 ::
 
 ::div{.row}
 
-## O projektu
+## Moje role
 
-Na tomto projektu jsem pracoval jako Frontend vývojář ale také jsem byl při komunikaci jak s klientem tak i marketingovou agenturou.
-Web byl postaven na technologii Next.js tak aby byl optimalizovaný pro výkon. Pro tuto potřebu jsem využil prebuildu kde jsem stáhl data z API, upravil pro potřeby aplikace a uložil do požadovaných JSON souborů. Klient využívá vlastní systém který synchronizuje data s Wordpressem pro který jsme použily vlastní plugin který lépe vyhovoval pro logiku eshopu.
-Na Frontendu jsem do Wordpressu připravoval několik vlastních sekcí nebo stránek za použití ACF - Advanced Custom Fields. Web využívá různých marketingových nástrojů pro podporu prodeje a analýz, jako Facebook Conversion API, Google Tag Manager, Ecomail nebo AI vyhledávání.
-Projekt byl později aktualizován a přepsán do App folder routeru nováho Next.js jelikož bylo stále více potřeba rebuildovat aplikaci kvůli změnám v datech které byly potřeba pro marketing. Proto se značná část logiky přesunula z Frontendu na Backend.
-Aplikace se neustále rozvíjí a přináší nové redesigny, aktualizace knihoven a oprav starších částí kódu.
-Automatické E2E testy jsem napsal v cypressu tak aby pokryly většinu stránek a funkčnosti eshopu.
+Na projektu jsem pracoval jako frontend vývojář a zároveň jsem vedl komunikaci s klientem i marketingovou agenturou.
 ::
 
 ::div{.row}
 
-## Klíčové funkce
+## Výzva
 
-- **Responzivní design** - Optimalizováno pro všechna zařízení
-- **Správa produktového katalogu** - Efektivní prezentace produktů
-- **Vícejazyčná podpora** - Německý a český jazyk
-- **SEO optimalizace** - Vysoká viditelnost ve vyhledávačích
+Klient používá vlastní systém, který synchronizuje data s WordPressem. Web musel být optimalizovaný pro výkon, a přitom bylo stále častěji potřeba aplikaci znovu buildovat kvůli změnám v datech pro marketing.
+::
 
+::div{.row}
+
+## Řešení
+
+- Web jsem postavil v Next.js. Při prebuildu jsem stahoval data z API, upravoval je pro potřeby aplikace a ukládal do JSON souborů.
+- Pro synchronizaci s WordPressem jsme použili vlastní plugin, který lépe vyhovoval logice e-shopu.
+- Ve WordPressu jsem připravil několik vlastních sekcí a stránek pomocí ACF (Advanced Custom Fields).
+- Web využívá marketingové nástroje pro podporu prodeje a analýzy: Facebook Conversion API, Google Tag Manager, Ecomail a AI vyhledávání.
+- Projekt jsem později přepsal na App Router nového Next.js a značnou část logiky přesunul z frontendu na backend.
+- E2E testy v Cypressu pokrývají většinu stránek a funkcí e-shopu.
+::
+
+::div{.row}
+
+## Výsledek
+
+Změny v datech pro marketing už nevyžadují nový build aplikace. Web se dál rozvíjí: přibývají redesigny, aktualizace knihoven a opravy starších částí kódu.
 ::
 
 ::div{.row}
@@ -46,13 +58,14 @@ Automatické E2E testy jsem napsal v cypressu tak aby pokryly většinu stránek
 ## Technologie
 
 - Next.js
-- SaSS
+- WordPress, ACF
+- Sass
 - Redux
 - Google Maps React Markers + Supercluster
 - React Player, Swiper
 - REST API
 - gtag, Facebook Pixel, Ecomail
-- Eslint, Prettier
+- ESLint, Prettier
 - Cypress
 
 ::

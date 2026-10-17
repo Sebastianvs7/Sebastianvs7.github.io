@@ -13,31 +13,33 @@ tags: ["Next.js", "React", "GraphQL", "Sass"]
 
 <!-- # Mobile Phone Museum -->
 
-Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů.
+## Kontext
+
+Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Ve sbírce má více než 2800 zařízení od více než 200 výrobců.
 ::
 
 ::div{.row}
 
-## O projektu
+## Moje role
 
-Na tomto projektu jsem vytvářel primárně Frontend webu ale podílel jsem se také na tvorbě a správě obsahu za pomoci CMS.
-Úkolem na tomto projektu bylo připravit stránky v Reactu za použití Gatsby.js frameworku dle návrhu od grafického studia.
-Klient si hodně zakládál na Pixel-Perfect stylování, a imlementace zajímavých animací.
-Velice zajímavou částí byla tvorba úvodního slidu na domovské stránce kde v obrázku telefonu Nokia 3310 na obrazovce je digitálním fontem animováno počet zařízení které má muzeum ve zbírce.
-Projekt byl později aktualizován a přepsán do Next.js tak abychom lépe mohli pracovat s daty a optimalizovat obrázky jelikož generování statických stránek v Gatsby.js později začalo být velice časově náročné vzhledem k růstu projektu a objemu dat.
-Na webu je spousta zajímavých prvků a funkcí od vyhledávání a filtrování přes různé kolekce telefonů, generování článků až po detail telefonu který zobrazuje PDF soubory, přehrává videa z různých platforem jako Youtube nebo Vimeo tak i zoom pro obrázky mobilních telefonů.
-
+Vytvářel jsem primárně frontend webu, ale podílel jsem se také na tvorbě a správě obsahu v CMS.
 ::
 
 ::div{.row}
 
-## Klíčové funkce
+## Výzva
 
-- **Katalog zařízení** - Více než 2800 mobilních telefonů
-- **Historická časová osa** - Vývoj mobilní technologie
-- **Profily výrobců** - Informace o více než 200 výrobcích
-- **Vzdělávací obsah** - Historie a význam mobilních telefonů
+Stránky vznikaly podle návrhu grafického studia a klient si hodně zakládal na pixel-perfect stylování a zajímavých animacích. S růstem projektu a objemu dat začalo být generování statických stránek v Gatsby.js velmi časově náročné.
+::
 
+::div{.row}
+
+## Řešení
+
+- Původní web jsem postavil v Reactu s frameworkem Gatsby.js.
+- Na úvodním slidu domovské stránky je na displeji telefonu Nokia 3310 digitálním fontem animovaný počet zařízení ve sbírce muzea.
+- Web jsme později přepsali do Next.js, abychom mohli lépe pracovat s daty a optimalizovat obrázky.
+- Web nabízí vyhledávání a filtrování, kolekce telefonů a generování článků. Detail telefonu zobrazuje PDF soubory, přehrává videa z platforem jako YouTube nebo Vimeo a umožňuje zoom obrázků.
 ::
 
 ::div{.row}

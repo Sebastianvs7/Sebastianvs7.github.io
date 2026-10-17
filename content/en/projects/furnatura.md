@@ -13,54 +13,49 @@ tags: ["Angular", "TypeScript", "GraphQL", "SSR", "Cypress"]
 
 <!-- # Furnatura -->
 
-Furnatura is a Czech brand of natural pet cosmetics, specializing in gentle care for your dog’s coat and skin.
+## Context
+
+Furnatura is a Czech brand of natural dog cosmetics, specializing in gentle care for your dog's coat and skin.
+
+The goal of the project was a new website to replace the e-shop running on WooCommerce and WordPress.
 ::
 
 ::div{.row}
 
-## About the Project
+## My role
 
-The goal of the project was to create a new website that would replace the existing e-commerce platform running on WooCommerce and WordPress.
-
-For project administration, I used the Shop8 CMS, which I customized to meet the project’s specific requirements.
-On the Frontend, I took over an already developed application written in Angular.
-After receiving the new design, I began coding the new website and subsequently implemented the logic required for e-commerce functionality.
-The e-shop is available in both Czech and English and supports payment in Czech Koruna (CZK) or Euro (EUR).
-Later, I added a short game to the website, which I had previously developed as a native game for Furnatura’s trade fair. I built it using the Ionic framework for hybrid applications, designed to show users suitable products for their four-legged friend.
-
-I subsequently upgraded Angular to the latest version 20, which required refactoring older parts of the website.
-I also implemented new Signals and made adjustments for Server-Side Rendering (SSR).
-On the project, I also worked on SEO optimization in collaboration with the marketing agency.
-I deployed custom Facebook Conversion API events, gtag events, and Ecomail integrations.
-The website utilizes SSR, JSON-LD Schema, Google Customer Reviews, Zásilkovna, and PPL widget.
+I took care of the administration in Shop8 CMS and of the frontend. I worked with the marketing agency on search engine optimization.
 ::
 
 ::div{.row}
 
-## Key Features
+## Challenge
 
-- **E-commerce functionality** - Complete online store
-- **Product presentation** - Detailed information about each cosmetic product
-- **Responsive design** - Optimized for all devices
-
+I took over an unfinished Angular frontend. Once the new design arrived, the website had to be coded and the e-shop logic added. The e-shop is available in Czech and English and accepts both Czech crowns and euros.
 ::
 
 ::div{.row}
 
-## Technology
+## Solution
 
-- Angular 20 (with SSR & i18n)
+- I adapted Shop8 CMS to the needs of the project.
+- I coded the new website from the design and added the e-shop logic.
+- I upgraded Angular to version 20, which meant refactoring older parts of the website, adopting Signals and adapting it for Server Side Rendering.
+- I set up custom Facebook Conversion API events, gtag events and Ecomail.
+- The website uses SSR, JSON-LD Schema, Google Customer Reviews and the Zásilkovna and PPL widgets.
+- I added a short game that I had earlier built for Furnatura as a native game for a trade fair. I wrote it in Ionic for hybrid apps, and it shows users suitable products for their four-legged friend.
+::
+
+::div{.row}
+
+## Technologies
+
+- Angular 20 (with SSR and i18n)
 - Apollo Angular + GraphQL
 - RxJS
-
-**UI & Styling**
-
-- SASS + PostCSS + Autoprefixer
-- Eslint + Prettier
+- Sass + PostCSS + Autoprefixer
+- ESLint + Prettier
 - TypeScript
-
-**Testing & Analytics**
-
 - Cypress (E2E)
 - GTM Custom Events + Facebook Pixel
 

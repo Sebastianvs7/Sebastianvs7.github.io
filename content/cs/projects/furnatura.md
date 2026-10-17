@@ -13,37 +13,37 @@ tags: ["Angular", "TypeScript", "GraphQL", "SSR", "Cypress"]
 
 <!-- # Furnatura -->
 
+## Kontext
+
 Furnatura je česká značka přírodní kosmetiky pro psy, která se specializuje na šetrnou péči o srst a pokožku domácích mazlíčků.
+
+Cílem projektu bylo vytvořit nový web, který nahradí e-shop běžící na WooCommerce a WordPressu.
 ::
 
 ::div{.row}
 
-## O značce
+## Moje role
 
-Cílem projektu bylo vytvořit nový web jenž nahradí eshop který běžel na Woocomerce a Wordpress.
-
-Pro administraci projektu jsem použil Shop8 CMS, který jsem upravoval tak, aby vyhoval potřebám projektu.
-Na Frontendu jsem převzal již rozdělanou aplikaci která byla napsaná v Angularu.
-Po obdržení nového designu jsem se pustil do kódování nového webu a následného nasazení logiky pro funkčnost eshopu.
-Eshop je dostupný v českém a anglickém jazyce a lze pro nákup využít jak české koruny tak Eura.
-Do webu jsem později přidal krátkou hru, kterou jsem dříve pro Furnaturu připravoval jako nativní hru na veletrh.
-Napsal jsem ji za pomoci technologie Ionic pro hybridní aplikace, která má uživateli ukázat vhodné produkty pro jeho čtyrnohého kamaráda.
-Angular jsem posléze upgradoval na nejnovětší verzi 20, což obnášelo i refaktoring starších částí webu.
-taktéž nové Signals nebo úpravu pro Server Side Rendering.
-Na projektu jsem řešil i optimalizaci pro vyhledávače ve spolupráci s Marketingovou agenturou.
-Nasazoval vlastní Facebook Conversion API eventy, gtag eventy., nebo Ecomail
-Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews, Zásilkovna a PPL widget.
+Postaral jsem se o administraci v Shop8 CMS i o frontend. Na optimalizaci pro vyhledávače jsem spolupracoval s marketingovou agenturou.
 ::
 
 ::div{.row}
 
-## Klíčové funkce
+## Výzva
 
-- **E-commerce funkcionalita** - Kompletní online obchod
-- **Prezentace produktů** - Detailní informace o kosmetice
-- **Responzivní design** - Optimalizováno pro všechna zařízení
-- **Zaměření na přírodní kosmetiku** - Ekologický přístup
+Frontend jsem převzal jako rozpracovanou aplikaci v Angularu. Po dodání nového designu bylo potřeba web nakódovat a doplnit logiku pro fungování e-shopu, který je dostupný v češtině i angličtině a nakupovat se v něm dá v korunách i eurech.
+::
 
+::div{.row}
+
+## Řešení
+
+- Shop8 CMS jsem upravil tak, aby vyhovoval potřebám projektu.
+- Nakódoval jsem nový web podle designu a nasadil logiku pro fungování e-shopu.
+- Angular jsem upgradoval na verzi 20, což obnášelo refaktoring starších částí webu, nové Signals a úpravu pro Server Side Rendering.
+- Nasadil jsem vlastní eventy pro Facebook Conversion API, gtag eventy a Ecomail.
+- Web využívá SSR, JSON-LD Schema, Google Customer Reviews a widgety Zásilkovny a PPL.
+- Do webu jsem přidal krátkou hru, kterou jsem dříve pro Furnaturu připravil jako nativní hru na veletrh. Napsal jsem ji v Ionicu pro hybridní aplikace a ukazuje uživateli vhodné produkty pro jeho čtyřnohého kamaráda.
 ::
 
 ::div{.row}
@@ -53,8 +53,8 @@ Web využívá Technologii SSR, JSON-LD Schema a Google Customer Reviews, Zásil
 - Angular 20 (s SSR a i18n)
 - Apollo Angular + GraphQL
 - RxJS
-- SASS + PostCSS + Autoprefixer
-- Eslint + Prettier
+- Sass + PostCSS + Autoprefixer
+- ESLint + Prettier
 - TypeScript
 - Cypress (E2E)
 - GTM Custom Events + Facebook Pixel

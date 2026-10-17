@@ -32,7 +32,7 @@ To improve SEO rankings and position in search engines, the company decided to p
 
 - **HTML**
 - **CSS**
-- **Javascript**
+- **JavaScript**
 - **Photoshop**
 
 ::

@@ -13,46 +13,55 @@ tags: ["React", "TypeScript", "GraphQL", "Nx", "Cypress"]
 
 <!-- # Shop8 CMS -->
 
-Shop 8 is a mid-sized, custom e-commerce solution for customers.
+## Context
+
+Shop8 is a custom e-commerce solution for mid-sized e-shops. The goal was to build a complete administration in which clients control every part of their e-shop the way they need.
 ::
 
 ::div{.row}
 
-## About the Project
+## My role
 
-The goal was to develop a complete administration panel for managing an e-shop, allowing clients to fully control all aspects of their online store according to their specific needs.
-
-During the project, I collaborated with colleagues who greatly helped me understand the overall system architecture. I contributed as part of a cross-functional team, working on both the backend and frontend.
-The administration includes several modules for e-shop management such as: user accounts, shipping, payments, branches, discount coupons, and more. In the content section, clients can manage categories, their own events, but most importantly — products. Users can utilize version control for products, enabling product history, product variants, multilingual variations, and many other features.
-Later, the project was refactored into a Monorepo using NX to improve scalability and allow better reuse of modules across multiple clients.
-The project is built using React Router for navigation between pages. It leverages native fetch alongside GraphQL and React Query for smoother communication with the API. A significant portion of the admin interface consists of Material Table components, which display data lists for each module and support searching, filtering, sorting, and automatic saving of the latest state. Another large portion involves detailed editing and content management screens, where form handling is heavily based on React Hook Forms and TinyMCE.
-For core components and layout, Material UI was used alongside custom SCSS styles.
-
-The application is written in TypeScript and uses ESLint for code quality control and Prettier for code formatting. It is modularized into key components and reusable modules that can be applied across all parts of the application. Each client’s instance has its own configuration for internal needs, including custom styling (e.g., admin panels in the client’s brand colors).
-On the dashboard, Chart.js is used to visualize various graphs about orders and complete records stored in the CMS.
-For testing, I initially wrote E2E tests using Jest, but later transitioned to Cypress, which proved more effective for testing across all application pages.
-The admin panel continues to evolve — we add new functionalities, regularly update libraries, or refactor legacy code.
-
-Result: A fully functional, scalable admin interface with an API that can be adapted to meet any client’s specific project requirements.
+I worked with colleagues who taught me a lot about the overall system architecture, and I was part of both the backend and the frontend team.
 ::
 
 ::div{.row}
 
-## Key Features
+## Challenge
 
-- **Custom CMS Development** - Tailored solutions for every client
-- **E-commerce Solutions** - Complete online store platforms
-- **Scalable Architecture** - Growing alongside the client’s business
-- **Focused on Business Growth** - Solutions for expanding companies
+The administration includes many modules for running an e-shop: user accounts, shipping, payments, branches, discount coupons and more. The content section manages categories and custom events, but above all products – with version history, variants and language versions.
 
+The same modules also had to serve multiple clients, each with their own configuration.
 ::
 
 ::div{.row}
 
-## Technology
+## Solution
+
+- We moved the project into an Nx monorepo so it scales better and finished modules can be reused for multiple clients.
+- React Router handles navigation; native fetch with GraphQL and React Query handles communication with the API.
+- Data lists in each module are Material Table tables that support searching, filtering and sorting and automatically save their last state.
+- Detail screens for creating and managing content are built on forms with React Hook Form and the TinyMCE editor.
+- Core components and the admin layout use Material UI and custom SCSS styles.
+- Each app has its own configuration for the client's internal needs and styling, for example an admin in the client's brand colours.
+- The dashboard uses Chart.js to show order charts and an overview of CMS records.
+- I first wrote automated E2E tests in Jest and later moved to Cypress, which worked better for me.
+- The code is written in TypeScript, with ESLint for code quality and Prettier for formatting.
+::
+
+::div{.row}
+
+## Result
+
+A fully functional administration with an API that adapts to the needs of each project. The admin keeps evolving: we add new features, and I regularly update libraries and refactor older code.
+::
+
+::div{.row}
+
+## Technologies
 
 - React (TypeScript)
-- NX Monorepo — for scalable, consistent code across apps
+- Nx monorepo – for scalable, consistent code across apps
 - React Router
 - React Query
 - React Hook Form
@@ -62,7 +71,7 @@ Result: A fully functional, scalable admin interface with an API that can be ada
 - Cypress (E2E)
 - ESLint + Prettier
 - Material UI (MUI)
-- Ant Design (antd) — especially Tree
+- Ant Design (antd) – especially Tree
 - Chonky (data grid)
 - React DnD
 - Chart.js
