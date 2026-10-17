@@ -634,7 +634,7 @@ function showRandomCrosses() {
 function handleClick(e: MouseEvent) {
   if (finaleFrom.value) return;
 
-  // Playable cells belong to the game; the free last row keeps the explosion
+  // Cells belong to the game; only clicks off the grid explode
   const index = getPlayableCellIndex(e);
   if (index !== -1) return handleGameMove(index);
   if (isReducedMotion) return;
@@ -722,7 +722,7 @@ function handleClick(e: MouseEvent) {
   });
 }
 
-// Index of the box nearest to the pointer, -1 outside the playable rows
+// Index of the box nearest to the pointer, -1 outside the grid
 function getPlayableCellIndex(e: MouseEvent): number {
   const rect = heroRef.value?.getBoundingClientRect();
   if (!rect || !gridMetrics) return -1;
@@ -732,7 +732,7 @@ function getPlayableCellIndex(e: MouseEvent): number {
   const y = e.clientY - rect.top;
   const col = Math.round((x - offsetX - BOX_SIZE / 2) / spacingX);
   const row = Math.round((y - offsetY - BOX_SIZE / 2) / spacingY);
-  const isInside = col >= 0 && col < cols && row >= 0 && row < rows - 1;
+  const isInside = col >= 0 && col < cols && row >= 0 && row < rows;
   return isInside ? row * cols + col : -1;
 }
 
@@ -743,7 +743,8 @@ function handleHeroPointerMove(e: PointerEvent) {
 function handleGameMove(index: number) {
   if (!gridMetrics) return;
 
-  const current = game.value ?? createHeroGame(gridMetrics);
+  const current =
+    game.value ?? createGame(gridMetrics.cols, gridMetrics.rows);
   const next = playerMove(current, index);
   if (next === current) return;
 
@@ -797,11 +798,6 @@ function handleGameClear() {
   if (Math.max(computer, player) >= FINALE_WINS) {
     score.value = { computer: 0, player: 0 };
   }
-}
-
-// The last row stays free for the game controls, so no move hides under them
-function createHeroGame(grid: GridMetrics): GomokuGame {
-  return createGame(grid.cols, grid.rows - 1);
 }
 </script>
 

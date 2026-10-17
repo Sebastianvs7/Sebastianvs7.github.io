@@ -244,10 +244,9 @@
   }
 }
 
-// One line no taller than a box, inside the last grid row the game leaves free
+// Below the grid, in the hero's bottom margin, so every row stays playable
 .game-controls {
   align-items: center;
-  bottom: 0.25rem;
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
@@ -255,6 +254,7 @@
   pointer-events: none;
   position: absolute;
   right: 0.75rem;
+  top: calc(100% + 0.5rem);
 }
 
 .game-button {
