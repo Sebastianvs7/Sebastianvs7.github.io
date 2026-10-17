@@ -1,14 +1,16 @@
 order: 1
 company: "CRUXO"
-position: "Full-Stack Developer"
-period: "2026 - "
+position:
+  cs: "Full-Stack Developer"
+  en: "Full-Stack Developer"
+period: "2026 – "
 current: true
 description:
   cs:
-    - "Full-stack vývoj webových aplikací v TypeScriptu."
-    - "Vývoj frontendu v Reactu a tvorba knihovny komponent ve Storybooku."
-    - "Práce s NestJS, GraphQL API, PostgreSQL, Docker."
+    - "Full-stack vývoj webových aplikací v TypeScriptu"
+    - "Frontend v Reactu a knihovna komponent ve Storybooku"
+    - "Backend v NestJS s GraphQL API a PostgreSQL, Docker"
   en:
-    - "Full-stack development of web applications in TypeScript."
-    - "Frontend development in React and building a component library in Storybook."
-    - "Working with NestJS, GraphQL APIs, PostgreSQL, Docker."
+    - "Full-stack development of web applications in TypeScript"
+    - "React frontend and a component library in Storybook"
+    - "NestJS backend with a GraphQL API and PostgreSQL, Docker"

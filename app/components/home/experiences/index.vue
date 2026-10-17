@@ -12,7 +12,7 @@
         class="experience-item"
       >
         <div class="experience-content" :class="getPositionClass(index)">
-          <h3>{{ experience.position }} | {{ experience.company }}</h3>
+          <h3>{{ experience.position[locale] }} | {{ experience.company }}</h3>
           <div class="experience-role">
             <ul class="experience-role-list">
               <li v-for="item in experience.description[locale]" :key="item">

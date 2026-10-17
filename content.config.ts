@@ -30,7 +30,7 @@ export default defineContentConfig({
       schema: z.object({
         order: z.number(),
         company: z.string(),
-        position: z.string(),
+        position: z.object({ cs: z.string(), en: z.string() }),
         period: z.string(),
         current: z.boolean(),
         description: z.object({
