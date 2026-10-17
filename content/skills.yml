@@ -1,0 +1,12 @@
+groups:
+  - title: { cs: "Frontend", en: "Frontend" }
+    items: ["TypeScript", "React", "Next.js", "Angular", "Storybook", "Sass"]
+  - title: { cs: "Mobil", en: "Mobile" }
+    items: ["React Native", "Expo", "Firebase"]
+  - title: { cs: "Backend", en: "Backend" }
+    items: ["Node.js", "NestJS", "GraphQL", "REST API", "PostgreSQL", "Docker"]
+  - title: { cs: "Testy a nástroje", en: "Testing & tools" }
+    items: ["Cypress", "Git", "CI/CD", "Nx", "Webpack"]
+  - title: { cs: "E-commerce", en: "E-commerce" }
+    items: ["WordPress", "WooCommerce", "WordPress plugins"]
+courses: []

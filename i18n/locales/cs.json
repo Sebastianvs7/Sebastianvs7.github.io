@@ -3,6 +3,7 @@
     "intro": "Úvod",
     "projects": "Projekty",
     "experience": "Zkušenosti",
+    "skills": "Dovednosti",
     "about": "O mně",
     "contact": "Kontakt",
     "home": "Domů",
@@ -15,6 +16,7 @@
   "sections": {
     "projects": "Projekty",
     "experience": "Pracovní zkušenosti",
+    "skills": "Dovednosti",
     "about": "O mně"
   },
   "intro": {
@@ -41,6 +43,9 @@
   },
   "experiences": {
     "current": "Současnost"
+  },
+  "skills": {
+    "courses": "Kurzy"
   },
   "about": {
     "content": "Jsem Full-Stack developer se zaměřením na React, Next.js a WordPress. Rád pracuji na moderních webech a aplikacích, které kombinují čistý design a funkčnost. Mám více než 8 let zkušeností s vývojem a neustále se učím nové technologie.\nVe volném čase se věnuji fotografii, grafice, videu a s nadšením zkoumám i vývoj her v Roblox Studiu."

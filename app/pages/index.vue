@@ -8,6 +8,7 @@
       <HomeIntro />
       <HomeProjects />
       <HomeExperiences />
+      <HomeSkills />
       <HomeAbout />
       <HomeContact />
     </main>

@@ -46,6 +46,7 @@ const SECTION_LINKS: SectionLink[] = [
   { hash: "#intro", labelKey: "navigation.intro" },
   { hash: "#projects", labelKey: "navigation.projects" },
   { hash: "#experiences", labelKey: "navigation.experience" },
+  { hash: "#skills", labelKey: "navigation.skills" },
   { hash: "#about", labelKey: "navigation.about" },
   { hash: "#contact", labelKey: "navigation.contact" },
 ];

@@ -41,6 +41,27 @@ export default defineContentConfig({
         }),
       }),
     }),
+    // Skill groups and courses (group titles in both locales)
+    skills: defineCollection({
+      type: "data",
+      source: "skills.yml",
+      schema: z.object({
+        groups: z.array(
+          z.object({
+            title: z.object({ cs: z.string(), en: z.string() }),
+            items: z.array(z.string()),
+          })
+        ),
+        courses: z.array(
+          z.object({
+            name: z.string(),
+            provider: z.string(),
+            year: z.number(),
+            url: z.string().optional(),
+          })
+        ),
+      }),
+    }),
     // Logos of other projects shown in the logo loop
     otherProjects: defineCollection({
       type: "data",
