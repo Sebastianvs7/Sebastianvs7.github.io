@@ -47,6 +47,15 @@
         }"
       />
     </div>
+    <div v-if="isScoreVisible" class="scoreboard">
+      <span v-for="side in SCORE_SIDES" :key="side.key" class="score">
+        {{ $t(side.labelKey) }}
+        <span class="tally" aria-hidden="true">
+          <span v-for="win in score[side.key]" :key="win" class="tally-mark" />
+        </span>
+        <span class="visually-hidden">{{ score[side.key] }}</span>
+      </span>
+    </div>
     <span role="status" class="visually-hidden">
       {{ resultKey ? $t(resultKey) : "" }}
     </span>
@@ -111,6 +120,16 @@ interface GameMarkView {
   y: number;
 }
 
+interface Score {
+  computer: number;
+  player: number;
+}
+
+interface ScoreSide {
+  key: keyof Score;
+  labelKey: string;
+}
+
 interface StrikeLine {
   angle: number;
   length: number;
@@ -144,6 +163,12 @@ const COMPUTER_MOVE_DELAY = 400;
 const SWIRL_STAGGER = 0.1;
 const SWIRL_DURATION = 0.6;
 const STRIKE_DURATION = 0.35;
+// Wins that end a match, then the score starts over
+const FINALE_WINS = 5;
+const SCORE_SIDES: readonly ScoreSide[] = [
+  { key: "player", labelKey: "game.you" },
+  { key: "computer", labelKey: "game.computer" },
+];
 const GAME_RESULT_KEYS: Partial<Record<GomokuStatus, string>> = {
   draw: "game.draw",
   lost: "game.lost",
@@ -163,6 +188,10 @@ const resultKey = computed(() =>
   game.value ? GAME_RESULT_KEYS[game.value.status] : undefined
 );
 const flash = shallowRef<CellFlash | null>(null);
+const score = ref<Score>({ computer: 0, player: 0 });
+const isScoreVisible = computed(
+  () => game.value !== null || score.value.computer + score.value.player > 0
+);
 const hoverIndex = ref(-1);
 const isHoverPlayable = computed(() => {
   if (hoverIndex.value === -1) return false;
@@ -714,8 +743,11 @@ function handleGameMove(index: number) {
   }, COMPUTER_MOVE_DELAY);
 }
 
+// Every move goes through here, so each finished game scores exactly once
 function setGame(next: GomokuGame) {
   game.value = next;
+  if (next.status === "won") score.value.player++;
+  if (next.status === "lost") score.value.computer++;
 }
 
 // Quit and Clear both return to the idle animation
@@ -723,6 +755,11 @@ function handleGameClear() {
   clearTimeout(computerMoveTimer);
   game.value = null;
   flash.value = null;
+
+  const { computer, player } = score.value;
+  if (Math.max(computer, player) >= FINALE_WINS) {
+    score.value = { computer: 0, player: 0 };
+  }
 }
 
 // The last row stays free for the game controls, so no move hides under them
