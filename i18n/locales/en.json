@@ -54,7 +54,7 @@
     "backToProjects": "Back to projects"
   },
   "seo": {
-    "tagline": "Full-Stack Developer",
-    "description": "Portfolio of Sebastian Šanda – full-stack and frontend developer focused on React, Next.js and modern, scalable web applications."
+    "tagline": "Full-Stack Developer (TypeScript, React, React Native, NestJS)",
+    "description": "Full-stack developer with almost 10 years of experience. Web and mobile apps in React, Next.js and React Native, backend in NestJS, GraphQL and PostgreSQL."
   }
 }
