@@ -1,5 +1,10 @@
 <template>
-  <div id="showAnimation" ref="containerRef" :class="{ 'is-playing': game }">
+  <div
+    id="showAnimation"
+    ref="containerRef"
+    :class="{ 'is-playing': game }"
+    :style="revealStyle"
+  >
     <div
       ref="heroRef"
       class="hero"
@@ -16,8 +21,30 @@
         v-for="mark in marks"
         :key="mark.index"
         class="mark"
-        :class="[`mark--${mark.mark}`, { 'mark--win': mark.isWinning }]"
-        :style="{ left: `${mark.x}px`, top: `${mark.y}px` }"
+        :class="[`mark--${mark.mark}`, { 'mark--win': mark.winOrder !== -1 }]"
+        :style="{
+          left: `${mark.x}px`,
+          top: `${mark.y}px`,
+          '--win-order': mark.winOrder,
+        }"
+      >
+        <svg viewBox="0 0 26 26">
+          <circle v-if="mark.mark === 'o'" cx="13" cy="13" r="7" pathLength="1" />
+          <template v-else>
+            <line x1="7" y1="7" x2="19" y2="19" pathLength="1" />
+            <line x1="19" y1="7" x2="7" y2="19" pathLength="1" />
+          </template>
+        </svg>
+      </span>
+      <span
+        v-if="strike"
+        class="strike-line"
+        :style="{
+          left: `${strike.x}px`,
+          top: `${strike.y}px`,
+          width: `${strike.length}px`,
+          '--angle': `${strike.angle}rad`,
+        }"
       />
     </div>
     <span role="status" class="visually-hidden">
@@ -77,8 +104,16 @@ interface CellFlash {
 
 interface GameMarkView {
   index: number;
-  isWinning: boolean;
   mark: GomokuMark;
+  // Position in the winning line, -1 for marks outside it
+  winOrder: number;
+  x: number;
+  y: number;
+}
+
+interface StrikeLine {
+  angle: number;
+  length: number;
   x: number;
   y: number;
 }
@@ -105,6 +140,10 @@ const EXPLOSION_RADIUS_STATIONARY = 150;
 
 // Pause before the computer answers, so its move reads as a reply
 const COMPUTER_MOVE_DELAY = 400;
+// Win reveal timing in seconds, keep in sync with styles.scss
+const SWIRL_STAGGER = 0.1;
+const SWIRL_DURATION = 0.6;
+const STRIKE_DURATION = 0.35;
 const GAME_RESULT_KEYS: Partial<Record<GomokuStatus, string>> = {
   draw: "game.draw",
   lost: "game.lost",
@@ -140,9 +179,39 @@ const marks = computed<GameMarkView[]>(() => {
   return current.board.flatMap((mark, index) => {
     const box = boxes[index];
     if (!mark || !box) return [];
-    const isWinning = current.winningLine.includes(index);
-    return [{ index, isWinning, mark, x: box.x, y: box.y }];
+    const winOrder = current.winningLine.indexOf(index);
+    return [{ index, mark, winOrder, x: box.x, y: box.y }];
   });
+});
+// Runs from half a box before the first winning centre to half a box past the last
+const strike = computed<StrikeLine | null>(() => {
+  const line = game.value?.winningLine ?? [];
+  const [firstIndex] = line;
+  const lastIndex = line.at(-1);
+  if (firstIndex === undefined || lastIndex === undefined) return null;
+  const first = boxes[firstIndex];
+  const last = boxes[lastIndex];
+  if (!first || !last) return null;
+
+  const angle = Math.atan2(last.y - first.y, last.x - first.x);
+  const overshoot = BOX_SIZE / 2;
+  return {
+    angle,
+    length: Math.hypot(last.x - first.x, last.y - first.y) + BOX_SIZE,
+    x: first.x + overshoot - Math.cos(angle) * overshoot,
+    y: first.y + overshoot - Math.sin(angle) * overshoot,
+  };
+});
+// The strike waits for the last swirl, Clear waits for the strike
+const revealStyle = computed(() => {
+  const count = game.value?.winningLine.length ?? 0;
+  if (count === 0) return {};
+
+  const strikeDelay = (count - 1) * SWIRL_STAGGER + SWIRL_DURATION;
+  return {
+    "--reveal-delay": `${strikeDelay + STRIKE_DURATION}s`,
+    "--strike-delay": `${strikeDelay}s`,
+  };
 });
 
 // Imperative animation state, never rendered
