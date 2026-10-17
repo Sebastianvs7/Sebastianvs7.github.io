@@ -128,7 +128,7 @@ let idleTimer: ReturnType<typeof setTimeout> | undefined;
 let startTimer: ReturnType<typeof setTimeout> | undefined;
 let intersectionObserver: IntersectionObserver | undefined;
 let gridMetrics: GridMetrics | undefined;
-let prefersReducedMotion = false;
+let isReducedMotion = false;
 let computerMoveTimer: ReturnType<typeof setTimeout> | undefined;
 
 onMounted(() => {
@@ -139,10 +139,10 @@ onMounted(() => {
     heroRef.value?.addEventListener("click", handleClick);
 
     // Keep only the static grid for users preferring reduced motion
-    prefersReducedMotion = window.matchMedia(
+    isReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReducedMotion) return;
+    if (isReducedMotion) return;
 
     setupInteraction();
     setupTimelines();
@@ -489,7 +489,7 @@ function showRandomCrosses() {
 function handleClick(e: MouseEvent) {
   // The game has its own turn guard, so it skips the explosion throttle
   if (game.value) return handleGameClick(e);
-  if (prefersReducedMotion) return;
+  if (isReducedMotion) return;
 
   const currentTime = Date.now();
 
@@ -610,7 +610,7 @@ function handleGameToggle() {
   }
   if (!gridMetrics) return;
 
-  game.value = createGame(gridMetrics.cols, gridMetrics.rows);
+  game.value = createHeroGame(gridMetrics);
   hideActiveCrosses();
 }
 
@@ -618,7 +618,12 @@ function handleGameRestart() {
   if (!gridMetrics) return;
 
   clearTimeout(computerMoveTimer);
-  game.value = createGame(gridMetrics.cols, gridMetrics.rows);
+  game.value = createHeroGame(gridMetrics);
+}
+
+// The last row stays free for the game controls, so no move hides under them
+function createHeroGame(grid: GridMetrics): GomokuGame {
+  return createGame(grid.cols, grid.rows - 1);
 }
 </script>
 

@@ -121,11 +121,11 @@
   }
 }
 
+// One line no taller than a box, inside the last grid row the game leaves free
 .game-controls {
   align-items: center;
-  bottom: 0.75rem;
+  bottom: 0.25rem;
   display: flex;
-  flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: flex-end;
   left: 0.75rem;
@@ -139,16 +139,22 @@
   background: var(--color-bg);
   border-radius: 999px;
   font-size: 0.875rem;
-  padding: 0.25rem 0.75rem;
+  line-height: 1.25;
+  padding: 0.125rem 0.75rem;
   pointer-events: auto;
+  white-space: nowrap;
 }
 
 .game-status {
   color: var(--color-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .game-button {
   border: 1px solid var(--color-accent);
+  flex-shrink: 0;
   color: var(--color-accent);
   cursor: pointer;
   font-weight: 600;
