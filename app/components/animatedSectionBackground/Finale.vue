@@ -15,6 +15,8 @@ const SPLASH_COUNT = 24;
 
 const props = defineProps<FinaleProps>();
 const emit = defineEmits<{
+  // The site is fully covered, so the page can reset unseen
+  covered: [];
   done: [];
 }>();
 
@@ -62,6 +64,7 @@ onMounted(() => {
     "-=0.3"
   );
   timeline.set(boxes, { opacity: 0 });
+  timeline.call(() => emit("covered"));
 
   // 3. Splashes of crosses and squares run along the bottom
   timeline.fromTo(

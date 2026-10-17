@@ -68,6 +68,7 @@
 // The finale flies copies of the grid, so the real one steps aside
 .is-finale :is(.hero, .game-layer, .game-controls) {
   opacity: 0;
+  visibility: hidden;
 }
 
 .cell-flash {
@@ -188,9 +189,11 @@
   }
 }
 
+// Hidden, not just transparent, so the button cannot be clicked before it shows
 @keyframes fade-in {
   from {
     opacity: 0;
+    visibility: hidden;
   }
 }
 

@@ -2,7 +2,7 @@
   <div
     id="showAnimation"
     ref="containerRef"
-    :class="{ 'is-playing': game, 'is-finale': finaleFrom }"
+    :class="{ 'is-playing': game, 'is-finale': isGridAway }"
     :style="revealStyle"
   >
     <div
@@ -85,6 +85,7 @@
       <AnimatedSectionBackgroundFinale
         v-if="finaleFrom"
         :from="finaleFrom"
+        @covered="handleFinaleCovered"
         @done="handleFinaleDone"
       />
     </Teleport>
@@ -198,6 +199,8 @@ const resultKey = computed(() =>
 const flash = shallowRef<CellFlash | null>(null);
 // Viewport positions of the boxes while the five-win finale plays
 const finaleFrom = shallowRef<{ x: number; y: number }[] | null>(null);
+// The real grid hides while its copies fly, until the wipe covers the reset
+const isGridAway = ref(false);
 const score = ref<Score>({ computer: 0, player: 0 });
 const isScoreVisible = computed(
   () => game.value !== null || score.value.computer + score.value.player > 0
@@ -763,18 +766,25 @@ function setGame(next: GomokuGame) {
 }
 
 // Reduced motion never animates the strike, so it never gets the finale
-function handleStrikeEnd() {
-  if (score.value.player < FINALE_WINS) return;
+function handleStrikeEnd(e: AnimationEvent) {
+  const isFinaleWin =
+    game.value?.status === "won" && score.value.player >= FINALE_WINS;
+  if (e.target !== e.currentTarget || !isFinaleWin) return;
 
   finaleFrom.value = boxes.map(({ el }) => {
     const rect = el.getBoundingClientRect();
     return { x: rect.left, y: rect.top };
   });
+  isGridAway.value = true;
+}
+
+function handleFinaleCovered() {
+  isGridAway.value = false;
+  handleGameClear();
 }
 
 function handleFinaleDone() {
   finaleFrom.value = null;
-  handleGameClear();
 }
 
 // Quit and Clear both return to the idle animation
