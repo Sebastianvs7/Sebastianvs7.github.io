@@ -58,5 +58,14 @@
   "seo": {
     "tagline": "Full-Stack vývojář",
     "description": "Portfolio Sebastiana Šandy – full-stack a frontend vývojáře se zaměřením na React, Next.js a moderní škálovatelné webové aplikace."
+  },
+  "game": {
+    "start": "Zahrát piškvorky",
+    "stop": "Ukončit hru",
+    "restart": "Nová hra",
+    "hint": "Máš kolečka, vyhrává pět v řadě",
+    "won": "Výhra!",
+    "lost": "Počítač vyhrál",
+    "draw": "Remíza"
   }
 }

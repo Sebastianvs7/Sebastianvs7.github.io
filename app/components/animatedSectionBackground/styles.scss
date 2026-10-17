@@ -66,3 +66,98 @@
   transition: color 0.3s ease;
   width: 25px;
 }
+
+// Game marks sit over the boxes and let clicks through to the grid
+.game-layer {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.mark {
+  align-items: center;
+  display: flex;
+  height: 26px;
+  justify-content: center;
+  position: absolute;
+  width: 26px;
+
+  &--x::after {
+    color: rgba(var(--color-accent-rgb), 0.9);
+    content: "×";
+    font-size: 25px;
+    line-height: 1;
+  }
+
+  &--o::after {
+    border: 2px solid var(--color-text);
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    width: 14px;
+  }
+
+  &--win {
+    filter: drop-shadow(0 0 4px rgba(var(--color-accent-rgb), 0.6));
+
+    &.mark--x::after {
+      color: var(--color-accent);
+    }
+
+    &.mark--o::after {
+      border-color: var(--color-accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: mark-pop-in 0.3s ease-out;
+  }
+}
+
+@keyframes mark-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.game-controls {
+  align-items: center;
+  bottom: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  left: 0.75rem;
+  pointer-events: none;
+  position: absolute;
+  right: 0.75rem;
+}
+
+.game-status:not(:empty),
+.game-button {
+  background: var(--color-bg);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  pointer-events: auto;
+}
+
+.game-status {
+  color: var(--color-text);
+}
+
+.game-button {
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  cursor: pointer;
+  font-weight: 600;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  &:hover {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+}

@@ -1,11 +1,39 @@
 <template>
   <div id="showAnimation" ref="containerRef">
     <div ref="heroRef" class="hero" />
+    <div v-if="game" class="game-layer" aria-hidden="true">
+      <span
+        v-for="mark in marks"
+        :key="mark.index"
+        class="mark"
+        :class="[`mark--${mark.mark}`, { 'mark--win': mark.isWinning }]"
+        :style="{ left: `${mark.x}px`, top: `${mark.y}px` }"
+      />
+    </div>
+    <div class="game-controls">
+      <span role="status" class="game-status">
+        {{ game ? $t(GAME_STATUS_KEYS[game.status]) : "" }}
+      </span>
+      <button
+        v-if="isGameOver"
+        type="button"
+        class="game-button"
+        @click="handleGameRestart"
+      >
+        {{ $t("game.restart") }}
+      </button>
+      <button type="button" class="game-button" @click="handleGameToggle">
+        {{ $t(game ? "game.stop" : "game.start") }}
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { gsap } from "gsap";
+
+import { computerMove, createGame, playerMove } from "~/utils/gomoku";
+import type { GomokuGame, GomokuMark, GomokuStatus } from "~/utils/gomoku";
 
 interface GridBox {
   el: HTMLDivElement;
@@ -21,6 +49,14 @@ interface GridMetrics {
   rows: number;
   spacingX: number;
   spacingY: number;
+}
+
+interface GameMarkView {
+  index: number;
+  isWinning: boolean;
+  mark: GomokuMark;
+  x: number;
+  y: number;
 }
 
 // A highlighted square that zig-zags horizontally across the grid
@@ -43,11 +79,39 @@ const MOUSE_MOVE_THRESHOLD = 500; // Time in ms to consider mouse as "not moving
 const EXPLOSION_RADIUS_MOVING = 150;
 const EXPLOSION_RADIUS_STATIONARY = 150;
 
+// Pause before the computer answers, so its move reads as a reply
+const COMPUTER_MOVE_DELAY = 400;
+const GAME_STATUS_KEYS: Record<GomokuStatus, string> = {
+  computerTurn: "game.hint",
+  draw: "game.draw",
+  lost: "game.lost",
+  playerTurn: "game.hint",
+  won: "game.won",
+};
+
 const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 
 const containerRef = ref<HTMLElement | null>(null);
 const heroRef = ref<HTMLElement | null>(null);
+
+// null while the game is off; the board maps 1:1 onto `boxes`
+const game = shallowRef<GomokuGame | null>(null);
+const isGameOver = computed(() => {
+  const status = game.value?.status;
+  return status === "won" || status === "lost" || status === "draw";
+});
+const marks = computed<GameMarkView[]>(() => {
+  const current = game.value;
+  if (!current) return [];
+
+  return current.board.flatMap((mark, index) => {
+    const box = boxes[index];
+    if (!mark || !box) return [];
+    const isWinning = current.winningLine.includes(index);
+    return [{ index, isWinning, mark, x: box.x, y: box.y }];
+  });
+});
 
 // Imperative animation state, never rendered
 let boxes: GridBox[] = [];
@@ -63,14 +127,22 @@ let lastClickTime = 0;
 let idleTimer: ReturnType<typeof setTimeout> | undefined;
 let startTimer: ReturnType<typeof setTimeout> | undefined;
 let intersectionObserver: IntersectionObserver | undefined;
+let gridMetrics: GridMetrics | undefined;
+let prefersReducedMotion = false;
+let computerMoveTimer: ReturnType<typeof setTimeout> | undefined;
 
 onMounted(() => {
   // Wait a bit for the layout to settle before measuring
   startTimer = setTimeout(() => {
     initializeAnimation();
+    // Registered before the reduced-motion exit, so everyone can play
+    heroRef.value?.addEventListener("click", handleClick);
 
     // Keep only the static grid for users preferring reduced motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) return;
 
     setupInteraction();
     setupTimelines();
@@ -82,6 +154,7 @@ onMounted(() => {
 onUnmounted(() => {
   clearTimeout(startTimer);
   clearTimeout(idleTimer);
+  clearTimeout(computerMoveTimer);
   timelines.forEach((timeline) => timeline.kill());
   intersectionObserver?.disconnect();
 
@@ -120,6 +193,7 @@ function initializeAnimation() {
   if (!hero) return;
 
   const grid = getGridMetrics(hero);
+  gridMetrics = grid;
 
   boxes = [];
   for (let y = 0; y < grid.rows; y++) {
@@ -183,7 +257,6 @@ function initializeAnimation() {
 
 function setupInteraction() {
   window.addEventListener("mousemove", handleMouseMove);
-  heroRef.value?.addEventListener("click", handleClick);
 }
 
 function setupTimelines() {
@@ -317,21 +390,7 @@ function setupIntersectionObserver() {
 function handleVisibilityChange() {
   if (document.hidden) {
     pauseTimelines();
-
-    // Hide all visible crosses
-    crossElements.forEach((cross) => {
-      if (cross.dataset.active === "true") {
-        gsap.to(cross, {
-          opacity: 0,
-          scale: 0.5,
-          duration: 0.3,
-          ease: "power2.out",
-          onComplete: () => {
-            cross.dataset.active = "false";
-          },
-        });
-      }
-    });
+    hideActiveCrosses();
     return;
   }
 
@@ -340,6 +399,24 @@ function handleVisibilityChange() {
   if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
     resumeTimelines();
   }
+}
+
+function hideActiveCrosses() {
+  crossElements.forEach((cross) => {
+    if (cross.dataset.active === "true") {
+      gsap.to(cross, {
+        opacity: 0,
+        scale: 0.5,
+        duration: 0.3,
+        ease: "power2.out",
+        // Kill the running fade-in, or it keeps the cross visible
+        overwrite: true,
+        onComplete: () => {
+          cross.dataset.active = "false";
+        },
+      });
+    }
+  });
 }
 
 function handleMouseMove(e: MouseEvent) {
@@ -374,6 +451,9 @@ function resetIdleTimer() {
 }
 
 function showRandomCrosses() {
+  // Decorative crosses would read as computer moves during a game
+  if (game.value) return;
+
   const numToShow = 4 + Math.floor(Math.random() * 2);
   for (let i = 0; i < numToShow; i++) {
     const cross =
@@ -407,6 +487,10 @@ function showRandomCrosses() {
 }
 
 function handleClick(e: MouseEvent) {
+  // The game has its own turn guard, so it skips the explosion throttle
+  if (game.value) return handleGameClick(e);
+  if (prefersReducedMotion) return;
+
   const currentTime = Date.now();
 
   // Throttle clicks - only allow one click per throttle delay
@@ -488,6 +572,53 @@ function handleClick(e: MouseEvent) {
       }
     );
   });
+}
+
+// Index of the box whose centre is nearest, -1 outside the grid
+function getCellIndex(x: number, y: number): number {
+  if (!gridMetrics) return -1;
+
+  const { cols, offsetX, offsetY, rows, spacingX, spacingY } = gridMetrics;
+  const col = Math.round((x - offsetX - BOX_SIZE / 2) / spacingX);
+  const row = Math.round((y - offsetY - BOX_SIZE / 2) / spacingY);
+  const isInside = col >= 0 && col < cols && row >= 0 && row < rows;
+  return isInside ? row * cols + col : -1;
+}
+
+function handleGameClick(e: MouseEvent) {
+  const rect = heroRef.value?.getBoundingClientRect();
+  if (!rect || !game.value) return;
+
+  const index = getCellIndex(e.clientX - rect.left, e.clientY - rect.top);
+  if (index === -1) return;
+
+  const next = playerMove(game.value, index);
+  if (next === game.value) return;
+  game.value = next;
+
+  if (next.status !== "computerTurn") return;
+  computerMoveTimer = setTimeout(() => {
+    if (game.value) game.value = computerMove(game.value);
+  }, COMPUTER_MOVE_DELAY);
+}
+
+function handleGameToggle() {
+  if (game.value) {
+    clearTimeout(computerMoveTimer);
+    game.value = null;
+    return;
+  }
+  if (!gridMetrics) return;
+
+  game.value = createGame(gridMetrics.cols, gridMetrics.rows);
+  hideActiveCrosses();
+}
+
+function handleGameRestart() {
+  if (!gridMetrics) return;
+
+  clearTimeout(computerMoveTimer);
+  game.value = createGame(gridMetrics.cols, gridMetrics.rows);
 }
 </script>
 
