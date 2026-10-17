@@ -2,7 +2,7 @@
   <div
     id="showAnimation"
     ref="containerRef"
-    :class="{ 'is-playing': game }"
+    :class="{ 'is-playing': game, 'is-finale': isGridAway }"
     :style="revealStyle"
   >
     <div
@@ -45,6 +45,7 @@
           width: `${strike.length}px`,
           '--angle': `${strike.angle}rad`,
         }"
+        @animationend="handleStrikeEnd"
       />
     </div>
     <div v-if="isScoreVisible" class="scoreboard">
@@ -80,6 +81,14 @@
         </svg>
       </button>
     </div>
+    <Teleport to="body">
+      <AnimatedSectionBackgroundFinale
+        v-if="finaleFrom"
+        :from="finaleFrom"
+        @covered="handleFinaleCovered"
+        @done="handleFinaleDone"
+      />
+    </Teleport>
   </div>
 </template>
 
@@ -188,6 +197,10 @@ const resultKey = computed(() =>
   game.value ? GAME_RESULT_KEYS[game.value.status] : undefined
 );
 const flash = shallowRef<CellFlash | null>(null);
+// Viewport positions of the boxes while the five-win finale plays
+const finaleFrom = shallowRef<{ x: number; y: number }[] | null>(null);
+// The real grid hides while its copies fly, until the wipe covers the reset
+const isGridAway = ref(false);
 const score = ref<Score>({ computer: 0, player: 0 });
 const isScoreVisible = computed(
   () => game.value !== null || score.value.computer + score.value.player > 0
@@ -619,6 +632,8 @@ function showRandomCrosses() {
 }
 
 function handleClick(e: MouseEvent) {
+  if (finaleFrom.value) return;
+
   // Playable cells belong to the game; the free last row keeps the explosion
   const index = getPlayableCellIndex(e);
   if (index !== -1) return handleGameMove(index);
@@ -748,6 +763,28 @@ function setGame(next: GomokuGame) {
   game.value = next;
   if (next.status === "won") score.value.player++;
   if (next.status === "lost") score.value.computer++;
+}
+
+// Reduced motion never animates the strike, so it never gets the finale
+function handleStrikeEnd(e: AnimationEvent) {
+  const isFinaleWin =
+    game.value?.status === "won" && score.value.player >= FINALE_WINS;
+  if (e.target !== e.currentTarget || !isFinaleWin) return;
+
+  finaleFrom.value = boxes.map(({ el }) => {
+    const rect = el.getBoundingClientRect();
+    return { x: rect.left, y: rect.top };
+  });
+  isGridAway.value = true;
+}
+
+function handleFinaleCovered() {
+  isGridAway.value = false;
+  handleGameClear();
+}
+
+function handleFinaleDone() {
+  finaleFrom.value = null;
 }
 
 // Quit and Clear both return to the idle animation
