@@ -36,7 +36,8 @@
     "viewDetails": "Zobrazit detaily",
     "showMoreButton": "Zobrazit více projektů",
     "showLessButton": "Zobrazit méně",
-    "otherProjects": "Další projekty"
+    "otherProjects": "Další projekty",
+    "role": "Role"
   },
   "experiences": {
     "current": "Současnost"

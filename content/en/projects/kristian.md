@@ -1,10 +1,12 @@
 ---
 title: "Kristian"
+type: "Websites and microsites · October CMS"
+role: "Web Designer / Frontend Coder"
 description: "Kristian is an advertising agency that specializes in comprehensive services in the fields of media and creativity. It offers a wide range of services, including: Strategic, media planning, Creation of creative concepts, (ideamaking), Digital marketing, Websites, PPC campaigns, Social media, Event production and conference management. The agency also operates in the fields of graphic design, DTP (desktop publishing), video production, photography, and audio."
 link: "https://kristian.cz/"
 image: "/images/logo-kristian.svg"
 position: 8
-type: "Media Agency"
+tags: ["HTML", "CSS", "JavaScript", "October CMS"]
 ---
 
 ::div{.row}

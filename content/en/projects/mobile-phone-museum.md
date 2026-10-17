@@ -1,10 +1,12 @@
 ---
 title: "Mobile Phone Museum"
-description: "The Mobile Phone Museum is an online nonprofit museum dedicated to the history of mobile phones."
+type: "Website · Next.js"
+role: "Frontend developer"
+description: "An online museum of more than 2,800 phones. I built the frontend from a pixel-perfect design and moved the site from Gatsby to Next.js for faster builds."
 link: "https://www.mobilephonemuseum.com"
 image: "/images/logo-mpm.svg"
-position: 6
-type: "Museum Website"
+position: 5
+tags: ["Next.js", "React", "GraphQL", "Sass"]
 ---
 
 ::div{.row}

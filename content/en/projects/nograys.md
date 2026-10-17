@@ -1,10 +1,12 @@
 ---
 title: "NoGrays"
-description: "NoGrays is an e-shop built on WordPress and WooCommerce, promoting a product that offers a revolution in hair care."
-link: "https://kristian.cz/"
+type: "E-shop · WooCommerce"
+role: "WordPress developer, the whole e-shop"
+description: "NoGrays is a WordPress and WooCommerce e-shop promoting a hair-care product. I built the theme from Figma designs, payments via WooPayments and server-side events for the Facebook Conversion API."
+link: "https://nograys.cz/"
 image: "/images/Wordpress-Logo.svg"
-position: 4
-type: "Museum Website"
+position: 6
+tags: ["WordPress", "WooCommerce", "PHP", "WooPayments"]
 ---
 
 ::div{.row}

@@ -1,10 +1,12 @@
 ---
 title: "Shop8 CMS"
-description: "Shop 8 je mid-size e-commerce řešení na míru pro zákazníky."
+type: "E-commerce platforma · React"
+role: "Frontend vývojář v týmu, podíl na backendu"
+description: "Platforma na míru pro e-shopy více klientů. Stavěl jsem moduly administrace v Reactu s GraphQL, převedl projekt do Nx monorepa a napsal E2E testy v Cypressu."
 link: "https://www.shop8.cz"
 image: "/images/logo-code8.svg"
 position: 3
-type: "CMS Platform"
+tags: ["React", "TypeScript", "GraphQL", "Nx", "Cypress"]
 ---
 
 ::div{.row}

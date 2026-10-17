@@ -1,10 +1,12 @@
 ---
 title: "Furnatura"
-description: "Furnatura is a Czech brand of natural pet cosmetics, specializing in gentle care for your dog’s coat and skin."
+type: "E-shop · Angular"
+role: "Full-stack developer, admin in Shop8 CMS and frontend"
+description: "A Czech and English e-shop for natural dog cosmetics. I finished the Angular frontend, upgraded it to version 20 with SSR and connected the marketing tools."
 link: "https://furnatura.com/en-US/"
 image: "/images/furnatura-prague.svg"
-position: 5
-type: "E-commerce Website"
+position: 4
+tags: ["Angular", "TypeScript", "GraphQL", "SSR", "Cypress"]
 ---
 
 ::div{.row}

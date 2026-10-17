@@ -1,10 +1,12 @@
 ---
 title: "Shop8 CMS"
-description: "Shop 8 is a mid-sized, custom e-commerce solution for customers."
+type: "E-commerce platform · React"
+role: "Frontend developer in a team, contributions to the backend"
+description: "A custom platform powering e-shops for multiple clients. I built admin modules in React with GraphQL, moved the project into an Nx monorepo and wrote E2E tests in Cypress."
 link: "https://www.shop8.cz"
 image: "/images/logo-code8.svg"
 position: 3
-type: "CMS Platform"
+tags: ["React", "TypeScript", "GraphQL", "Nx", "Cypress"]
 ---
 
 ::div{.row}

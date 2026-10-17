@@ -17,6 +17,10 @@
       </div>
       <div class="project-content">
         <h3>{{ project.title }}</h3>
+        <p class="project-type">{{ project.type }}</p>
+        <p class="project-role">
+          <strong>{{ $t("projects.role") }}:</strong> {{ project.role }}
+        </p>
         <div class="project-description-container">
           <p
             class="project-description"
@@ -43,6 +47,9 @@
             </span>
           </button>
         </div>
+        <ul class="tag-list">
+          <li v-for="tag in project.tags" :key="tag">{{ tag }}</li>
+        </ul>
         <div class="project-links">
           <NuxtLink
             :to="

@@ -1,10 +1,12 @@
 ---
 title: "NoGrays"
-description: "NoGrays je eshop postavený na Wordpress a Woocommerce který propaguje produkt jenž nabízí revoluci v péči o vlasy."
-link: "https://kristian.cz/"
+type: "E-shop · WooCommerce"
+role: "WordPress vývojář, celý e-shop"
+description: "NoGrays je e-shop na WordPressu a WooCommerce, který propaguje produkt pro péči o vlasy. Postavil jsem šablonu podle Figmy, platby přes WooPayments a serverové eventy pro Facebook Conversion API."
+link: "https://nograys.cz/"
 image: "/images/Wordpress-Logo.svg"
-position: 4
-type: "Museum Website"
+position: 6
+tags: ["WordPress", "WooCommerce", "PHP", "WooPayments"]
 ---
 
 ::div{.row}

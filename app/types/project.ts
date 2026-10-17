@@ -9,6 +9,9 @@ export interface ProjectSummary {
   image: string;
   link?: string;
   links?: ProjectLink[];
+  role: string;
   slug: string;
+  tags: string[];
   title: string;
+  type: string;
 }

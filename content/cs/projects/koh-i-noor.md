@@ -1,10 +1,12 @@
 ---
 title: "Koh-I-Noor Deutschland"
-description: "Tento projekt představuje moderní e-commerce řešení pro německý trh s psacími a výtvarnými potřebami. Webová stránka nabízí široký sortiment produktů pro umělce, studenty a kanceláře, včetně akčních nabídek a novinek."
+type: "E-shop · Next.js"
+role: "Frontend vývojář, komunikace s klientem a marketingovou agenturou"
+description: "E-shop pro německý trh napojený na WordPress a vlastní systém klienta. Převedl jsem ho na Next.js App Router a přesunul datovou logiku na backend, takže marketingové změny už nevyžadují rebuild. E2E testy v Cypressu pokrývají hlavní funkce e-shopu."
 link: "https://www.kohinoordeutschland.de"
 image: "/images/kin-logo.svg"
 position: 1
-type: "E-commerce Website"
+tags: ["Next.js", "TypeScript", "Redux", "WordPress/ACF", "Cypress"]
 ---
 
 ::div{.row}

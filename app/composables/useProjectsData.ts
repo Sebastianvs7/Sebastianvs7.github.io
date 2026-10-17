@@ -21,9 +21,12 @@ export const useProjectsData = async (): Promise<ProjectsData> => {
       image: project.image,
       link: project.link,
       links: project.links,
+      role: project.role,
       // Last path segment, e.g. "/cs/projects/zoeto" -> "zoeto"
       slug: project.path.split("/").at(-1) ?? project.path,
+      tags: project.tags,
       title: project.title,
+      type: project.type,
     }))
   );
 

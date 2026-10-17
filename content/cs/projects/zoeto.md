@@ -1,6 +1,8 @@
 ---
 title: "Zoeto"
-description: "Zoeto je komplexní mobilní aplikace, která veterinářům umožňuje snadný přístup k produktovému katalogu společnosti Zoetis. Aplikace obsahuje podrobné informace o lécích, včetně složení, indikací, balení a cen."
+type: "Mobilní aplikace · React Native"
+role: "Mobilní vývojář, celá aplikace a komunikace s klientem"
+description: "Produktový katalog léčiv společnosti Zoetis pro veterináře, vydaný na iOS i Androidu. Postavil jsem celou aplikaci v React Native včetně přihlášení přes SAP Gigya a push notifikací přes Firebase."
 links:
   - url: "https://apps.apple.com/cz/app/zoeto/id6447378302"
     text: "iOS App"
@@ -8,7 +10,7 @@ links:
     text: "Android App"
 image: "/images/logo_zoetis.svg"
 position: 2
-type: "Mobile Application"
+tags: ["React Native", "Expo", "Firebase", "TypeScript"]
 ---
 
 ::div{.row}

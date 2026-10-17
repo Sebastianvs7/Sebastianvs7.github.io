@@ -1,10 +1,12 @@
 ---
 title: "McLED"
+type: "Company e-shop"
+role: "Webmaster"
 description: "The company McLED s.r.o. represents its own brand of professional LED lighting."
 link: "https://www.mcled.cz/"
 image: "/images/mcled-logo.svg"
 position: 7
-type: "Museum Website"
+tags: ["HTML", "CSS", "JavaScript"]
 ---
 
 ::div{.row}

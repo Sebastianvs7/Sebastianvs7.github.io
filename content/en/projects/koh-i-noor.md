@@ -1,10 +1,12 @@
 ---
 title: "Koh-I-Noor Deutschland"
-description: "This project represents a modern e-commerce solution tailored for the German market for writing and art supplies. The website offers a wide range of products for artists, students, and offices, including promotional offers and new arrivals."
+type: "E-shop · Next.js"
+role: "Frontend developer, communication with the client and the marketing agency"
+description: "An e-shop for the German market connected to WordPress and the client's own system. I migrated it to the Next.js App Router and moved the data logic to the backend, so marketing changes no longer need a rebuild. E2E tests in Cypress cover the main e-shop features."
 link: "https://www.kohinoordeutschland.de"
 image: "/images/kin-logo.svg"
 position: 1
-type: "E-commerce Website"
+tags: ["Next.js", "TypeScript", "Redux", "WordPress/ACF", "Cypress"]
 ---
 
 ::div{.row}

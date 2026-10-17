@@ -1,10 +1,12 @@
 ---
 title: "Furnatura"
-description: "Furnatura je česká značka přírodní kosmetiky pro psy, která se specializuje na šetrnou péči o srst a pokožku domácích mazlíčků. Produkty jsou vyráběny ručně v České republice z čistě přírodních surovin, jako jsou rostlinné extrakty, minerály z Mrtvého moře a výživné oleje. Neobsahují sulfáty, silikony, parabeny ani mikroplasty, a nejsou testovány na zvířatech."
+type: "E-shop · Angular"
+role: "Full-stack vývojář, administrace v Shop8 CMS a frontend"
+description: "E-shop přírodní kosmetiky pro psy v češtině a angličtině. Dokončil jsem frontend v Angularu, upgradoval ho na verzi 20 se SSR a napojil marketingové nástroje."
 link: "https://furnatura.com/cs-CZ/"
 image: "/images/furnatura-prague.svg"
-position: 5
-type: "E-commerce Website"
+position: 4
+tags: ["Angular", "TypeScript", "GraphQL", "SSR", "Cypress"]
 ---
 
 ::div{.row}

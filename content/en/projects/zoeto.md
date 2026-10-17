@@ -1,6 +1,8 @@
 ---
 title: "Zoeto"
-description: "Zoeto is a comprehensive mobile application that enables veterinarians easy access to Zoetis’s product catalog. The app includes detailed information about medications, including composition, indications, packaging, and pricing."
+type: "Mobile app · React Native"
+role: "Mobile developer, the whole app and client communication"
+description: "A product catalogue of Zoetis medicines for veterinarians, released on iOS and Android. I built the whole app in React Native, including SAP Gigya sign-in and Firebase push notifications."
 links:
   - url: "https://apps.apple.com/cz/app/zoeto/id6447378302"
     text: "iOS App"
@@ -8,7 +10,7 @@ links:
     text: "Android App"
 image: "/images/logo_zoetis.svg"
 position: 2
-type: "Mobile Application"
+tags: ["React Native", "Expo", "Firebase", "TypeScript"]
 ---
 
 ::div{.row}

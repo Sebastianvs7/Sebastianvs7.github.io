@@ -1,10 +1,12 @@
 ---
 title: "Mobile Phone Museum"
-description: "Mobile Phone Museum je online neziskové muzeum zaměřené na historii mobilních telefonů. Bylo založeno v roce 2021 odborníky Benem Woodem a Mattem Chatterleym s cílem uchovat a zpřístupnit vývoj mobilní technologie prostřednictvím sbírky více než 2800 unikátních zařízení od více než 200 výrobců."
+type: "Web · Next.js"
+role: "Frontend vývojář"
+description: "Online muzeum s více než 2800 telefony. Postavil jsem frontend podle pixel-perfect návrhu a převedl web z Gatsby na Next.js kvůli rychlejšímu buildu."
 link: "https://www.mobilephonemuseum.com"
 image: "/images/logo-mpm.svg"
-position: 6
-type: "Museum Website"
+position: 5
+tags: ["Next.js", "React", "GraphQL", "Sass"]
 ---
 
 ::div{.row}

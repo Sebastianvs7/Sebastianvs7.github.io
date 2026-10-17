@@ -235,3 +235,23 @@ footer {
     filter: none;
   }
 }
+
+// Technology tags (project cards, skills)
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-text-body);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    padding: 0.15rem 0.6rem;
+  }
+}

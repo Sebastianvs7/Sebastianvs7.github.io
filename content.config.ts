@@ -5,6 +5,8 @@ const projectSchema = z.object({
   image: z.string(),
   position: z.number(),
   type: z.string(),
+  role: z.string(),
+  tags: z.array(z.string()),
   link: z.string().optional(),
   links: z.array(z.object({ url: z.string(), text: z.string() })).optional(),
 });
