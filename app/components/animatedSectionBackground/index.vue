@@ -12,12 +12,6 @@
     />
     <div v-if="game" class="game-layer" aria-hidden="true">
       <span
-        v-if="flash"
-        :key="flash.id"
-        class="cell-flash"
-        :style="{ left: `${flash.x}px`, top: `${flash.y}px` }"
-      />
-      <span
         v-for="mark in marks"
         :key="mark.index"
         class="mark"
@@ -83,8 +77,8 @@
     </div>
     <Teleport to="body">
       <AnimatedSectionBackgroundFinale
-        v-if="finaleFrom"
-        :from="finaleFrom"
+        v-if="finaleStart"
+        v-bind="finaleStart"
         @covered="handleFinaleCovered"
         @done="handleFinaleDone"
       />
@@ -114,10 +108,9 @@ interface GridMetrics {
   spacingY: number;
 }
 
-interface CellFlash {
-  id: number;
-  x: number;
-  y: number;
+interface FinaleStart {
+  from: Point[];
+  origin: Point;
 }
 
 interface GameMarkView {
@@ -125,6 +118,11 @@ interface GameMarkView {
   mark: GomokuMark;
   // Position in the winning line, -1 for marks outside it
   winOrder: number;
+  x: number;
+  y: number;
+}
+
+interface Point {
   x: number;
   y: number;
 }
@@ -159,12 +157,6 @@ const BOX_SIZE = 26;
 const SPACING = 40;
 const HOVER_RADIUS = 100;
 const IDLE_DELAY = 2500;
-const CLICK_THROTTLE_DELAY = 500;
-
-// Click animation settings
-const MOUSE_MOVE_THRESHOLD = 500; // Time in ms to consider mouse as "not moving"
-const EXPLOSION_RADIUS_MOVING = 150;
-const EXPLOSION_RADIUS_STATIONARY = 150;
 
 // Pause before the computer answers, so its move reads as a reply
 const COMPUTER_MOVE_DELAY = 400;
@@ -173,7 +165,7 @@ const SWIRL_STAGGER = 0.1;
 const SWIRL_DURATION = 0.6;
 const STRIKE_DURATION = 0.35;
 // Wins that end a match, then the score starts over
-const FINALE_WINS = 5;
+const FINALE_WINS = 3;
 const SCORE_SIDES: readonly ScoreSide[] = [
   { key: "player", labelKey: "game.you" },
   { key: "computer", labelKey: "game.computer" },
@@ -196,10 +188,9 @@ const game = shallowRef<GomokuGame | null>(null);
 const resultKey = computed(() =>
   game.value ? GAME_RESULT_KEYS[game.value.status] : undefined
 );
-const flash = shallowRef<CellFlash | null>(null);
-// Viewport positions of the boxes while the five-win finale plays
-const finaleFrom = shallowRef<{ x: number; y: number }[] | null>(null);
-// The real grid hides while its copies fly, until the wipe covers the reset
+// Where the finale starts, set while it plays
+const finaleStart = shallowRef<FinaleStart | null>(null);
+// The real grid hides while its copies fly and drop back, until they land
 const isGridAway = ref(false);
 const score = ref<Score>({ computer: 0, player: 0 });
 const isScoreVisible = computed(
@@ -264,16 +255,11 @@ let timelines: gsap.core.Timeline[] = [];
 let cursor = { x: 0, y: 0 };
 let swirlAngle = 0;
 let isIdle = false;
-let isMouseMoving = false;
-let lastMouseMoveTime = 0;
-let lastClickTime = 0;
 let idleTimer: ReturnType<typeof setTimeout> | undefined;
 let startTimer: ReturnType<typeof setTimeout> | undefined;
 let intersectionObserver: IntersectionObserver | undefined;
 let gridMetrics: GridMetrics | undefined;
-let isReducedMotion = false;
 let computerMoveTimer: ReturnType<typeof setTimeout> | undefined;
-let flashId = 0;
 
 onMounted(() => {
   // Wait a bit for the layout to settle before measuring
@@ -284,7 +270,7 @@ onMounted(() => {
     heroRef.value?.addEventListener("pointermove", handleHeroPointerMove);
 
     // Keep only the static grid for users preferring reduced motion
-    isReducedMotion = window.matchMedia(
+    const isReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
     if (isReducedMotion) return;
@@ -359,8 +345,6 @@ function initializeAnimation() {
 
   cursor = { x: hero.offsetWidth / 2, y: hero.offsetHeight / 2 };
   isIdle = false;
-  isMouseMoving = false;
-  lastMouseMoveTime = 0;
   swirlAngle = 0;
 
   resetIdleTimer();
@@ -422,7 +406,16 @@ function setupTimelines() {
 }
 
 function resumeTimelines() {
+  // The hidden grid has nothing to show while the finale plays
+  if (finaleStart.value) return;
   timelines.forEach((timeline) => timeline.resume());
+}
+
+function resumeTimelinesIfVisible() {
+  const rect = containerRef.value?.getBoundingClientRect();
+  if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+    resumeTimelines();
+  }
 }
 
 function pauseTimelines() {
@@ -540,10 +533,7 @@ function handleVisibilityChange() {
   }
 
   // Page is visible again - resume only when the hero is in the viewport
-  const rect = containerRef.value?.getBoundingClientRect();
-  if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
-    resumeTimelines();
-  }
+  resumeTimelinesIfVisible();
 }
 
 function hideActiveCrosses() {
@@ -571,8 +561,6 @@ function handleMouseMove(e: MouseEvent) {
   cursor.x = e.clientX - rect.left;
   cursor.y = e.clientY - rect.top;
   resetIdleTimer();
-  lastMouseMoveTime = Date.now();
-  isMouseMoving = true;
 }
 
 function resetIdleTimer() {
@@ -580,7 +568,6 @@ function resetIdleTimer() {
   clearTimeout(idleTimer);
   idleTimer = setTimeout(() => {
     isIdle = true;
-    isMouseMoving = false;
     boxes.forEach(({ el }) => {
       gsap.to(el, {
         scale: 1,
@@ -632,94 +619,10 @@ function showRandomCrosses() {
 }
 
 function handleClick(e: MouseEvent) {
-  if (finaleFrom.value) return;
+  if (finaleStart.value) return;
 
-  // Cells belong to the game; only clicks off the grid explode
   const index = getPlayableCellIndex(e);
-  if (index !== -1) return handleGameMove(index);
-  if (isReducedMotion) return;
-
-  const currentTime = Date.now();
-
-  // Throttle clicks - only allow one click per throttle delay
-  if (currentTime - lastClickTime < CLICK_THROTTLE_DELAY) return;
-  lastClickTime = currentTime;
-
-  const rect = containerRef.value?.getBoundingClientRect();
-  if (!rect) return;
-
-  const clickX = e.clientX - rect.left;
-  const clickY = e.clientY - rect.top;
-
-  // Stationary clicks get a slower, stronger explosion
-  const wasMouseMoving =
-    currentTime - lastMouseMoveTime < MOUSE_MOVE_THRESHOLD && isMouseMoving;
-  const explosionRadius = wasMouseMoving
-    ? EXPLOSION_RADIUS_MOVING
-    : EXPLOSION_RADIUS_STATIONARY;
-  const animationDuration = wasMouseMoving ? 0.4 : 1;
-  const animationEase = wasMouseMoving ? "power2.out" : "power3.out";
-  const returnDuration = wasMouseMoving ? 0.4 : 1.5;
-  const returnEase = wasMouseMoving
-    ? "elastic.out(1,0.4)"
-    : "elastic.out(1,0.3)";
-  const forceMultiplier = wasMouseMoving ? 2 : 3;
-  const shadowIntensity = wasMouseMoving ? 0.3 : 0.5;
-  const shadowBlur = wasMouseMoving ? 10 : 15;
-  const fadeDelay = wasMouseMoving ? 0.3 : 0.7;
-
-  boxes.forEach(({ el, x, y }) => {
-    const dx = x + BOX_SIZE / 2 - clickX;
-    const dy = y + BOX_SIZE / 2 - clickY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (dist >= explosionRadius) return;
-
-    const angle = Math.atan2(dy, dx);
-    const force = (explosionRadius - dist) * forceMultiplier;
-
-    // Animate away and back, darkening the box while it moves
-    gsap.fromTo(
-      el,
-      { x: 0, y: 0 },
-      {
-        x: Math.cos(angle) * force,
-        y: Math.sin(angle) * force,
-        duration: animationDuration,
-        ease: animationEase,
-        onStart: () => {
-          const darkerRgb = isDark.value ? "150, 140, 120" : "80, 65, 50";
-          el.style.borderColor = `rgba(${darkerRgb}, 1)`;
-          el.style.boxShadow = `0 0 ${shadowBlur}px rgba(${darkerRgb}, ${shadowIntensity})`;
-        },
-        onComplete: () => {
-          gsap.to(el, {
-            x: 0,
-            y: 0,
-            duration: returnDuration,
-            ease: returnEase,
-            onComplete: () => {
-              // Fade back to the default color, then let CSS take over
-              const defaultColor = isDark.value
-                ? "rgba(212, 201, 179, 0.3)"
-                : "rgba(122, 104, 83, 0.3)";
-              gsap.to(el, {
-                borderColor: defaultColor,
-                boxShadow: "none",
-                duration: 1,
-                delay: fadeDelay,
-                ease: "power2.out",
-                onComplete: () => {
-                  el.style.borderColor = "";
-                  el.style.boxShadow = "";
-                },
-              });
-            },
-          });
-        },
-      }
-    );
-  });
+  if (index !== -1) handleGameMove(index);
 }
 
 // Index of the box nearest to the pointer, -1 outside the grid
@@ -750,13 +653,23 @@ function handleGameMove(index: number) {
 
   if (!game.value) hideActiveCrosses();
   const box = boxes[index];
-  if (box) flash.value = { id: ++flashId, x: box.x, y: box.y };
+  if (box) flashBox(box.el);
   setGame(next);
 
   if (next.status !== "computerTurn") return;
   computerMoveTimer = setTimeout(() => {
     if (game.value) setGame(computerMove(game.value));
   }, COMPUTER_MOVE_DELAY);
+}
+
+// Marks the clicked box itself more strongly for a moment
+function flashBox(el: HTMLElement) {
+  el.classList.add("is-flashing");
+  el.addEventListener(
+    "animationend",
+    () => el.classList.remove("is-flashing"),
+    { once: true }
+  );
 }
 
 // Every move goes through here, so each finished game scores exactly once
@@ -768,31 +681,43 @@ function setGame(next: GomokuGame) {
 
 // Reduced motion never animates the strike, so it never gets the finale
 function handleStrikeEnd(e: AnimationEvent) {
+  const line = game.value?.winningLine ?? [];
+  const first = boxes[line[0] ?? -1];
+  const last = boxes[line.at(-1) ?? -1];
+  const hero = heroRef.value?.getBoundingClientRect();
   const isFinaleWin =
     game.value?.status === "won" && score.value.player >= FINALE_WINS;
   if (e.target !== e.currentTarget || !isFinaleWin) return;
+  if (!first || !last || !hero) return;
 
-  finaleFrom.value = boxes.map(({ el }) => {
-    const rect = el.getBoundingClientRect();
-    return { x: rect.left, y: rect.top };
-  });
+  // Grid places, not the boxes' current rects, so the copies land exactly on them
+  finaleStart.value = {
+    from: boxes.map(({ x, y }) => ({ x: hero.left + x, y: hero.top + y })),
+    origin: {
+      x: hero.left + (first.x + last.x + BOX_SIZE) / 2,
+      y: hero.top + (first.y + last.y + BOX_SIZE) / 2,
+    },
+  };
   isGridAway.value = true;
+  pauseTimelines();
 }
 
+// The site is under the paint, so the game resets unseen
 function handleFinaleCovered() {
-  isGridAway.value = false;
   handleGameClear();
 }
 
+// The copies have landed on the grid, so the real one takes over
 function handleFinaleDone() {
-  finaleFrom.value = null;
+  isGridAway.value = false;
+  finaleStart.value = null;
+  if (!document.hidden) resumeTimelinesIfVisible();
 }
 
 // Quit and Clear both return to the idle animation
 function handleGameClear() {
   clearTimeout(computerMoveTimer);
   game.value = null;
-  flash.value = null;
 
   const { computer, player } = score.value;
   if (Math.max(computer, player) >= FINALE_WINS) {
