@@ -3,24 +3,22 @@
     <div class="intro-text">
       <h1 id="intro-title">{{ $t("intro.name") }}</h1>
       <h2 class="intro-subtitle">
-        {{ $t("intro.subtitle1") }} | <span>{{ $t("intro.subtitle2") }}</span> |
-        <span>{{ $t("intro.subtitle3") }}</span>
+        {{ $t("intro.title") }} · <span>{{ $t("intro.stack") }}</span>
       </h2>
-      <h3>{{ $t("intro.role") }}</h3>
       <p>{{ $t("intro.description") }}</p>
 
       <div class="intro-bottom">
         <div class="intro-cta">
           <a
             :href="`mailto:${data.email}`"
-            class="cta-button cta-email"
+            class="cta-button cta-primary"
             :aria-label="$t('intro.cta.emailLabel')"
           >
             {{ $t("intro.cta.email") }}
           </a>
           <a
             :href="data.linkedin"
-            class="cta-button cta-linkedin"
+            class="cta-button cta-secondary"
             :aria-label="$t('intro.cta.linkedinLabel')"
             target="_blank"
             rel="noopener noreferrer"

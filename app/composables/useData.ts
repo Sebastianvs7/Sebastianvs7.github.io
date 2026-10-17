@@ -6,7 +6,7 @@ export interface SiteData {
 // Contact details shared across sections
 const data: Readonly<SiteData> = Object.freeze({
   email: "info@sebastiansanda.cz",
-  linkedin: "https://linkedin.com/in/sebastian-sanda",
+  linkedin: "https://www.linkedin.com/in/sebastian-sanda/",
 });
 
 export const useData = (): Readonly<SiteData> => data;

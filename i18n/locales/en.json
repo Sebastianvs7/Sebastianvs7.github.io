@@ -19,13 +19,11 @@
   },
   "intro": {
     "name": "Sebastian Šanda",
-    "subtitle1": "Frontend Developer",
-    "subtitle2": "React & Next.js",
-    "subtitle3": "WordPress",
-    "role": "Web Developer specializing in modern scalable web apps",
-    "description": "Passionate about building performant and accessible websites that bring ideas to life. Experienced in JavaScript, React, Node.js, and CSS.",
+    "title": "Full-Stack Developer",
+    "stack": "TypeScript, React, React Native, NestJS",
+    "description": "For almost 10 years I've been building web and mobile apps – from React and Next.js frontends to NestJS APIs with GraphQL and PostgreSQL. I've worked on projects for Koh-I-Noor Deutschland, Zoetis and the Mobile Phone Museum. AI is part of my daily development workflow.",
     "cta": {
-      "email": "Contact Me",
+      "email": "Get in touch",
       "emailLabel": "Send email to Sebastian Šanda",
       "linkedin": "LinkedIn",
       "linkedinLabel": "Visit LinkedIn profile"

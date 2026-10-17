@@ -19,13 +19,11 @@
   },
   "intro": {
     "name": "Sebastian Šanda",
-    "subtitle1": "Frontend vývojář",
-    "subtitle2": "React & Next.js",
-    "subtitle3": "WordPress",
-    "role": "Webový vývojář specializující se na moderní škálovatelné webové aplikace",
-    "description": "Vytvářím moderní weby a aplikace s důrazem na rychlost, použitelnost a čistý kód. Pomáhám firmám i jednotlivcům růst díky profesionálním online řešením.",
+    "title": "Full-Stack vývojář",
+    "stack": "TypeScript, React, React Native, NestJS",
+    "description": "Téměř 10 let stavím webové a mobilní aplikace – od frontendu v Reactu a Next.js po API v NestJS s GraphQL a PostgreSQL. Pracoval jsem na projektech pro Koh-I-Noor Deutschland, Zoetis nebo Mobile Phone Museum. AI používám každý den jako běžnou součást vývoje.",
     "cta": {
-      "email": "Kontaktujte mě",
+      "email": "Napište mi",
       "emailLabel": "Odeslat email na Sebastian Šanda",
       "linkedin": "LinkedIn",
       "linkedinLabel": "Navštívit LinkedIn profil"
