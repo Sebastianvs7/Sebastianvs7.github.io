@@ -1,7 +1,17 @@
 <template>
-  <div id="showAnimation" ref="containerRef">
-    <div ref="heroRef" class="hero" />
+  <div id="showAnimation" ref="containerRef" :class="{ 'is-playing': game }">
+    <div
+      ref="heroRef"
+      class="hero"
+      :class="{ 'is-clickable': isHoverPlayable }"
+    />
     <div v-if="game" class="game-layer" aria-hidden="true">
+      <span
+        v-if="flash"
+        :key="flash.id"
+        class="cell-flash"
+        :style="{ left: `${flash.x}px`, top: `${flash.y}px` }"
+      />
       <span
         v-for="mark in marks"
         :key="mark.index"
@@ -10,20 +20,28 @@
         :style="{ left: `${mark.x}px`, top: `${mark.y}px` }"
       />
     </div>
+    <span role="status" class="visually-hidden">
+      {{ resultKey ? $t(resultKey) : "" }}
+    </span>
     <div class="game-controls">
-      <span role="status" class="game-status">
-        {{ game ? $t(GAME_STATUS_KEYS[game.status]) : "" }}
-      </span>
       <button
-        v-if="isGameOver"
+        v-if="resultKey"
         type="button"
         class="game-button"
-        @click="handleGameRestart"
+        @click="handleGameClear"
       >
-        {{ $t("game.restart") }}
+        {{ $t("game.clear") }}
       </button>
-      <button type="button" class="game-button" @click="handleGameToggle">
-        {{ $t(game ? "game.stop" : "game.start") }}
+      <button
+        v-else-if="game"
+        type="button"
+        class="game-button game-button--icon"
+        :aria-label="$t('game.stop')"
+        @click="handleGameClear"
+      >
+        <svg viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M2 2l8 8M10 2l-8 8" />
+        </svg>
       </button>
     </div>
   </div>
@@ -49,6 +67,12 @@ interface GridMetrics {
   rows: number;
   spacingX: number;
   spacingY: number;
+}
+
+interface CellFlash {
+  id: number;
+  x: number;
+  y: number;
 }
 
 interface GameMarkView {
@@ -81,11 +105,9 @@ const EXPLOSION_RADIUS_STATIONARY = 150;
 
 // Pause before the computer answers, so its move reads as a reply
 const COMPUTER_MOVE_DELAY = 400;
-const GAME_STATUS_KEYS: Record<GomokuStatus, string> = {
-  computerTurn: "game.hint",
+const GAME_RESULT_KEYS: Partial<Record<GomokuStatus, string>> = {
   draw: "game.draw",
   lost: "game.lost",
-  playerTurn: "game.hint",
   won: "game.won",
 };
 
@@ -97,9 +119,19 @@ const heroRef = ref<HTMLElement | null>(null);
 
 // null while the game is off; the board maps 1:1 onto `boxes`
 const game = shallowRef<GomokuGame | null>(null);
-const isGameOver = computed(() => {
-  const status = game.value?.status;
-  return status === "won" || status === "lost" || status === "draw";
+// Set once the game has ended, so it also tells whether it has
+const resultKey = computed(() =>
+  game.value ? GAME_RESULT_KEYS[game.value.status] : undefined
+);
+const flash = shallowRef<CellFlash | null>(null);
+const hoverIndex = ref(-1);
+const isHoverPlayable = computed(() => {
+  if (hoverIndex.value === -1) return false;
+  if (!game.value) return true;
+  return (
+    game.value.status === "playerTurn" &&
+    game.value.board[hoverIndex.value] === null
+  );
 });
 const marks = computed<GameMarkView[]>(() => {
   const current = game.value;
@@ -130,6 +162,7 @@ let intersectionObserver: IntersectionObserver | undefined;
 let gridMetrics: GridMetrics | undefined;
 let isReducedMotion = false;
 let computerMoveTimer: ReturnType<typeof setTimeout> | undefined;
+let flashId = 0;
 
 onMounted(() => {
   // Wait a bit for the layout to settle before measuring
@@ -137,6 +170,7 @@ onMounted(() => {
     initializeAnimation();
     // Registered before the reduced-motion exit, so everyone can play
     heroRef.value?.addEventListener("click", handleClick);
+    heroRef.value?.addEventListener("pointermove", handleHeroPointerMove);
 
     // Keep only the static grid for users preferring reduced motion
     isReducedMotion = window.matchMedia(
@@ -487,8 +521,9 @@ function showRandomCrosses() {
 }
 
 function handleClick(e: MouseEvent) {
-  // The game has its own turn guard, so it skips the explosion throttle
-  if (game.value) return handleGameClick(e);
+  // Playable cells belong to the game; the free last row keeps the explosion
+  const index = getPlayableCellIndex(e);
+  if (index !== -1) return handleGameMove(index);
   if (isReducedMotion) return;
 
   const currentTime = Date.now();
@@ -574,51 +609,51 @@ function handleClick(e: MouseEvent) {
   });
 }
 
-// Index of the box whose centre is nearest, -1 outside the grid
-function getCellIndex(x: number, y: number): number {
-  if (!gridMetrics) return -1;
+// Index of the box nearest to the pointer, -1 outside the playable rows
+function getPlayableCellIndex(e: MouseEvent): number {
+  const rect = heroRef.value?.getBoundingClientRect();
+  if (!rect || !gridMetrics) return -1;
 
   const { cols, offsetX, offsetY, rows, spacingX, spacingY } = gridMetrics;
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
   const col = Math.round((x - offsetX - BOX_SIZE / 2) / spacingX);
   const row = Math.round((y - offsetY - BOX_SIZE / 2) / spacingY);
-  const isInside = col >= 0 && col < cols && row >= 0 && row < rows;
+  const isInside = col >= 0 && col < cols && row >= 0 && row < rows - 1;
   return isInside ? row * cols + col : -1;
 }
 
-function handleGameClick(e: MouseEvent) {
-  const rect = heroRef.value?.getBoundingClientRect();
-  if (!rect || !game.value) return;
+function handleHeroPointerMove(e: PointerEvent) {
+  hoverIndex.value = getPlayableCellIndex(e);
+}
 
-  const index = getCellIndex(e.clientX - rect.left, e.clientY - rect.top);
-  if (index === -1) return;
+function handleGameMove(index: number) {
+  if (!gridMetrics) return;
 
-  const next = playerMove(game.value, index);
-  if (next === game.value) return;
-  game.value = next;
+  const current = game.value ?? createHeroGame(gridMetrics);
+  const next = playerMove(current, index);
+  if (next === current) return;
+
+  if (!game.value) hideActiveCrosses();
+  const box = boxes[index];
+  if (box) flash.value = { id: ++flashId, x: box.x, y: box.y };
+  setGame(next);
 
   if (next.status !== "computerTurn") return;
   computerMoveTimer = setTimeout(() => {
-    if (game.value) game.value = computerMove(game.value);
+    if (game.value) setGame(computerMove(game.value));
   }, COMPUTER_MOVE_DELAY);
 }
 
-function handleGameToggle() {
-  if (game.value) {
-    clearTimeout(computerMoveTimer);
-    game.value = null;
-    return;
-  }
-  if (!gridMetrics) return;
-
-  game.value = createHeroGame(gridMetrics);
-  hideActiveCrosses();
+function setGame(next: GomokuGame) {
+  game.value = next;
 }
 
-function handleGameRestart() {
-  if (!gridMetrics) return;
-
+// Quit and Clear both return to the idle animation
+function handleGameClear() {
   clearTimeout(computerMoveTimer);
-  game.value = createHeroGame(gridMetrics);
+  game.value = null;
+  flash.value = null;
 }
 
 // The last row stays free for the game controls, so no move hides under them

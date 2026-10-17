@@ -40,7 +40,13 @@
   width: 26px;
 }
 
-.hero :deep(.highlight) {
+.hero.is-clickable {
+  cursor: pointer;
+}
+
+// The flash on a clicked cell borrows the look of the moving highlights
+.hero :deep(.highlight),
+.cell-flash {
   background-color: transparent;
   border: 2px solid rgba(var(--color-accent-rgb), 0.5);
   border-radius: 3px;
@@ -49,8 +55,23 @@
   position: absolute;
   transition:
     border-color 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
   width: 26px;
+}
+
+.is-playing .hero :deep(.highlight) {
+  opacity: 0;
+}
+
+.cell-flash {
+  animation: cell-flash 0.8s ease-out forwards;
+}
+
+@keyframes cell-flash {
+  to {
+    opacity: 0;
+  }
 }
 
 .hero :deep(.cross) {
@@ -134,30 +155,17 @@
   right: 0.75rem;
 }
 
-.game-status:not(:empty),
 .game-button {
   background: var(--color-bg);
+  border: 1px solid var(--color-accent);
   border-radius: 999px;
+  color: var(--color-accent);
+  cursor: pointer;
   font-size: 0.875rem;
+  font-weight: 600;
   line-height: 1.25;
   padding: 0.125rem 0.75rem;
   pointer-events: auto;
-  white-space: nowrap;
-}
-
-.game-status {
-  color: var(--color-text);
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.game-button {
-  border: 1px solid var(--color-accent);
-  flex-shrink: 0;
-  color: var(--color-accent);
-  cursor: pointer;
-  font-weight: 600;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -166,4 +174,31 @@
     background: var(--color-accent);
     color: var(--color-on-accent);
   }
+
+  &--icon {
+    align-items: center;
+    display: flex;
+    height: 24px;
+    justify-content: center;
+    padding: 0;
+    width: 24px;
+
+    svg {
+      fill: none;
+      height: 10px;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-width: 1.5;
+      width: 10px;
+    }
+  }
+}
+
+.visually-hidden {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

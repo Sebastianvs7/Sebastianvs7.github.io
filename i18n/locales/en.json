@@ -60,10 +60,10 @@
     "description": "Portfolio of Sebastian Šanda – full-stack and frontend developer focused on React, Next.js and modern, scalable web applications."
   },
   "game": {
-    "start": "Play five in a row",
     "stop": "Quit game",
-    "restart": "New game",
-    "hint": "You play circles, five in a row wins",
+    "clear": "Clear",
+    "you": "You",
+    "computer": "Computer",
     "won": "You won!",
     "lost": "Computer won",
     "draw": "Draw"
