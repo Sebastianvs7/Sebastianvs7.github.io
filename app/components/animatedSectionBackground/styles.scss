@@ -65,6 +65,11 @@
   opacity: 0;
 }
 
+// The finale flies copies of the grid, so the real one steps aside
+.is-finale :is(.hero, .game-layer, .game-controls) {
+  opacity: 0;
+}
+
 .cell-flash {
   animation: cell-flash 0.8s ease-out forwards;
 }

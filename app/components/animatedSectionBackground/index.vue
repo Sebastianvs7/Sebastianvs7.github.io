@@ -2,7 +2,7 @@
   <div
     id="showAnimation"
     ref="containerRef"
-    :class="{ 'is-playing': game }"
+    :class="{ 'is-playing': game, 'is-finale': finaleFrom }"
     :style="revealStyle"
   >
     <div
@@ -45,6 +45,7 @@
           width: `${strike.length}px`,
           '--angle': `${strike.angle}rad`,
         }"
+        @animationend="handleStrikeEnd"
       />
     </div>
     <div v-if="isScoreVisible" class="scoreboard">
@@ -80,6 +81,13 @@
         </svg>
       </button>
     </div>
+    <Teleport to="body">
+      <AnimatedSectionBackgroundFinale
+        v-if="finaleFrom"
+        :from="finaleFrom"
+        @done="handleFinaleDone"
+      />
+    </Teleport>
   </div>
 </template>
 
@@ -188,6 +196,8 @@ const resultKey = computed(() =>
   game.value ? GAME_RESULT_KEYS[game.value.status] : undefined
 );
 const flash = shallowRef<CellFlash | null>(null);
+// Viewport positions of the boxes while the five-win finale plays
+const finaleFrom = shallowRef<{ x: number; y: number }[] | null>(null);
 const score = ref<Score>({ computer: 0, player: 0 });
 const isScoreVisible = computed(
   () => game.value !== null || score.value.computer + score.value.player > 0
@@ -619,6 +629,8 @@ function showRandomCrosses() {
 }
 
 function handleClick(e: MouseEvent) {
+  if (finaleFrom.value) return;
+
   // Playable cells belong to the game; the free last row keeps the explosion
   const index = getPlayableCellIndex(e);
   if (index !== -1) return handleGameMove(index);
@@ -748,6 +760,21 @@ function setGame(next: GomokuGame) {
   game.value = next;
   if (next.status === "won") score.value.player++;
   if (next.status === "lost") score.value.computer++;
+}
+
+// Reduced motion never animates the strike, so it never gets the finale
+function handleStrikeEnd() {
+  if (score.value.player < FINALE_WINS) return;
+
+  finaleFrom.value = boxes.map(({ el }) => {
+    const rect = el.getBoundingClientRect();
+    return { x: rect.left, y: rect.top };
+  });
+}
+
+function handleFinaleDone() {
+  finaleFrom.value = null;
+  handleGameClear();
 }
 
 // Quit and Clear both return to the idle animation
