@@ -4,7 +4,8 @@
   height: 100%;
   left: 0;
   margin: 0;
-  overflow: hidden;
+  // The scoreboard sits above the hero; .hero still clips the grid
+  overflow: visible;
   position: absolute;
   top: 0;
   transition: background-color 0.3s ease;
@@ -185,6 +186,53 @@
 @keyframes fade-in {
   from {
     opacity: 0;
+  }
+}
+
+.scoreboard {
+  align-items: center;
+  bottom: calc(100% + 0.5rem);
+  color: var(--color-text);
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  justify-content: space-between;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+}
+
+.score {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+
+  // Computer side mirrors the player side
+  &:last-child {
+    flex-direction: row-reverse;
+  }
+}
+
+.tally {
+  display: flex;
+  gap: 4px;
+}
+
+.tally-mark {
+  background: var(--color-accent);
+  border-radius: 1px;
+  height: 1.25rem;
+  width: 3px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: tally-in 0.3s ease-out var(--reveal-delay, 0s) both;
+  }
+}
+
+@keyframes tally-in {
+  from {
+    transform: scaleY(0);
   }
 }
 
