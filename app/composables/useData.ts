@@ -1,19 +1,19 @@
 export interface SiteData {
-  email: string;
-  linkedin: string;
-  github: string;
   cv: Record<"cs" | "en", string>;
+  email: string;
+  github: string;
+  linkedin: string;
 }
 
 // Contact details shared across sections
 const data: Readonly<SiteData> = Object.freeze({
-  email: "info@sebastiansanda.cz",
-  linkedin: "https://www.linkedin.com/in/sebastian-sanda/",
-  github: "https://github.com/Sebastianvs7",
   cv: {
     cs: "/cv/sebastian-sanda-cs.pdf",
     en: "/cv/sebastian-sanda-en.pdf",
   },
+  email: "info@sebastiansanda.cz",
+  github: "https://github.com/Sebastianvs7",
+  linkedin: "https://www.linkedin.com/in/sebastian-sanda/",
 });
 
 export const useData = (): Readonly<SiteData> => data;

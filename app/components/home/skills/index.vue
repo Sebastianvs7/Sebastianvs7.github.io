@@ -8,7 +8,7 @@
   >
     <h2 id="skills-title">{{ $t("sections.skills") }}</h2>
 
-    <div ref="groupsRef" class="skills-groups" @pointermove="onPointerMove">
+    <div ref="groupsRef" class="skills-groups" @pointermove="handlePointerMove">
       <div
         v-for="(group, index) in skillsData?.groups"
         :key="group.title.en"
@@ -68,7 +68,7 @@ onMounted(() => {
 const groupsRef = ref<HTMLElement>();
 let spotlightFrame = 0;
 
-const onPointerMove = (event: PointerEvent) => {
+const handlePointerMove = (event: PointerEvent) => {
   if (event.pointerType !== "mouse" || spotlightFrame) return;
 
   spotlightFrame = requestAnimationFrame(() => {

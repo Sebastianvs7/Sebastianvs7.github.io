@@ -1,5 +1,8 @@
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
 
+// Text in both locales
+const localizedString = z.object({ cs: z.string(), en: z.string() });
+
 // Frontmatter shared by Czech and English project pages
 const projectSchema = z.object({
   image: z.string(),
@@ -32,7 +35,7 @@ export default defineContentConfig({
       schema: z.object({
         order: z.number(),
         company: z.string(),
-        position: z.object({ cs: z.string(), en: z.string() }),
+        position: localizedString,
         period: z.string(),
         current: z.boolean(),
         description: z.object({
@@ -48,14 +51,11 @@ export default defineContentConfig({
       schema: z.object({
         groups: z.array(
           z.object({
-            title: z.object({ cs: z.string(), en: z.string() }),
+            title: localizedString,
             items: z.array(
               z.object({
                 // Brand names stay as strings, descriptive skills are localized
-                name: z.union([
-                  z.string(),
-                  z.object({ cs: z.string(), en: z.string() }),
-                ]),
+                name: z.union([z.string(), localizedString]),
                 // File name in app/assets/tech-icons
                 icon: z.string().optional(),
               })
