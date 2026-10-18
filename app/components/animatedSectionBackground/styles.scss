@@ -144,7 +144,6 @@
   transform-origin: 0 50%;
 }
 
-// Durations and delays match the timing constants in index.vue
 @media (prefers-reduced-motion: no-preference) {
   .mark circle,
   .mark line {
@@ -157,11 +156,13 @@
   }
 
   .mark--win {
-    animation: mark-swirl 0.6s ease-in-out calc(var(--win-order) * 0.1s) both;
+    animation: mark-swirl var(--swirl-duration) ease-in-out
+      calc(var(--win-order) * var(--swirl-stagger)) both;
   }
 
   .strike-line {
-    animation: strike-draw 0.35s ease-out var(--strike-delay) both;
+    animation: strike-draw var(--strike-duration) ease-out var(--strike-delay)
+      both;
   }
 
   .game-button {

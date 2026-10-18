@@ -9,6 +9,8 @@
       ref="heroRef"
       class="hero"
       :class="{ 'is-clickable': isHoverPlayable }"
+      @click="handleClick"
+      @pointermove="handleHeroPointerMove"
     />
     <div v-if="game" class="game-layer" aria-hidden="true">
       <span
@@ -79,7 +81,7 @@
       <AnimatedSectionBackgroundFinale
         v-if="finaleStart"
         v-bind="finaleStart"
-        @covered="handleFinaleCovered"
+        @covered="handleGameClear"
         @done="handleFinaleDone"
       />
     </Teleport>
@@ -156,7 +158,7 @@ const IDLE_DELAY = 2500;
 
 // Pause before the computer answers, so its move reads as a reply
 const COMPUTER_MOVE_DELAY = 400;
-// Win reveal timing in seconds, keep in sync with styles.scss
+// Win reveal timing in seconds, passed to styles.scss through revealStyle
 const SWIRL_STAGGER = 0.1;
 const SWIRL_DURATION = 0.6;
 const STRIKE_DURATION = 0.35;
@@ -240,6 +242,9 @@ const revealStyle = computed(() => {
   return {
     "--reveal-delay": `${strikeDelay + STRIKE_DURATION}s`,
     "--strike-delay": `${strikeDelay}s`,
+    "--strike-duration": `${STRIKE_DURATION}s`,
+    "--swirl-duration": `${SWIRL_DURATION}s`,
+    "--swirl-stagger": `${SWIRL_STAGGER}s`,
   };
 });
 
@@ -261,9 +266,6 @@ onMounted(() => {
   // Wait a bit for the layout to settle before measuring
   startTimer = setTimeout(() => {
     initializeAnimation();
-    // Registered before the reduced-motion exit, so everyone can play
-    heroRef.value?.addEventListener("click", handleClick);
-    heroRef.value?.addEventListener("pointermove", handleHeroPointerMove);
 
     // Keep only the static grid for users preferring reduced motion
     const isReducedMotion = window.matchMedia(
@@ -689,11 +691,6 @@ function handleStrikeEnd(e: AnimationEvent) {
   };
   isGridAway.value = true;
   pauseTimelines();
-}
-
-// The site is under the paint, so the game resets unseen
-function handleFinaleCovered() {
-  handleGameClear();
 }
 
 // The copies have landed on the grid, so the real one takes over
