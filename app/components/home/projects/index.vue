@@ -24,6 +24,7 @@
 
     <div v-if="showAllProjects" class="projects-logo-loop">
       <h3>{{ $t("projects.otherProjects") }}</h3>
+
       <UiLogoLoop
         :logos="logos"
         :speed="30"

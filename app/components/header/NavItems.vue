@@ -6,6 +6,7 @@
   >
     {{ $t("navigation.home") }}
   </NuxtLink>
+
   <template v-else>
     <NuxtLink
       v-for="link in SECTION_LINKS"
@@ -18,6 +19,7 @@
   </template>
 
   <HeaderThemeToggle />
+
   <button
     type="button"
     class="lang-toggle"

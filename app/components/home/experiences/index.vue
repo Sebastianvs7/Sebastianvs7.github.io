@@ -6,6 +6,7 @@
 
     <div class="experiences-timeline">
       <div class="timeline-line" />
+
       <div
         v-for="(experience, index) in experiences"
         :key="experience.id"
@@ -13,6 +14,7 @@
       >
         <div class="experience-content" :class="getPositionClass(index)">
           <h3>{{ experience.position[locale] }} | {{ experience.company }}</h3>
+
           <div class="experience-role">
             <ul class="experience-role-list">
               <li v-for="item in experience.description[locale]" :key="item">
@@ -20,6 +22,7 @@
               </li>
             </ul>
           </div>
+
           <p class="experience-date">
             {{ experience.period }}
             <span v-if="experience.current">
@@ -27,6 +30,7 @@
             </span>
           </p>
         </div>
+
         <div class="timeline-dot">
           <svg
             fill="currentColor"

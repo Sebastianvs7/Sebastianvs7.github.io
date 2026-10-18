@@ -2,6 +2,7 @@
   <div class="error-page">
     <h1>{{ error.statusCode }}</h1>
     <p>{{ message }}</p>
+
     <NuxtLink :to="localePath('index')" class="home-link">
       {{ $t("error.goHome") }}
     </NuxtLink>

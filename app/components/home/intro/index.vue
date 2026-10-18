@@ -16,6 +16,7 @@
           >
             {{ $t("intro.cta.email") }}
           </a>
+
           <div class="intro-socials">
             <a
               :href="siteLinks.github"
@@ -27,6 +28,7 @@
             >
               <Icon name="local:github" />
             </a>
+
             <a
               :href="siteLinks.linkedin"
               class="cta-button cta-secondary cta-icon"
@@ -47,6 +49,7 @@
         </div>
       </div>
     </div>
+
     <div class="intro-img">
       <img
         src="/images/profile-220.webp"

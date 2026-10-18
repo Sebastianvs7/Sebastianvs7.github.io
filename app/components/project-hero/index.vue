@@ -12,17 +12,22 @@
       @click="handleHeroClick"
       @pointermove="handleHeroPointerMove"
     />
+
     <ProjectHeroGameLayer
       v-if="game"
       :marks="marks"
       :strike="strike"
       @strike-end="handleStrikeEnd"
     />
+
     <ProjectHeroScoreboard v-if="isScoreVisible" :score="score" />
+
     <span role="status" class="visually-hidden">
       {{ resultKey ? $t(resultKey) : "" }}
     </span>
+
     <ProjectHeroGameControls :phase="phase" @clear="handleGameClear" />
+
     <Teleport to="body">
       <ProjectHeroFinale
         v-if="finaleStart"

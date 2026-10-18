@@ -8,6 +8,7 @@
     >
       {{ $t("gomoku.clear") }}
     </button>
+
     <button
       v-else-if="phase === 'playing'"
       type="button"

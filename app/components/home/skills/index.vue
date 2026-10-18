@@ -16,6 +16,7 @@
         :style="{ '--reveal-index': index }"
       >
         <h3>{{ group.title[locale] }}</h3>
+
         <ul class="skill-list">
           <li v-for="item in group.items" :key="getSkillName(item)">
             <span class="skill-tag">

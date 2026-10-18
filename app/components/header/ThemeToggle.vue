@@ -9,11 +9,13 @@
       <clipPath :id="clipId">
         <rect width="24" height="19" />
       </clipPath>
+
       <!-- Nested groups: each layer owns one transform (hover vs. theme switch) so they don't override each other -->
       <g :clip-path="`url(#${clipId})`">
         <g class="theme-icon-sky">
           <g class="theme-icon-sun">
             <circle cx="12" cy="11" r="3.5" fill="currentColor" />
+
             <g class="theme-icon-rays">
               <path
                 class="theme-icon-rays-spin"
@@ -24,12 +26,14 @@
               />
             </g>
           </g>
+
           <g class="theme-icon-moon">
             <path
               d="M18.3 11.55A6.3 6.3 0 1 1 11.45 4.7 4.9 4.9 0 0 0 18.3 11.55z"
               fill="currentColor"
             />
           </g>
+
           <g
             class="theme-icon-stars"
             stroke="currentColor"
@@ -42,6 +46,7 @@
           </g>
         </g>
       </g>
+
       <path
         class="theme-icon-horizon"
         d="M3 20.5h18"

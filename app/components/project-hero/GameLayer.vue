@@ -25,6 +25,7 @@
         </template>
       </svg>
     </span>
+
     <span
       v-if="strike"
       class="strike-line"
