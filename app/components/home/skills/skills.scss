@@ -15,6 +15,10 @@
     margin-bottom: 1.25rem;
     padding: 1.25rem;
     position: relative;
+
+    :root:not(.dark) & {
+      background: transparent;
+    }
   }
 
   // Spotlight that follows the mouse: a soft fill inside the card and a
@@ -38,6 +42,11 @@
         color-mix(in srgb, var(--palette-gold) 22%, transparent),
         transparent 70%
       );
+
+      // Light mode keeps only the border ring, no fill under the cursor
+      :root:not(.dark) & {
+        display: none;
+      }
     }
 
     // Masked down to the 1px border, so only the ring lights up
