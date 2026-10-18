@@ -57,4 +57,3 @@ groups:
       - { name: "UI design", icon: "layout-template" }
       - { name: { cs: "Responzivní design", en: "Responsive design" }, icon: "monitor-smartphone" }
       - { name: { cs: "Spolupráce s designéry", en: "Working with designers" }, icon: "pen-tool" }
-courses: []

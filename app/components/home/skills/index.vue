@@ -26,24 +26,6 @@
         </ul>
       </div>
     </div>
-
-    <p v-if="skillsData?.courses.length" class="skills-courses">
-      <strong>{{ $t("skills.courses") }}:</strong>
-      <template v-for="(course, index) in skillsData.courses" :key="course.name">
-        {{ index > 0 ? ", " : " " }}
-        <a
-          v-if="course.url"
-          :href="course.url"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {{ course.name }} ({{ course.provider }}, {{ course.year }})
-        </a>
-        <span v-else>
-          {{ course.name }} ({{ course.provider }}, {{ course.year }})
-        </span>
-      </template>
-    </p>
   </section>
 </template>
 

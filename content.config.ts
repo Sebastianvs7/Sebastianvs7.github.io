@@ -41,7 +41,7 @@ export default defineContentConfig({
         }),
       }),
     }),
-    // Skill groups and courses (group titles in both locales)
+    // Skill groups (group titles in both locales)
     skills: defineCollection({
       type: "data",
       source: "skills.yml",
@@ -60,14 +60,6 @@ export default defineContentConfig({
                 icon: z.string().optional(),
               })
             ),
-          })
-        ),
-        courses: z.array(
-          z.object({
-            name: z.string(),
-            provider: z.string(),
-            year: z.number(),
-            url: z.string().optional(),
           })
         ),
       }),
