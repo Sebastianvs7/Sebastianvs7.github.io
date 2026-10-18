@@ -17,6 +17,20 @@ interface FinaleHole {
   y: number;
 }
 
+interface PaintDrip {
+  el: HTMLDivElement;
+  // How far the drip sags below the paint edge once it has run down
+  hang: number;
+}
+
+interface Paint {
+  drips: PaintDrip[];
+  el: HTMLDivElement;
+}
+
+// Seconds until the dissolve wave reaches a point
+type WaveDelay = (x: number, y: number) => number;
+
 interface FinaleProps {
   // Viewport positions of the hero grid boxes the finale starts from and returns to
   from: readonly GridPoint[];
@@ -67,16 +81,28 @@ const rootRef = ref<HTMLElement | null>(null);
 let timeline: gsap.core.Timeline | undefined;
 let followScroll: (() => void) | undefined;
 
-onMounted(() => {
-  const root = rootRef.value;
-  if (!root) return;
+const random = gsap.utils.random;
 
-  const { innerHeight: height, innerWidth: width } = window;
-  const random = gsap.utils.random;
-  const waveDelay = createWaveDelay(props.origin, width, height);
+// Seconds until the dissolve wave reaches a point, growing with its distance
+// from the origin up to the farthest screen corner
+const createWaveDelay = (
+  origin: GridPoint,
+  width: number,
+  height: number
+): WaveDelay => {
+  const farthest = Math.max(
+    Math.hypot(origin.x, origin.y),
+    Math.hypot(width - origin.x, origin.y),
+    Math.hypot(origin.x, height - origin.y),
+    Math.hypot(width - origin.x, height - origin.y)
+  );
+  return (x, y) =>
+    Math.min(1, Math.hypot(x - origin.x, y - origin.y) / farthest) *
+    (HOLE_DELAY - HOLE_JITTER);
+};
 
-  // GSAP tweens real colours, not var(), so read the paint colour once
-  const paintColor = getComputedStyle(root).getPropertyValue("--color-accent");
+// Copies of the hero grid boxes, in a layer that scrolls with the page
+const createGridCopies = (root: HTMLElement): HTMLDivElement[] => {
   // props.from is in viewport coordinates; the layer scrolls with the page,
   // so the copies land on the real grid even if the user scrolls meanwhile
   const grid = appendDiv(root, "finale-grid");
@@ -85,14 +111,18 @@ onMounted(() => {
     grid.style.transform = `translateY(${startScrollY - window.scrollY}px)`;
   };
   window.addEventListener("scroll", followScroll, { passive: true });
-  const boxes = props.from.map(({ x, y }) => {
+
+  return props.from.map(({ x, y }) => {
     const box = appendDiv(grid, "finale-box");
     gsap.set(box, { x, y });
     return box;
   });
+};
+
+// Paint sheet above the screen, its drips side by side across the whole width
+const createPaint = (root: HTMLElement, width: number): Paint => {
   const paint = appendDiv(root, "finale-paint");
-  // Drips sit side by side across the whole width, never overlapping
-  const drips: { drip: HTMLElement; hang: number }[] = [];
+  const drips: PaintDrip[] = [];
   for (let i = 0, left = random(-30, 0); left < width; i++) {
     const shape = i % 2 === 0 ? "square" : "cross";
     const drip = appendDiv(paint, "finale-drip", `finale-drip--${shape}`);
@@ -109,14 +139,23 @@ onMounted(() => {
     // come out almost whole, or they read as brackets
     gsap.set(drip, { rotation: random(-DRIP_TILT, DRIP_TILT), y: -size });
     const hidden = isHollow ? random(0.08, 0.16) : random(0.15, 0.45);
-    drips.push({ drip, hang: -size * hidden });
+    drips.push({ el: drip, hang: -size * hidden });
     left += size + random(DRIP_GAP.min, DRIP_GAP.max);
   }
 
-  timeline = gsap.timeline({ onComplete: () => emit("done") });
+  return { drips, el: paint };
+};
 
-  // 1. The grid goes wild across the whole screen
-  timeline.to(boxes, {
+// 1. The grid goes wild across the whole screen, then shoots up out of sight,
+// turning into the paint on the way
+const addFlyAway = (
+  tl: gsap.core.Timeline,
+  boxes: HTMLDivElement[],
+  paintColor: string
+) => {
+  const { innerHeight: height, innerWidth: width } = window;
+
+  tl.to(boxes, {
     x: () => random(0, width - HERO_BOX_SIZE),
     y: () => random(0, height - HERO_BOX_SIZE),
     rotation: () => random(-720, 720),
@@ -128,8 +167,7 @@ onMounted(() => {
     stagger: { amount: 0.3, from: "random" },
   });
 
-  // ...then shoots up out of sight, turning into the paint on the way
-  timeline.to(boxes, {
+  tl.to(boxes, {
     y: () => -random(120, 320),
     scale: () => random(1, 2.5),
     backgroundColor: paintColor,
@@ -138,46 +176,61 @@ onMounted(() => {
     ease: "power2.in",
     stagger: { amount: 0.3, from: "random" },
   });
+};
 
-  // 2. That paint runs down from the top, its drips sagging out of the edge
-  timeline.fromTo(
-    paint,
-    { y: -(height + DRIP_EXTENT) },
+// 2. That paint runs down from the top, its drips sagging out of the edge
+const addPaintDown = (
+  tl: gsap.core.Timeline,
+  paint: Paint,
+  boxes: HTMLDivElement[]
+) => {
+  tl.fromTo(
+    paint.el,
+    { y: -(window.innerHeight + DRIP_EXTENT) },
     { y: 0, duration: 1.1, ease: "power1.in" },
     // Starts while the last boxes fly up, its edge arrives right after them
     "-=0.35"
   );
-  timeline.to(
-    drips.map(({ drip }) => drip),
+  tl.to(
+    paint.drips.map(({ el }) => el),
     {
-      y: (i: number) => drips[i]?.hang ?? 0,
+      y: (i: number) => paint.drips[i]?.hang ?? 0,
       duration: 0.5,
       ease: "sine.out",
       stagger: { amount: 0.25, from: "random" },
     },
     "<"
   );
-  timeline.set(boxes, { opacity: 0 });
-  timeline.call(() => emit("covered"));
+  tl.set(boxes, { opacity: 0 });
+  tl.call(() => emit("covered"));
+};
 
-  // 3. Everything returns: see-through circles, crosses and squares open in
-  // the paint in a wave from the winning line and grow until it is gone
+// 3. Everything returns: see-through circles, crosses and squares open in
+// the paint in a wave from the winning line and grow until it is gone
+const addDissolve = (
+  tl: gsap.core.Timeline,
+  root: HTMLElement,
+  paint: Paint,
+  waveDelay: WaveDelay
+) => {
+  const { innerHeight: height, innerWidth: width } = window;
   const dissolve = { progress: 0 };
   let holes: FinaleHole[] = [];
   let holeLayer: SVGSVGElement | null = null;
-  timeline.addLabel("dissolve", "+=0.4");
-  timeline.call(
+
+  tl.addLabel("dissolve", "+=0.4");
+  tl.call(
     () => {
       const layer = appendDiv(root, "finale-holes-layer");
       holes = createHoles(layer, width, height, waveDelay);
       holeLayer = layer.querySelector("svg");
       // The masked copy lines up exactly with the solid paint it replaces
-      paint.style.visibility = "hidden";
+      paint.el.style.visibility = "hidden";
     },
     undefined,
     "dissolve"
   );
-  timeline.to(
+  tl.to(
     dissolve,
     {
       progress: 1,
@@ -193,15 +246,17 @@ onMounted(() => {
     },
     "dissolve"
   );
+};
 
-  // ...and behind the wave the grid drops back onto its places, under the
-  // paint, so the real grid can take over unnoticed once it is gone
-  timeline.set(
-    boxes,
-    { clearProps: "backgroundColor,borderColor" },
-    "dissolve"
-  );
-  timeline.fromTo(
+// ...and behind the wave the grid drops back onto its places, under the
+// paint, so the real grid can take over unnoticed once it is gone
+const addDropBack = (
+  tl: gsap.core.Timeline,
+  boxes: HTMLDivElement[],
+  waveDelay: WaveDelay
+) => {
+  tl.set(boxes, { clearProps: "backgroundColor,borderColor" }, "dissolve");
+  tl.fromTo(
     boxes,
     {
       x: (i: number) => props.from[i]?.x ?? 0,
@@ -230,30 +285,15 @@ onMounted(() => {
     },
     "dissolve"
   );
-});
+};
 
-// Seconds until the dissolve wave reaches a point, growing with its distance
-// from the origin up to the farthest screen corner
-function createWaveDelay(origin: GridPoint, width: number, height: number) {
-  const farthest = Math.max(
-    Math.hypot(origin.x, origin.y),
-    Math.hypot(width - origin.x, origin.y),
-    Math.hypot(origin.x, height - origin.y),
-    Math.hypot(width - origin.x, height - origin.y)
-  );
-  return (x: number, y: number) =>
-    Math.min(1, Math.hypot(x - origin.x, y - origin.y) / farthest) *
-    (HOLE_DELAY - HOLE_JITTER);
-}
-
-function createHoles(
+const createHoles = (
   layer: HTMLElement,
   width: number,
   height: number,
-  waveDelay: (x: number, y: number) => number
-): FinaleHole[] {
-  const random = gsap.utils.random;
-  const centres: { x: number; y: number }[] = [];
+  waveDelay: WaveDelay
+): FinaleHole[] => {
+  const centres: GridPoint[] = [];
   for (let y = 0; y < height + HOLE_SPACING; y += HOLE_SPACING) {
     for (let x = 0; x < width + HOLE_SPACING; x += HOLE_SPACING) {
       centres.push({ x: x + random(-30, 30), y: y + random(-30, 30) });
@@ -283,12 +323,12 @@ function createHoles(
       },
     ];
   });
-}
+};
 
 // Each hole grows slowly at first, so its shape reads before it merges
 const growEase = gsap.parseEase("sine.inOut");
 
-function renderHoles(holes: FinaleHole[], progress: number) {
+const renderHoles = (holes: FinaleHole[], progress: number) => {
   const growTime = DISSOLVE_DURATION - HOLE_DELAY;
   for (const hole of holes) {
     const t = (progress * DISSOLVE_DURATION - hole.delay) / growTime;
@@ -298,7 +338,28 @@ function renderHoles(holes: FinaleHole[], progress: number) {
       `translate(${hole.x} ${hole.y}) rotate(${hole.rotation}) scale(${grown * hole.scale})`
     );
   }
-}
+};
+
+onMounted(() => {
+  const root = rootRef.value;
+  if (!root) return;
+
+  const waveDelay = createWaveDelay(
+    props.origin,
+    window.innerWidth,
+    window.innerHeight
+  );
+  // GSAP tweens real colours, not var(), so read the paint colour once
+  const paintColor = getComputedStyle(root).getPropertyValue("--color-accent");
+  const boxes = createGridCopies(root);
+  const paint = createPaint(root, window.innerWidth);
+
+  timeline = gsap.timeline({ onComplete: () => emit("done") });
+  addFlyAway(timeline, boxes, paintColor);
+  addPaintDown(timeline, paint, boxes);
+  addDissolve(timeline, root, paint, waveDelay);
+  addDropBack(timeline, boxes, waveDelay);
+});
 
 onUnmounted(() => {
   timeline?.kill();
