@@ -73,8 +73,11 @@ export const useGomokuMatch = (
   const isGridAway = ref(false);
   const score = ref<MatchScore>({ computer: 0, player: 0 });
   const hoverIndex = ref(-1);
+  // A finished game clears on a grid click once its reveal has played, like the Clear button
+  const isClearable = ref(false);
 
   let computerMoveTimer: ReturnType<typeof setTimeout> | undefined;
+  let clearableTimer: ReturnType<typeof setTimeout> | undefined;
 
   // Set once the game has ended, so it also tells whether it has
   const resultKey = computed(() =>
@@ -91,8 +94,8 @@ export const useGomokuMatch = (
   );
 
   const isHoverPlayable = computed(() => {
-    if (hoverIndex.value === -1) return false;
-    if (!game.value) return true;
+    if (hoverIndex.value === -1 || finaleStart.value) return false;
+    if (!game.value || isClearable.value) return true;
     return (
       game.value.status === "playerTurn" &&
       game.value.board[hoverIndex.value] === null
@@ -118,12 +121,15 @@ export const useGomokuMatch = (
     return first && last ? getStrikeLine(first, last) : null;
   });
 
+  const getStrikeDelay = (lineLength: number) =>
+    (lineLength - 1) * SWIRL_STAGGER + SWIRL_DURATION;
+
   // The strike waits for the last swirl, Clear waits for the strike
   const revealStyle = computed((): Record<string, string> => {
     const count = game.value?.winningLine.length ?? 0;
     if (count === 0) return {};
 
-    const strikeDelay = (count - 1) * SWIRL_STAGGER + SWIRL_DURATION;
+    const strikeDelay = getStrikeDelay(count);
     return {
       "--reveal-delay": `${strikeDelay + STRIKE_DURATION}s`,
       "--strike-delay": `${strikeDelay}s`,
@@ -149,6 +155,16 @@ export const useGomokuMatch = (
     game.value = next;
     if (next.status === "won") score.value.player++;
     if (next.status === "lost") score.value.computer++;
+    if (!GAME_RESULT_KEYS[next.status]) return;
+
+    // A draw has no line, so nothing to wait for
+    const lineLength = next.winningLine.length;
+    const revealDelay = lineLength
+      ? getStrikeDelay(lineLength) + STRIKE_DURATION
+      : 0;
+    clearableTimer = setTimeout(() => {
+      isClearable.value = true;
+    }, revealDelay * 1000);
   };
 
   const playAt = (index: number) => {
@@ -173,7 +189,10 @@ export const useGomokuMatch = (
     if (finaleStart.value) return;
 
     const index = getPointerCellIndex(e);
-    if (index !== -1) playAt(index);
+    if (index === -1) return;
+
+    if (isClearable.value) handleGameClear();
+    else playAt(index);
   };
 
   const handleHeroPointerMove = (e: PointerEvent) => {
@@ -213,6 +232,8 @@ export const useGomokuMatch = (
   // Quit and Clear both return to the idle animation
   const handleGameClear = () => {
     clearTimeout(computerMoveTimer);
+    clearTimeout(clearableTimer);
+    isClearable.value = false;
     game.value = null;
     grid.resumeCrosses();
 
@@ -224,6 +245,7 @@ export const useGomokuMatch = (
 
   onUnmounted(() => {
     clearTimeout(computerMoveTimer);
+    clearTimeout(clearableTimer);
   });
 
   return {
