@@ -5,6 +5,8 @@
 </template>
 
 <script setup lang="ts">
+import { THEME_COLOR_DARK, THEME_COLOR_LIGHT } from "~/constants/theme";
+
 const { locale, t } = useI18n();
 const route = useRoute();
 const colorMode = useColorMode();
@@ -26,7 +28,7 @@ useHead({
     ...i18nHead.value.meta,
     {
       name: "theme-color",
-      content: colorMode.value === "dark" ? "#1e1e1e" : "#f5f0e6",
+      content: colorMode.value === "dark" ? THEME_COLOR_DARK : THEME_COLOR_LIGHT,
     },
   ]),
 });
