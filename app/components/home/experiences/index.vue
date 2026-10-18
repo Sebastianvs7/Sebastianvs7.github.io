@@ -44,7 +44,12 @@
     </div>
 
     <div class="experiences-cv">
-      <a :href="data.cv[locale]" :aria-label="$t('cv.downloadLabel')" download>
+      <a
+        :href="data.cv[locale]"
+        class="cta-button cta-secondary"
+        :aria-label="$t('cv.downloadLabel')"
+        download
+      >
         <Icon name="local:download" /> {{ $t("cv.download") }}
       </a>
     </div>
