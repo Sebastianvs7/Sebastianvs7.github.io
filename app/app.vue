@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
+const { locale, t } = useI18n();
 const route = useRoute();
 const colorMode = useColorMode();
 const { siteUrl } = useRuntimeConfig().public;
@@ -36,7 +36,11 @@ useSeoMeta({
   ogTitle: defaultTitle,
   ogDescription: () => t("seo.description"),
   ogUrl: () => `${siteUrl}${route.path}`,
-  ogImage: `${siteUrl}/images/profile-440.webp`,
-  twitterCard: "summary",
+  // 1200x630 share card with name, role and photo, one per locale
+  ogImage: () => `${siteUrl}/images/og-image-${locale.value}.png`,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageAlt: () => t("seo.imageAlt"),
+  twitterCard: "summary_large_image",
 });
 </script>

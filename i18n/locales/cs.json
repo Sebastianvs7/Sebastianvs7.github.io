@@ -64,6 +64,7 @@
   },
   "seo": {
     "tagline": "Full-Stack vývojář (TypeScript, React, React Native, NestJS)",
-    "description": "Full-stack vývojář s téměř 10 lety praxe. Webové a mobilní aplikace v Reactu, Next.js a React Native, backend v NestJS, GraphQL a PostgreSQL."
+    "description": "Full-stack vývojář s téměř 10 lety praxe. Webové a mobilní aplikace v Reactu, Next.js a React Native, backend v NestJS, GraphQL a PostgreSQL.",
+    "imageAlt": "Sebastian Šanda – Full-Stack vývojář (TypeScript, React, React Native, NestJS)"
   }
 }

@@ -64,6 +64,7 @@
   },
   "seo": {
     "tagline": "Full-Stack Developer (TypeScript, React, React Native, NestJS)",
-    "description": "Full-stack developer with almost 10 years of experience. Web and mobile apps in React, Next.js and React Native, backend in NestJS, GraphQL and PostgreSQL."
+    "description": "Full-stack developer with almost 10 years of experience. Web and mobile apps in React, Next.js and React Native, backend in NestJS, GraphQL and PostgreSQL.",
+    "imageAlt": "Sebastian Šanda – Full-Stack Developer (TypeScript, React, React Native, NestJS)"
   }
 }
