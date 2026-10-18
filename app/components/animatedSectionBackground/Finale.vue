@@ -65,6 +65,7 @@ const emit = defineEmits<{
 
 const rootRef = ref<HTMLElement | null>(null);
 let timeline: gsap.core.Timeline | undefined;
+let followScroll: (() => void) | undefined;
 
 onMounted(() => {
   const root = rootRef.value;
@@ -76,8 +77,16 @@ onMounted(() => {
 
   // GSAP tweens real colours, not var(), so read the paint colour once
   const paintColor = getComputedStyle(root).getPropertyValue("--color-accent");
+  // props.from is in viewport coordinates; the layer scrolls with the page,
+  // so the copies land on the real grid even if the user scrolls meanwhile
+  const grid = appendDiv(root, "finale-grid");
+  const startScrollY = window.scrollY;
+  followScroll = () => {
+    grid.style.transform = `translateY(${startScrollY - window.scrollY}px)`;
+  };
+  window.addEventListener("scroll", followScroll, { passive: true });
   const boxes = props.from.map(({ x, y }) => {
-    const box = appendDiv(root, "finale-box");
+    const box = appendDiv(grid, "finale-box");
     gsap.set(box, { x, y });
     return box;
   });
@@ -293,6 +302,7 @@ function renderHoles(holes: FinaleHole[], progress: number) {
 
 onUnmounted(() => {
   timeline?.kill();
+  if (followScroll) window.removeEventListener("scroll", followScroll);
 });
 </script>
 

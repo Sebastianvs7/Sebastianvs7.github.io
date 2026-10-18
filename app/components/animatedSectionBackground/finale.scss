@@ -9,6 +9,11 @@
 
 // Finale elements are created imperatively, so they carry no scope attribute
 
+.finale :deep(.finale-grid) {
+  inset: 0;
+  position: absolute;
+}
+
 .finale :deep(.finale-box) {
   // Same as the real grid boxes, which they turn back into
   border: 1px solid rgba(var(--color-accent-rgb), 0.3);
