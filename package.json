@@ -17,7 +17,7 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "@nuxt/devtools": "^3.4.2",
+    "@nuxt/devtools": "^3.4.3",
     "@nuxt/eslint": "^1.17.0",
     "@nuxt/fonts": "^1.0.1",
     "@nuxt/icon": "^2.5.1",
@@ -25,15 +25,15 @@
     "@nuxtjs/i18n": "^10.6.0",
     "@nuxtjs/sitemap": "^8.6.1",
     "@types/node": "^26.6.5",
-    "eslint": "^10.12.0",
-    "nuxt": "^4.6.1",
+    "eslint": "^10.13.0",
+    "nuxt": "^4.6.2",
     "prettier": "3.9.10",
-    "sass": "^1.105.1",
+    "sass": "^1.105.2",
     "typescript": "^6.0.3",
     "vue-tsc": "^3.3.13"
   },
   "dependencies": {
-    "@nuxt/content": "^3.16.1",
+    "@nuxt/content": "^3.16.2",
     "gsap": "^3.15.0"
   }
 }
