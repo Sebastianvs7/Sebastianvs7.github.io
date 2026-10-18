@@ -259,7 +259,8 @@ footer {
     background: var(--color-accent);
     color: var(--color-on-accent);
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background: var(--color-accent-hover);
       transform: translateY(-2px);
     }
@@ -270,7 +271,8 @@ footer {
     border-color: var(--color-accent);
     color: var(--color-accent);
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background: var(--color-accent);
       color: var(--color-on-accent);
       transform: translateY(-2px);
