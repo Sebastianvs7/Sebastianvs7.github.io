@@ -31,7 +31,17 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
+
 const isMobileMenuOpen = ref(false);
+
+// The header outlives page changes, so close the menu on any navigation
+watch(
+  () => route.fullPath,
+  () => {
+    isMobileMenuOpen.value = false;
+  }
+);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;

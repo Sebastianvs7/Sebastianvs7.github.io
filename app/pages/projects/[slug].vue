@@ -1,33 +1,24 @@
 <template>
-  <div>
-    <!-- Header -->
-    <Header />
+  <main>
+    <div class="project-content">
+      <!-- Hero Section with Animated Background -->
+      <section class="project-hero">
+        <AnimatedSectionBackground />
+      </section>
 
-    <!-- Main Content -->
-    <main>
-      <div class="project-content">
-        <!-- Hero Section with Animated Background -->
-        <section class="project-hero">
-          <AnimatedSectionBackground />
-        </section>
-
-        <!-- Decrypted Title -->
-        <div class="project-title-wrapper">
-          <DecryptedText :text="project.title" :duration="1500" />
-        </div>
-        <!-- Render markdown content using ContentRenderer -->
-        <ContentRenderer :value="project" tag="section" class="project-info" />
-
-        <!-- Back Link -->
-        <NuxtLink :to="localePath('index') + '#projects'" class="back-link">
-          ← {{ $t("common.backToProjects") }}
-        </NuxtLink>
+      <!-- Decrypted Title -->
+      <div class="project-title-wrapper">
+        <DecryptedText :text="project.title" :duration="1500" />
       </div>
-    </main>
+      <!-- Render markdown content using ContentRenderer -->
+      <ContentRenderer :value="project" tag="section" class="project-info" />
 
-    <!-- Footer -->
-    <Footer />
-  </div>
+      <!-- Back Link -->
+      <NuxtLink :to="localePath('index') + '#projects'" class="back-link">
+        ← {{ $t("common.backToProjects") }}
+      </NuxtLink>
+    </div>
+  </main>
 </template>
 
 <script setup lang="ts">

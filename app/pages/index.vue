@@ -1,21 +1,12 @@
 <template>
-  <div>
-    <!-- Header -->
-    <Header />
-
-    <!-- Main Content -->
-    <main>
-      <HomeIntro />
-      <HomeProjects />
-      <HomeExperiences />
-      <HomeSkills />
-      <HomeAbout />
-      <HomeContact />
-    </main>
-
-    <!-- Footer -->
-    <Footer />
-  </div>
+  <main>
+    <HomeIntro />
+    <HomeProjects />
+    <HomeExperiences />
+    <HomeSkills />
+    <HomeAbout />
+    <HomeContact />
+  </main>
 </template>
 
 <script setup lang="ts">
