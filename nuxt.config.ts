@@ -102,11 +102,9 @@ export default defineNuxtConfig({
     ],
     defaultLocale: "cs",
     strategy: "prefix_except_default",
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: "i18n_redirected",
-      redirectOn: "root",
-    },
+    // A static site can only redirect on the client, mid-hydration, which breaks
+    // hydration and makes content query SQLite in the browser
+    detectBrowserLanguage: false,
     customRoutes: "config",
     pages: {
       // Project pages
