@@ -1,7 +1,7 @@
 ---
 title: "McLED"
 type: "Firemní e-shop"
-role: "Webmaster"
+role: "Webmaster / Frontend Developer"
 description: "Společnost McLED s.r.o. představuje vlastní značku profesionálního LED osvětlení."
 link: "https://www.mcled.cz/"
 image: "/images/mcled-logo.svg"
@@ -13,28 +13,31 @@ tags: ["HTML", "CSS", "JavaScript"]
 
 <!-- # McLED -->
 
-Společnost McLED s.r.o. představuje vlastní značku profesionálního LED osvětlení.
+## Kontext
 
+Společnost McLED s.r.o. představuje vlastní značku profesionálního LED osvětlení.
 ::
 
 ::div{.row}
 
-## O pozici
+## Moje role
 
-U firmy McLED jsem pracoval jako webmaster a měl jsem na starosti správu webu a komunikaci se zákazníky jako technická podpora.
-Na této pozici jsem byl v úzkém kontaktu s grafickým oddělením, které připravovalo grafické podklady a produktové fotografie pro katalogy i pro web, a na jejich přípravě jsem se částečně podílel.
-Web byl pod správou agentury, se kterou jsem byl v pravidelném kontaktu při přípravě nových funkcí i úpravách klíčových částí e-shopu.
-Za účelem zlepšení SEO rankingu a pozice ve vyhledávačích se firma rozhodla pro spolupráci s marketingovou agenturou, se kterou jsem posléze web upravoval tak, aby dodržoval zásady správného SEO a generoval XML feedy pro automatizované sdílení strukturovaných dat s dalšími systémy, jako je Heureka.
+Jako webmaster jsem spravoval firemní web a e-shop a zákazníkům pomáhal jako technická podpora.
 
+Úzce jsem spolupracoval s grafickým oddělením, které připravovalo grafické podklady a produktové fotografie pro katalogy i web, a na jejich přípravě jsem se částečně podílel.
+
+Web měla ve správě externí agentura, se kterou jsem pravidelně připravoval nové funkce i úpravy klíčových částí e-shopu.
+
+Kvůli lepším pozicím ve vyhledávačích začala firma spolupracovat s marketingovou agenturou. S ní jsem web upravil tak, aby dodržoval zásady SEO a generoval XML feedy pro automatické sdílení strukturovaných dat s dalšími systémy, jako je Heureka.
 ::
 
 ::div{.row}
 
 ## Technologie
 
-- **HTML**
-- **CSS**
-- **JavaScript**
-- **Photoshop**
+- HTML
+- CSS
+- JavaScript
+- Photoshop
 
 ::
