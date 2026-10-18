@@ -11,7 +11,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "typecheck": "nuxi typecheck"
+    "typecheck": "nuxi typecheck",
+    "test": "node scripts/gomoku.check.ts"
   },
   "devDependencies": {
     "@nuxt/devtools": "^3.4.2",
