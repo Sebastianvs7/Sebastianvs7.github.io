@@ -29,7 +29,7 @@
     <ProjectHeroGameControls :phase="phase" @clear="handleGameClear" />
 
     <Teleport to="body">
-      <ProjectHeroFinale
+      <LazyProjectHeroFinale
         v-if="finaleStart"
         v-bind="finaleStart"
         @covered="handleGameClear"

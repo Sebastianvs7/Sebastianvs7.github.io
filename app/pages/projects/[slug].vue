@@ -3,7 +3,7 @@
     <div class="project-content">
       <!-- Hero Section with Animated Background -->
       <section class="project-hero">
-        <ProjectHero />
+        <LazyProjectHero hydrate-on-idle />
       </section>
 
       <!-- Decrypted Title -->

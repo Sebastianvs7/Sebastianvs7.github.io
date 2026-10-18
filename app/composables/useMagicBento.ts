@@ -1,4 +1,4 @@
-import { gsap } from "gsap";
+import type { gsap as GsapInstance } from "gsap";
 
 const PARTICLE_COUNT = 10;
 
@@ -25,6 +25,8 @@ export const useMagicBento = (): MagicBento => {
   let isHovered = false;
   let particleTemplates: HTMLElement[] = [];
   let particlesInitialized = false;
+  // Set on mount before any listener, and particles only exist after that
+  let gsap!: typeof GsapInstance;
 
   const initializeParticles = () => {
     if (particlesInitialized || !cardRef.value) return;
@@ -105,8 +107,12 @@ export const useMagicBento = (): MagicBento => {
 
   let removeListeners: (() => void) | undefined;
 
-  onMounted(() => {
+  onMounted(async () => {
     if (!cardRef.value || !shouldAnimate()) return;
+    // Loaded only for hovering pointers, so touch devices never download it
+    gsap = (await import("gsap")).gsap;
+    // The card may unmount while GSAP loads
+    if (!cardRef.value) return;
     const element = cardRef.value;
 
     const handleMouseEnter = () => {
