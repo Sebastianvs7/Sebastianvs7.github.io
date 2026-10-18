@@ -1,0 +1,138 @@
+.logoloop {
+  position: relative;
+  overflow-x: hidden;
+
+  --logoloop-gap: 60px;
+  --logoloop-logoHeight: 40px;
+  --logoloop-logoWidth: auto;
+  --logoloop-fadeColorAuto: var(--color-bg);
+}
+
+.logoloop--scale-hover {
+  padding-top: calc(var(--logoloop-logoHeight) * 0.1);
+  padding-bottom: calc(var(--logoloop-logoHeight) * 0.1);
+}
+
+.logoloop__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  user-select: none;
+}
+
+.logoloop__list {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.logoloop__item {
+  flex: 0 0 auto;
+  margin-right: var(--logoloop-gap);
+  font-size: var(--logoloop-logoHeight);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--logoloop-logoHeight);
+  max-width: var(--logoloop-logoWidth);
+}
+
+.logoloop__item:last-child {
+  margin-right: var(--logoloop-gap);
+}
+
+.logoloop__item img {
+  width: 100%;
+  // max-width: 100%;
+  height: var(--logoloop-logoHeight);
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  image-rendering: -webkit-optimize-contrast;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  transform: translateZ(0) scale(1);
+  transform-origin: center center;
+  will-change: transform;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.3s ease;
+  // Brown accent color (#7a6853) on light theme
+  // Using CSS filter to tint logos to match the accent color
+  filter: brightness(0) saturate(100%) invert(34%) sepia(9%) saturate(1128%)
+    hue-rotate(352deg) brightness(80%) contrast(95%);
+}
+
+.dark .logoloop__item img {
+  // White on dark theme
+  filter: brightness(0) invert(1);
+}
+
+.logoloop--scale-hover .logoloop__item {
+  overflow: visible;
+}
+
+.logoloop--scale-hover .logoloop__item:hover img {
+  transform: translateZ(0) scale(1.2);
+}
+
+.logoloop__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.logoloop__link:hover {
+  opacity: 0.8;
+}
+
+.logoloop__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.logoloop--fade::before,
+.logoloop--fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(24px, 8%, 120px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.logoloop--fade::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--logoloop-fadeColor, var(--logoloop-fadeColorAuto)) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.logoloop--fade::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--logoloop-fadeColor, var(--logoloop-fadeColorAuto)) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoloop__track {
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  .logoloop__item img {
+    transition: none !important;
+  }
+}

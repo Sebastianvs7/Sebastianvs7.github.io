@@ -97,24 +97,4 @@ onBeforeUnmount(() => clearInterval(decryptInterval));
 watch(() => props.text, revealText);
 </script>
 
-<style scoped lang="scss">
-.decrypted-text {
-  color: inherit;
-  font-family: "Playfair Display", serif;
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1.1;
-  margin: 0;
-
-  @media (max-width: 768px) {
-    font-size: 2.25rem;
-  }
-
-  .char {
-    display: inline-block;
-    font-variant-numeric: tabular-nums;
-    min-width: 0.5em; // Prevent layout shift for characters
-    text-align: center;
-  }
-}
-</style>
+<style scoped lang="scss" src="./decrypted-text.scss"></style>
