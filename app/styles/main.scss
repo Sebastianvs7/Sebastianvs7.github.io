@@ -281,3 +281,13 @@ ol {
     }
   }
 }
+
+// Read by screen readers, not shown
+.visually-hidden {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

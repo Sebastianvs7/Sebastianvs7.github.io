@@ -12,7 +12,7 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxi typecheck",
-    "test": "node scripts/gomoku.check.ts",
+    "test": "node scripts/gomoku.check.ts && node scripts/heroGrid.check.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

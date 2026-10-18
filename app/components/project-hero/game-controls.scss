@@ -1,0 +1,65 @@
+// Below the grid, in the hero's bottom margin, so every row stays playable
+.game-controls {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  left: 0.75rem;
+  pointer-events: none;
+  position: absolute;
+  right: 0.75rem;
+  top: calc(100% + 0.5rem);
+}
+
+.game-button {
+  background: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 0.125rem 0.75rem;
+  pointer-events: auto;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  &:hover {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  &--icon {
+    align-items: center;
+    display: flex;
+    height: 24px;
+    justify-content: center;
+    padding: 0;
+    width: 24px;
+
+    svg {
+      fill: none;
+      height: 10px;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-width: 1.5;
+      width: 10px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .game-button {
+    animation: fade-in 0.3s ease-out var(--reveal-delay, 0s) both;
+  }
+}
+
+// Hidden, not just transparent, so the button cannot be clicked before it shows
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
