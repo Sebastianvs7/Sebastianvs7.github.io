@@ -34,12 +34,12 @@ npm run preview        # serve the generated site
 
 ```
 app/
-├── components/        # Vue components, styles in sibling .scss files
-│   ├── header/        # navigation, theme toggle
+├── components/        # one folder per component: index.vue + its .scss
+│   ├── header/        # nav-items/, theme-toggle/
 │   ├── footer/
 │   ├── home/          # page sections: intro, projects, experiences, skills, about, contact
 │   ├── project-hero/  # animated grid with the gomoku game on project pages
-│   └── ui/            # generic: DecryptedText, LogoLoop
+│   └── ui/            # generic: decrypted-text/, logo-loop/
 ├── composables/       # content queries, site links, hero grid and match state
 ├── layouts/           # header + page + footer
 ├── pages/
