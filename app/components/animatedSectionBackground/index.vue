@@ -91,6 +91,8 @@ import { gsap } from "gsap";
 
 import { computerMove, createGomokuGame, playerMove } from "~/utils/gomoku";
 import type { GomokuGame, GomokuMark, GomokuStatus } from "~/utils/gomoku";
+import { appendDiv, HERO_BOX_SIZE } from "~/utils/heroGrid";
+import type { GridPoint } from "~/utils/heroGrid";
 
 interface GridBox {
   el: HTMLDivElement;
@@ -109,8 +111,8 @@ interface GridMetrics {
 }
 
 interface FinaleStart {
-  from: Point[];
-  origin: Point;
+  from: GridPoint[];
+  origin: GridPoint;
 }
 
 interface GameMarkView {
@@ -118,11 +120,6 @@ interface GameMarkView {
   player: GomokuMark;
   // Position in the winning line, -1 for marks outside it
   winOrder: number;
-  x: number;
-  y: number;
-}
-
-interface Point {
   x: number;
   y: number;
 }
@@ -153,7 +150,6 @@ interface Highlight {
   zig: 0 | 1 | 2;
 }
 
-const BOX_SIZE = 26;
 const SPACING = 40;
 const HOVER_RADIUS = 100;
 const IDLE_DELAY = 2500;
@@ -227,10 +223,10 @@ const strike = computed<StrikeLine | null>(() => {
   if (!first || !last) return null;
 
   const angle = Math.atan2(last.y - first.y, last.x - first.x);
-  const overshoot = BOX_SIZE / 2;
+  const overshoot = HERO_BOX_SIZE / 2;
   return {
     angle,
-    length: Math.hypot(last.x - first.x, last.y - first.y) + BOX_SIZE,
+    length: Math.hypot(last.x - first.x, last.y - first.y) + HERO_BOX_SIZE,
     x: first.x + overshoot - Math.cos(angle) * overshoot,
     y: first.y + overshoot - Math.sin(angle) * overshoot,
   };
@@ -312,13 +308,6 @@ function getGridMetrics(hero: HTMLElement): GridMetrics {
   };
 }
 
-function createElement(hero: HTMLElement, ...classNames: string[]) {
-  const el = document.createElement("div");
-  el.classList.add(...classNames);
-  hero.appendChild(el);
-  return el;
-}
-
 function initializeAnimation() {
   const hero = heroRef.value;
   if (!hero) return;
@@ -329,7 +318,7 @@ function initializeAnimation() {
   boxes = [];
   for (let y = 0; y < grid.rows; y++) {
     for (let x = 0; x < grid.cols; x++) {
-      const box = createElement(hero, "rect");
+      const box = appendDiv(hero, "rect");
       const leftPos = grid.offsetX + x * grid.spacingX;
       const topPos = grid.offsetY + y * grid.spacingY;
       box.style.left = `${leftPos}px`;
@@ -353,7 +342,7 @@ function initializeAnimation() {
   const firstHighlight: Highlight = {
     col: 0,
     direction: 1,
-    el: createElement(hero, "highlight"),
+    el: appendDiv(hero, "highlight"),
     row: Math.floor(grid.rows / 2),
     zig: 0,
   };
@@ -362,7 +351,7 @@ function initializeAnimation() {
   const secondHighlight: Highlight = {
     col: grid.cols - 1,
     direction: -1,
-    el: createElement(hero, "highlight", "highlight-2"),
+    el: appendDiv(hero, "highlight", "highlight-2"),
     row: Math.floor(grid.rows * 0.75),
     zig: 0,
   };
@@ -376,7 +365,7 @@ function initializeAnimation() {
   highlights = [firstHighlight, secondHighlight];
 
   crossElements = boxes.map((box) => {
-    const cross = createElement(hero, "cross");
+    const cross = appendDiv(hero, "cross");
     cross.style.left = `${box.x + 1}px`;
     cross.style.top = `${box.y + 1}px`;
     cross.textContent = "×";
@@ -427,8 +416,8 @@ function animateGridFrame() {
 
   swirlAngle += 0.03;
   for (const { el, x, y, rotationOffset } of boxes) {
-    const dx = cursor.x - (x + BOX_SIZE / 2);
-    const dy = cursor.y - (y + BOX_SIZE / 2);
+    const dx = cursor.x - (x + HERO_BOX_SIZE / 2);
+    const dy = cursor.y - (y + HERO_BOX_SIZE / 2);
     const dist = Math.sqrt(dx * dx + dy * dy);
     const effect = Math.max(0, 1 - dist / HOVER_RADIUS);
 
@@ -633,8 +622,8 @@ function getPlayableCellIndex(e: MouseEvent): number {
   const { cols, offsetX, offsetY, rows, spacingX, spacingY } = gridMetrics;
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
-  const col = Math.round((x - offsetX - BOX_SIZE / 2) / spacingX);
-  const row = Math.round((y - offsetY - BOX_SIZE / 2) / spacingY);
+  const col = Math.round((x - offsetX - HERO_BOX_SIZE / 2) / spacingX);
+  const row = Math.round((y - offsetY - HERO_BOX_SIZE / 2) / spacingY);
   const isInside = col >= 0 && col < cols && row >= 0 && row < rows;
   return isInside ? row * cols + col : -1;
 }
@@ -694,8 +683,8 @@ function handleStrikeEnd(e: AnimationEvent) {
   finaleStart.value = {
     from: boxes.map(({ x, y }) => ({ x: hero.left + x, y: hero.top + y })),
     origin: {
-      x: hero.left + (first.x + last.x + BOX_SIZE) / 2,
-      y: hero.top + (first.y + last.y + BOX_SIZE) / 2,
+      x: hero.left + (first.x + last.x + HERO_BOX_SIZE) / 2,
+      y: hero.top + (first.y + last.y + HERO_BOX_SIZE) / 2,
     },
   };
   isGridAway.value = true;

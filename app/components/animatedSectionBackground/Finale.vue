@@ -5,6 +5,9 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 
+import { appendDiv, HERO_BOX_SIZE } from "~/utils/heroGrid";
+import type { GridPoint } from "~/utils/heroGrid";
+
 interface FinaleHole {
   delay: number;
   el: SVGGElement;
@@ -14,19 +17,13 @@ interface FinaleHole {
   y: number;
 }
 
-interface FinalePoint {
-  x: number;
-  y: number;
-}
-
 interface FinaleProps {
   // Viewport positions of the hero grid boxes the finale starts from and returns to
-  from: readonly FinalePoint[];
+  from: readonly GridPoint[];
   // Viewport centre of the winning line, where the paint starts to dissolve
-  origin: FinalePoint;
+  origin: GridPoint;
 }
 
-const BOX_SIZE = 26;
 // Free space between neighbouring drips, so each reads as its own shape
 // while the edge between them stays short
 const DRIP_GAP = { max: 24, min: 10 };
@@ -34,17 +31,18 @@ const DRIP_GAP = { max: 24, min: 10 };
 const DRIP_TILT = 8;
 // Deepest a drip hangs below the edge, so the paint starts fully off screen
 const DRIP_EXTENT = 200;
-// Drip outlines on a 100 × 100 canvas; the cross is one path so a hollow one has no inner lines
+// Plus outline on a 100 × 100 canvas, one path so a hollow cross has no inner lines
+const CROSS_PATH = "M36 4h28v32h32v28H64v32H36V64H4V36h32z";
+// Drip outlines on a 100 × 100 canvas
 const DRIP_SHAPES = {
-  cross:
-    '<path transform="rotate(45 50 50)" d="M36 4h28v32h32v28H64v32H36V64H4V36h32z" />',
+  cross: `<path transform="rotate(45 50 50)" d="${CROSS_PATH}" />`,
   square: '<rect x="6" y="6" width="88" height="88" rx="16" />',
 };
 
 // Holes that dissolve the paint, centred on 0,0 and 100 units across
 const HOLE_SHAPES = [
   '<circle r="46" />',
-  '<path transform="rotate(45) translate(-50 -50)" d="M36 4h28v32h32v28H64v32H36V64H4V36h32z" />',
+  `<path transform="rotate(45) translate(-50 -50)" d="${CROSS_PATH}" />`,
   '<rect x="-44" y="-44" width="88" height="88" rx="16" />',
 ];
 // Distance between hole centres; each grows well past it so the holes merge
@@ -79,16 +77,16 @@ onMounted(() => {
   // GSAP tweens real colours, not var(), so read the paint colour once
   const paintColor = getComputedStyle(root).getPropertyValue("--color-accent");
   const boxes = props.from.map(({ x, y }) => {
-    const box = createElement(root, "finale-box");
+    const box = appendDiv(root, "finale-box");
     gsap.set(box, { x, y });
     return box;
   });
-  const paint = createElement(root, "finale-paint");
+  const paint = appendDiv(root, "finale-paint");
   // Drips sit side by side across the whole width, never overlapping
   const drips: { drip: HTMLElement; hang: number }[] = [];
   for (let i = 0, left = random(-30, 0); left < width; i++) {
     const shape = i % 2 === 0 ? "square" : "cross";
-    const drip = createElement(paint, "finale-drip", `finale-drip--${shape}`);
+    const drip = appendDiv(paint, "finale-drip", `finale-drip--${shape}`);
     // Every third drip is only an outline, always big so the outline reads
     const isHollow = i % 3 === 2;
     if (isHollow) drip.classList.add("finale-drip--hollow");
@@ -110,8 +108,8 @@ onMounted(() => {
 
   // 1. The grid goes wild across the whole screen
   timeline.to(boxes, {
-    x: () => random(0, width - BOX_SIZE),
-    y: () => random(0, height - BOX_SIZE),
+    x: () => random(0, width - HERO_BOX_SIZE),
+    y: () => random(0, height - HERO_BOX_SIZE),
     rotation: () => random(-720, 720),
     scale: () => random(0.5, 2),
     // Darkens from the faint grid border, so the flying boxes stand out
@@ -161,7 +159,7 @@ onMounted(() => {
   timeline.addLabel("dissolve", "+=0.4");
   timeline.call(
     () => {
-      const layer = createElement(root, "finale-holes-layer");
+      const layer = appendDiv(root, "finale-holes-layer");
       holes = createHoles(layer, width, height, waveDelay);
       holeLayer = layer.querySelector("svg");
       // The masked copy lines up exactly with the solid paint it replaces
@@ -216,7 +214,9 @@ onMounted(() => {
       // A function stagger gives each box its own start
       stagger: (i: number) => {
         const { x, y } = props.from[i] ?? props.origin;
-        return waveDelay(x + BOX_SIZE / 2, y + BOX_SIZE / 2) + DROP_LAG;
+        return (
+          waveDelay(x + HERO_BOX_SIZE / 2, y + HERO_BOX_SIZE / 2) + DROP_LAG
+        );
       },
     },
     "dissolve"
@@ -225,7 +225,7 @@ onMounted(() => {
 
 // Seconds until the dissolve wave reaches a point, growing with its distance
 // from the origin up to the farthest screen corner
-function createWaveDelay(origin: FinalePoint, width: number, height: number) {
+function createWaveDelay(origin: GridPoint, width: number, height: number) {
   const farthest = Math.max(
     Math.hypot(origin.x, origin.y),
     Math.hypot(width - origin.x, origin.y),
@@ -294,13 +294,6 @@ function renderHoles(holes: FinaleHole[], progress: number) {
 onUnmounted(() => {
   timeline?.kill();
 });
-
-function createElement(parent: HTMLElement, ...classNames: string[]) {
-  const el = document.createElement("div");
-  el.classList.add(...classNames);
-  parent.appendChild(el);
-  return el;
-}
 </script>
 
 <style scoped lang="scss">
