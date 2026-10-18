@@ -23,7 +23,7 @@
     "name": "Sebastian Šanda",
     "title": "Full-Stack Developer",
     "stack": "TypeScript, React, React Native, NestJS",
-    "description": "For almost 10 years I've been building web and mobile apps – from React and Next.js frontends to NestJS APIs with GraphQL and PostgreSQL. I've worked on projects for Koh-I-Noor Deutschland, Zoetis and the Mobile Phone Museum. AI is part of my daily development workflow.",
+    "description": "For over 9 years I've been building web and mobile apps – from React and Next.js frontends to NestJS APIs with GraphQL and PostgreSQL. I've worked on projects for Koh-I-Noor Deutschland, Zoetis and the Mobile Phone Museum. AI is part of my daily development workflow.",
     "cta": {
       "email": "Get in touch",
       "emailLabel": "Get in touch by email",
@@ -58,7 +58,7 @@
   },
   "seo": {
     "tagline": "Full-Stack Developer (TypeScript, React, React Native, NestJS)",
-    "description": "Full-stack developer with almost 10 years of experience. Web and mobile apps in React, Next.js and React Native, backend in NestJS, GraphQL and PostgreSQL.",
+    "description": "Full-stack developer with over 9 years of experience. Web and mobile apps in React, Next.js and React Native, backend in NestJS, GraphQL and PostgreSQL.",
     "imageAlt": "Sebastian Šanda – Full-Stack Developer (TypeScript, React, React Native, NestJS)"
   },
   "cv": {

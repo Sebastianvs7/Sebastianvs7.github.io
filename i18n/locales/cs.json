@@ -23,7 +23,7 @@
     "name": "Sebastian Šanda",
     "title": "Full-Stack vývojář",
     "stack": "TypeScript, React, React Native, NestJS",
-    "description": "Téměř 10 let stavím webové a mobilní aplikace – od frontendu v Reactu a Next.js po API v NestJS s GraphQL a PostgreSQL. Pracoval jsem na projektech pro Koh-I-Noor Deutschland, Zoetis nebo Mobile Phone Museum. AI používám každý den jako běžnou součást vývoje.",
+    "description": "Přes 9 let stavím webové a mobilní aplikace – od frontendu v Reactu a Next.js po API v NestJS s GraphQL a PostgreSQL. Pracoval jsem na projektech pro Koh-I-Noor Deutschland, Zoetis nebo Mobile Phone Museum. AI používám každý den jako běžnou součást vývoje.",
     "cta": {
       "email": "Napište mi",
       "emailLabel": "Napište mi e-mail",
@@ -58,7 +58,7 @@
   },
   "seo": {
     "tagline": "Full-Stack vývojář (TypeScript, React, React Native, NestJS)",
-    "description": "Full-stack vývojář s téměř 10 lety praxe. Webové a mobilní aplikace v Reactu, Next.js a React Native, backend v NestJS, GraphQL a PostgreSQL.",
+    "description": "Full-stack vývojář s více než 9 lety praxe. Webové a mobilní aplikace v Reactu, Next.js a React Native, backend v NestJS, GraphQL a PostgreSQL.",
     "imageAlt": "Sebastian Šanda – Full-Stack vývojář (TypeScript, React, React Native, NestJS)"
   },
   "cv": {
