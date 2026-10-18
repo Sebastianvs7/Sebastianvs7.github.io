@@ -23,28 +23,10 @@
 
 <script setup lang="ts">
 const route = useRoute();
-const { locale } = useI18n();
 const localePath = useLocalePath();
 
-const slug = String(route.params.slug);
-const collectionName = locale.value === "en" ? "projectsEn" : "projectsCs";
-
-const { data } = await useAsyncData(`projects-${slug}-${locale.value}`, () =>
-  queryCollection(collectionName)
-    .path(`/${locale.value}/projects/${slug}`)
-    .first()
-);
-
-if (!data.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: "Project not found",
-    fatal: true,
-  });
-}
-
 // Each slug and locale is its own page instance, so the project never changes here
-const project = data.value;
+const project = await useProject(String(route.params.slug));
 
 useSeoMeta({
   title: project.title,

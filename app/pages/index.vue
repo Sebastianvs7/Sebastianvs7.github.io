@@ -10,14 +10,14 @@
 </template>
 
 <script setup lang="ts">
-const data = useData();
+const siteLinks = useSiteLinks();
 const { siteUrl } = useRuntimeConfig().public;
 const { t } = useI18n();
-const { experiencesData } = await useExperiencesData();
+const { experiences } = await useExperiences();
 
 // schema.org Person: links the site to the profiles in sameAs
 const person = computed(() => {
-  const currentCompany = experiencesData.value?.find(
+  const currentCompany = experiences.value?.find(
     (experience) => experience.current
   )?.company;
 
@@ -40,7 +40,7 @@ const person = computed(() => {
       "GraphQL",
       "PostgreSQL",
     ],
-    sameAs: [data.linkedin, data.github],
+    sameAs: [siteLinks.linkedin, siteLinks.github],
   };
 });
 

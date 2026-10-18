@@ -46,21 +46,21 @@ import type { ProjectSummary } from "~/types/project";
 const VISIBLE_PROJECT_COUNT = 6;
 const DESCRIPTION_PREVIEW_LENGTH = 150;
 
-const { projectsData } = await useProjectsData();
-const { logos } = await useOtherProjectsData();
+const { projects } = await useProjects();
+const { logos } = await useOtherProjects();
 const showAllProjects = ref(false);
 const expandedDescriptions = ref<Record<string, boolean>>({});
 
 const visibleProjects = computed(() => {
   if (showAllProjects.value) {
-    return projectsData.value;
+    return projects.value;
   }
 
-  return projectsData.value.slice(0, VISIBLE_PROJECT_COUNT);
+  return projects.value.slice(0, VISIBLE_PROJECT_COUNT);
 });
 
 const hasHiddenProjects = computed(() => {
-  return projectsData.value.length > VISIBLE_PROJECT_COUNT;
+  return projects.value.length > VISIBLE_PROJECT_COUNT;
 });
 
 const shouldShowMoreButton = (project: ProjectSummary): boolean => {

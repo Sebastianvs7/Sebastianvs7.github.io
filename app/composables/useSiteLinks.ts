@@ -1,4 +1,4 @@
-export interface SiteData {
+export interface SiteLinks {
   cv: Record<"cs" | "en", string>;
   email: string;
   github: string;
@@ -6,7 +6,7 @@ export interface SiteData {
 }
 
 // Contact details shared across sections
-const data: Readonly<SiteData> = Object.freeze({
+const siteLinks: Readonly<SiteLinks> = Object.freeze({
   cv: {
     cs: "/cv/sebastian-sanda-cs.pdf",
     en: "/cv/sebastian-sanda-en.pdf",
@@ -16,4 +16,4 @@ const data: Readonly<SiteData> = Object.freeze({
   linkedin: "https://www.linkedin.com/in/sebastian-sanda/",
 });
 
-export const useData = (): Readonly<SiteData> => data;
+export const useSiteLinks = (): Readonly<SiteLinks> => siteLinks;

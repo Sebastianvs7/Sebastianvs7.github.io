@@ -1,17 +1,12 @@
-export interface ProjectLink {
-  text: string;
-  url: string;
-}
+import type { ProjectsCsCollectionItem } from "@nuxt/content";
+
+type ProjectLink = NonNullable<ProjectsCsCollectionItem["links"]>[number];
 
 // Project as shown on a card in the projects section
-export interface ProjectSummary {
-  description: string;
-  image: string;
-  link?: string;
-  links?: ProjectLink[];
-  role: string;
+export type ProjectSummary = Pick<
+  ProjectsCsCollectionItem,
+  "description" | "image" | "role" | "tags" | "title" | "type"
+> & {
+  links: ProjectLink[];
   slug: string;
-  tags: string[];
-  title: string;
-  type: string;
-}
+};

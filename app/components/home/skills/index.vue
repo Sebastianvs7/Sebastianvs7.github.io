@@ -10,7 +10,7 @@
 
     <div ref="groupsRef" class="skills-groups" @pointermove="handlePointerMove">
       <div
-        v-for="(group, index) in skillsData?.groups"
+        v-for="(group, index) in skills?.groups"
         :key="group.title.en"
         class="skills-group"
         :style="{ '--reveal-index': index }"
@@ -34,7 +34,7 @@ import type { SkillsCollectionItem } from "@nuxt/content";
 
 type SkillItem = SkillsCollectionItem["groups"][number]["items"][number];
 
-const { skillsData } = await useSkillsData();
+const { skills } = await useSkills();
 const { locale } = useI18n();
 
 const getSkillName = (item: SkillItem): string =>

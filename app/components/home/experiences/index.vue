@@ -7,7 +7,7 @@
     <div class="experiences-timeline">
       <div class="timeline-line" />
       <div
-        v-for="(experience, index) in experiencesData"
+        v-for="(experience, index) in experiences"
         :key="experience.id"
         class="experience-item"
       >
@@ -45,7 +45,7 @@
 
     <div class="experiences-cv">
       <a
-        :href="data.cv[locale]"
+        :href="siteLinks.cv[locale]"
         class="cta-button cta-secondary"
         :aria-label="$t('cv.downloadLabel')"
         download
@@ -57,9 +57,9 @@
 </template>
 
 <script setup lang="ts">
-const { experiencesData } = await useExperiencesData();
+const { experiences } = await useExperiences();
 const { locale } = useI18n();
-const data = useData();
+const siteLinks = useSiteLinks();
 
 const getPositionClass = (index: number): "left" | "right" => {
   return index % 2 === 0 ? "right" : "left";

@@ -4,7 +4,7 @@ interface OtherProjectsData {
   logos: ComputedRef<LogoLoopItem[]>;
 }
 
-export const useOtherProjectsData = async (): Promise<OtherProjectsData> => {
+export const useOtherProjects = async (): Promise<OtherProjectsData> => {
   const { data: otherProjects } = await useAsyncData("other-projects", () =>
     queryCollection("otherProjects").order("order", "ASC").all()
   );

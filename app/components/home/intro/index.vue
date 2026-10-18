@@ -10,7 +10,7 @@
       <div class="intro-bottom">
         <div class="intro-cta">
           <a
-            :href="`mailto:${data.email}`"
+            :href="`mailto:${siteLinks.email}`"
             class="cta-button cta-primary"
             :aria-label="$t('intro.cta.emailLabel')"
           >
@@ -18,7 +18,7 @@
           </a>
           <div class="intro-socials">
             <a
-              :href="data.github"
+              :href="siteLinks.github"
               class="cta-button cta-secondary cta-icon"
               :aria-label="$t('intro.cta.githubLabel')"
               title="GitHub"
@@ -28,7 +28,7 @@
               <Icon name="local:github" />
             </a>
             <a
-              :href="data.linkedin"
+              :href="siteLinks.linkedin"
               class="cta-button cta-secondary cta-icon"
               :aria-label="$t('intro.cta.linkedinLabel')"
               title="LinkedIn"
@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-const data = useData();
+const siteLinks = useSiteLinks();
 </script>
 
 <style scoped lang="scss" src="./intro.scss"></style>
