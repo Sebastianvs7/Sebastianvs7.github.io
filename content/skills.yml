@@ -9,4 +9,6 @@ groups:
     items: ["Cypress", "Git", "CI/CD", "Nx", "Webpack"]
   - title: { cs: "E-commerce", en: "E-commerce" }
     items: ["WordPress", "WooCommerce", "WordPress plugins"]
+  - title: { cs: "AI nástroje", en: "AI tools" }
+    items: ["Claude", "Codex", "Cursor", "Grok"]
 courses: []
