@@ -12,7 +12,9 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxi typecheck",
-    "test": "node scripts/gomoku.check.ts"
+    "test": "node scripts/gomoku.check.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@nuxt/devtools": "^3.4.2",
@@ -25,6 +27,7 @@
     "@types/node": "^26.6.5",
     "eslint": "^10.12.0",
     "nuxt": "^4.6.1",
+    "prettier": "3.9.10",
     "sass": "^1.105.1",
     "typescript": "^6.0.3",
     "vue-tsc": "^3.3.13"

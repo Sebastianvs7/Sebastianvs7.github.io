@@ -4,11 +4,7 @@
 export type GomokuMark = "o" | "x";
 export type GomokuCell = GomokuMark | null;
 export type GomokuStatus =
-  | "computerTurn"
-  | "draw"
-  | "lost"
-  | "playerTurn"
-  | "won";
+  "computerTurn" | "draw" | "lost" | "playerTurn" | "won";
 
 export interface GomokuGame {
   board: readonly GomokuCell[];
@@ -64,7 +60,7 @@ export function computerMove(game: GomokuGame): GomokuGame {
 function placeMark(
   game: GomokuGame,
   index: number,
-  mark: GomokuMark,
+  mark: GomokuMark
 ): GomokuGame {
   const next = { ...game, board: withMark(game.board, index, mark) };
   const winningLine = findWinningLine(next, index);
@@ -79,7 +75,7 @@ function placeMark(
 function withMark(
   board: readonly GomokuCell[],
   index: number,
-  mark: GomokuMark,
+  mark: GomokuMark
 ): GomokuCell[] {
   const next = [...board];
   next[index] = mark;
@@ -91,7 +87,7 @@ function offset(
   game: GomokuGame,
   index: number,
   dRow: number,
-  dCol: number,
+  dCol: number
 ): number {
   const row = Math.floor(index / game.cols) + dRow;
   const col = (index % game.cols) + dCol;
@@ -107,7 +103,12 @@ function findWinningLine(game: GomokuGame, index: number): number[] | null {
     const line = [index];
     for (const sign of [1, -1]) {
       for (let step = 1; ; step++) {
-        const cell = offset(game, index, dRow * step * sign, dCol * step * sign);
+        const cell = offset(
+          game,
+          index,
+          dRow * step * sign,
+          dCol * step * sign
+        );
         if (cell === -1 || game.board[cell] !== mark) break;
         line.push(cell);
       }
@@ -128,7 +129,7 @@ function pickComputerCell(game: GomokuGame): number {
       candidates,
       (index) =>
         scoreCell(game, index, COMPUTER) +
-        DEFENSE_WEIGHT * scoreCell(game, index, PLAYER),
+        DEFENSE_WEIGHT * scoreCell(game, index, PLAYER)
     )
   );
 }
@@ -136,7 +137,7 @@ function pickComputerCell(game: GomokuGame): number {
 // Empty cells near any mark; all empty cells if none (only on a sparse board)
 function getCandidates(game: GomokuGame): number[] {
   const empty = game.board.flatMap((cell, index) =>
-    cell === null ? [index] : [],
+    cell === null ? [index] : []
   );
   const near = empty.filter((index) => hasMarkNearby(game, index));
   return near.length > 0 ? near : empty;
@@ -155,7 +156,7 @@ function hasMarkNearby(game: GomokuGame, index: number): boolean {
 function isWinningCell(
   game: GomokuGame,
   index: number,
-  mark: GomokuMark,
+  mark: GomokuMark
 ): boolean {
   const board = withMark(game.board, index, mark);
   return findWinningLine({ ...game, board }, index) !== null;

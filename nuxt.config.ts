@@ -4,7 +4,7 @@ import { readdirSync } from "node:fs";
 function getProjectRoutes(): string[] {
   const projectsDir = new URL("./content/cs/projects", import.meta.url);
   const slugs = readdirSync(projectsDir).map((file) =>
-    file.replace(/\.md$/, ""),
+    file.replace(/\.md$/, "")
   );
 
   return slugs.flatMap((slug) => [`/projekty/${slug}`, `/en/projects/${slug}`]);

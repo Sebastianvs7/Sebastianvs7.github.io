@@ -15,7 +15,7 @@ import type {
 // "." empty, "o" player, "x" computer; every row the same length
 function gameFrom(
   rows: string[],
-  status: GomokuStatus = "playerTurn",
+  status: GomokuStatus = "playerTurn"
 ): GomokuGame {
   const board = [...rows.join("")].map((char): GomokuCell => {
     if (char === "o" || char === "x") return char;
@@ -54,7 +54,7 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
 {
   const won = playerMove(
     gameFrom(["..........", ".oo.oo....", ".........."]),
-    13,
+    13
   );
   assert.equal(won.status, "won");
   assert.deepEqual(won.winningLine, [11, 12, 13, 14, 15]);
@@ -90,7 +90,7 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
   assert.equal(
     playerMove(game, 22).status,
     "computerTurn",
-    "no ↗ line across the edge",
+    "no ↗ line across the edge"
   );
 }
 {
@@ -98,7 +98,7 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
   assert.equal(
     playerMove(game, 9).status,
     "computerTurn",
-    "no line across rows",
+    "no line across rows"
   );
 }
 {
@@ -106,7 +106,7 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
   assert.deepEqual(
     playerMove(game, 3).winningLine,
     [0, 1, 2, 3, 4, 5],
-    "overline wins",
+    "overline wins"
   );
 }
 {
@@ -114,7 +114,7 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
   assert.equal(
     playerMove(game, 4).status,
     "computerTurn",
-    "opponent breaks the line",
+    "opponent breaks the line"
   );
 }
 {
@@ -126,7 +126,7 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
 {
   const game = gameFrom(
     ["..........", ".xxxx.....", ".oooo.....", ".........."],
-    "computerTurn",
+    "computerTurn"
   );
   const next = computerMove(game);
   assert.equal(next.status, "lost", "takes its own win over blocking");
@@ -135,21 +135,21 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
 {
   const game = gameFrom(
     ["..........", "xoooo.....", ".........."],
-    "computerTurn",
+    "computerTurn"
   );
   assert.deepEqual(cellsOf(computerMove(game), "x"), [10, 15], "blocks a four");
 }
 {
   const game = gameFrom(
     ["..........", ".oo.oo....", "....x....."],
-    "computerTurn",
+    "computerTurn"
   );
   assert.equal(computerMove(game).board[13], "x", "blocks a broken four");
 }
 {
   const game = gameFrom(
     ["..........", "..........", "...ooo....", "..........", ".........."],
-    "computerTurn",
+    "computerTurn"
   );
   const [move] = cellsOf(computerMove(game), "x");
   assert.ok(move === 22 || move === 26, `blocks an open three, played ${move}`);
@@ -158,17 +158,17 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
   // Easy on purpose: it builds its own line instead of answering an open three
   const game = gameFrom(
     ["..........", "..xx......", "..........", "...ooo....", ".........."],
-    "computerTurn",
+    "computerTurn"
   );
   const [move] = cellsOf(computerMove(game), "x").filter(
-    (cell) => game.board[cell] === null,
+    (cell) => game.board[cell] === null
   );
   assert.ok(move === 11 || move === 14, `extends its own two, played ${move}`);
 }
 {
   const game = gameFrom(
     ["..........", "..........", "...o......", "..........", ".........."],
-    "computerTurn",
+    "computerTurn"
   );
   const next = computerMove(game);
   assert.equal(cellsOf(next, "x").length, 1);
@@ -179,7 +179,7 @@ function cellsOf(game: GomokuGame, mark: GomokuCell): number[] {
   assert.equal(
     computerMove(game).status,
     "draw",
-    "computer fills the last cell",
+    "computer fills the last cell"
   );
 }
 {

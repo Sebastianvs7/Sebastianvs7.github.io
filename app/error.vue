@@ -61,7 +61,9 @@ p {
   border: 2px solid var(--color-accent);
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .home-link:hover {
