@@ -27,8 +27,10 @@
     "cta": {
       "email": "Get in touch",
       "emailLabel": "Send email to Sebastian Šanda",
-      "linkedin": "LinkedIn",
-      "linkedinLabel": "Visit LinkedIn profile"
+      "linkedinLabel": "Visit LinkedIn profile",
+      "githubLabel": "Visit GitHub profile",
+      "cv": "Download CV (CZ)",
+      "cvLabel": "Download CV as PDF, in Czech"
     }
   },
   "projects": {

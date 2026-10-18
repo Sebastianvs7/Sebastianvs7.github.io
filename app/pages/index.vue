@@ -39,7 +39,7 @@ const person = {
     "GraphQL",
     "PostgreSQL",
   ],
-  sameAs: [data.linkedin],
+  sameAs: [data.linkedin, data.github],
 };
 
 useHead({

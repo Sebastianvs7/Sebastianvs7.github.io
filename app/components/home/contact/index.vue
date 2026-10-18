@@ -16,6 +16,14 @@
       >
         <Icon name="local:linkedin" /> LinkedIn
       </a>
+      <a
+        :href="data.github"
+        target="_blank"
+        rel="noopener noreferrer"
+        :aria-label="$t('intro.cta.githubLabel')"
+      >
+        <Icon name="local:github" /> GitHub
+      </a>
     </div>
   </section>
 </template>
