@@ -1,11 +1,4 @@
 #skills {
-  .skills-hint {
-    color: var(--color-text-muted);
-    font-size: 0.95rem;
-    margin: -0.5rem 0 1.5rem 0;
-    max-width: 640px;
-  }
-
   // Columns balance groups of different heights without an orphan last row
   .skills-groups {
     column-gap: 1.25rem;
@@ -18,7 +11,53 @@
     margin-bottom: 1.25rem;
     border: 1px solid var(--color-border);
     border-radius: 12px;
+    // Own stacking context keeps the glow layers between background and content
+    isolation: isolate;
     padding: 1.25rem;
+    position: relative;
+  }
+
+  // Spotlight that follows the mouse: a soft fill inside the card and a
+  // brighter ring on its border, both centred on --spot-x / --spot-y
+  @media (hover: hover) and (pointer: fine) {
+    .skills-group::before,
+    .skills-group::after {
+      border-radius: inherit;
+      content: "";
+      inset: -1px;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .skills-group::before {
+      background: radial-gradient(
+        300px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        color-mix(in srgb, var(--palette-gold) 22%, transparent),
+        transparent 70%
+      );
+    }
+
+    // Masked down to the 1px border, so only the ring lights up
+    .skills-group::after {
+      background: radial-gradient(
+        320px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        var(--palette-gold),
+        rgba(var(--color-accent-rgb), 0.5) 30%,
+        transparent 60%
+      );
+      mask:
+        linear-gradient(#000 0 0) content-box exclude,
+        linear-gradient(#000 0 0);
+      padding: 1.5px;
+    }
+
+    .skills-groups:hover .skills-group::before,
+    .skills-groups:hover .skills-group::after {
+      opacity: 1;
+    }
   }
 
   h3 {
@@ -46,6 +85,11 @@
     gap: 0.35rem;
     line-height: 1.4;
     padding: 0.25rem 0.7rem;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
 
     :deep(svg) {
       flex-shrink: 0;
@@ -53,12 +97,12 @@
       width: 0.95rem;
     }
 
-    // Main stack
-    &.is-core {
+    // Icons use currentColor, so they switch along with the text
+    &:hover {
       background: var(--color-accent);
       border-color: var(--color-accent);
       color: var(--color-on-accent);
-      font-weight: 600;
+      transform: translateY(-2px);
     }
   }
 

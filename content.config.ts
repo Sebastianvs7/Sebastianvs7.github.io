@@ -58,8 +58,6 @@ export default defineContentConfig({
                 ]),
                 // File name in app/assets/tech-icons
                 icon: z.string().optional(),
-                // Main stack, highlighted in the section
-                isCore: z.boolean().optional(),
               })
             ),
           })

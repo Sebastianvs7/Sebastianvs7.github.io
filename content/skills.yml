@@ -1,8 +1,8 @@
 groups:
   - title: { cs: "Frontend", en: "Frontend" }
     items:
-      - { name: "TypeScript", icon: "typescript", isCore: true }
-      - { name: "React", icon: "react", isCore: true }
+      - { name: "TypeScript", icon: "typescript" }
+      - { name: "React", icon: "react" }
       - { name: "Next.js", icon: "nextdotjs" }
       - { name: "Vue", icon: "vuedotjs" }
       - { name: "Angular", icon: "angular" }
@@ -14,7 +14,7 @@ groups:
       - { name: "Material UI", icon: "mui" }
   - title: { cs: "Mobil", en: "Mobile" }
     items:
-      - { name: "React Native", icon: "react", isCore: true }
+      - { name: "React Native", icon: "react" }
       - { name: "Expo", icon: "expo" }
       - { name: "Firebase", icon: "firebase" }
       - { name: { cs: "Push notifikace", en: "Push notifications" }, icon: "bell" }
@@ -22,7 +22,7 @@ groups:
   - title: { cs: "Backend", en: "Backend" }
     items:
       - { name: "Node.js", icon: "nodedotjs" }
-      - { name: "NestJS", icon: "nestjs", isCore: true }
+      - { name: "NestJS", icon: "nestjs" }
       - { name: "GraphQL", icon: "graphql" }
       - { name: "REST API", icon: "braces" }
       - { name: "PostgreSQL", icon: "postgresql" }

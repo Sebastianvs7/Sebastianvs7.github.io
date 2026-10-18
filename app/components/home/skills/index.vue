@@ -7,9 +7,8 @@
     :class="{ 'reveal-ready': isRevealReady, 'is-revealed': isRevealed }"
   >
     <h2 id="skills-title">{{ $t("sections.skills") }}</h2>
-    <p class="skills-hint">{{ $t("skills.hint") }}</p>
 
-    <div class="skills-groups">
+    <div ref="groupsRef" class="skills-groups" @pointermove="onPointerMove">
       <div
         v-for="(group, index) in skillsData?.groups"
         :key="group.title.en"
@@ -19,7 +18,7 @@
         <h3>{{ group.title[locale] }}</h3>
         <ul class="skill-list">
           <li v-for="item in group.items" :key="getSkillName(item)">
-            <span class="skill-tag" :class="{ 'is-core': item.isCore }">
+            <span class="skill-tag">
               <Icon v-if="item.icon" :name="`tech:${item.icon}`" />
               {{ getSkillName(item) }}
             </span>
@@ -82,7 +81,30 @@ onMounted(() => {
   revealObserver.observe(sectionRef.value);
 });
 
-onBeforeUnmount(() => revealObserver?.disconnect());
+// Every card gets the pointer position in its own coordinates, so the glow
+// near one card's edge spills over into the neighbouring card
+const groupsRef = ref<HTMLElement>();
+let spotlightFrame = 0;
+
+const onPointerMove = (event: PointerEvent) => {
+  if (event.pointerType !== "mouse" || spotlightFrame) return;
+
+  spotlightFrame = requestAnimationFrame(() => {
+    spotlightFrame = 0;
+    groupsRef.value
+      ?.querySelectorAll<HTMLElement>(".skills-group")
+      .forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
+        card.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
+      });
+  });
+};
+
+onBeforeUnmount(() => {
+  revealObserver?.disconnect();
+  cancelAnimationFrame(spotlightFrame);
+});
 </script>
 
 <style scoped lang="scss" src="./skills.scss"></style>
