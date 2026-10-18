@@ -7,7 +7,10 @@ function getProjectRoutes(): string[] {
     file.replace(/\.md$/, "")
   );
 
-  return slugs.flatMap((slug) => [`/projekty/${slug}`, `/en/projects/${slug}`]);
+  return slugs.flatMap((slug) => [
+    `/projekty/${slug}/`,
+    `/en/projects/${slug}/`,
+  ]);
 }
 
 const SITE_URL = "https://www.sebastiansanda.cz";
@@ -29,7 +32,7 @@ export default defineNuxtConfig({
     prerender: {
       routes: [
         "/",
-        "/en",
+        "/en/",
         // Generate project pages for both locales
         ...getProjectRoutes(),
       ],
@@ -72,6 +75,7 @@ export default defineNuxtConfig({
   // Site config used by the sitemap module
   site: {
     url: SITE_URL,
+    trailingSlash: true,
   },
 
   // Color mode: adds `dark` / `light` class on <html> before hydration
@@ -96,6 +100,8 @@ export default defineNuxtConfig({
   // i18n configuration
   i18n: {
     baseUrl: SITE_URL,
+    // GitHub Pages serves folders, so URLs without the slash get a 301
+    trailingSlash: true,
     locales: [
       { code: "en", language: "en-US", name: "English", file: "en.json" },
       { code: "cs", language: "cs-CZ", name: "Čeština", file: "cs.json" },
