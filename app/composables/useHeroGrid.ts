@@ -22,6 +22,7 @@ export interface HeroGrid {
   flashBox: (index: number) => void;
   gridMetrics: ShallowRef<GridMetrics | undefined>;
   hold: () => void;
+  isCrossShown: (index: number) => boolean;
   pauseCrosses: () => void;
   release: () => void;
   resumeCrosses: () => void;
@@ -366,6 +367,10 @@ export const useHeroGrid = (
     );
   };
 
+  // Whether the box's decorative cross is showing right now
+  const isCrossShown = (index: number) =>
+    crossElements[index]?.dataset.active === "true";
+
   const hold = () => {
     isHeld = true;
     pauseTimelines();
@@ -419,6 +424,7 @@ export const useHeroGrid = (
     flashBox,
     gridMetrics,
     hold,
+    isCrossShown,
     pauseCrosses,
     release,
     resumeCrosses,

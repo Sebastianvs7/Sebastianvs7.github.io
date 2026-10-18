@@ -54,6 +54,7 @@ const SWIRL_DURATION = 0.6;
 const STRIKE_DURATION = 0.35;
 // Wins that end a match, then the score starts over
 const FINALE_WINS = 3;
+const SWAPPED_MARKS: Record<GomokuMark, GomokuMark> = { o: "x", x: "o" };
 const GAME_RESULT_KEYS: Partial<Record<GomokuStatus, string>> = {
   draw: "gomoku.draw",
   lost: "gomoku.lost",
@@ -75,6 +76,8 @@ export const useGomokuMatch = (
   const hoverIndex = ref(-1);
   // A finished game clears on a grid click once its reveal has played, like the Clear button
   const isClearable = ref(false);
+  // Set by starting on an idle cross, kept for the match; the board still stores "o" for the player
+  const isPlayingCrosses = ref(false);
 
   let computerMoveTimer: ReturnType<typeof setTimeout> | undefined;
   let clearableTimer: ReturnType<typeof setTimeout> | undefined;
@@ -110,7 +113,15 @@ export const useGomokuMatch = (
       const box = grid.boxes.value[index];
       if (!player || !box) return [];
       const winOrder = current.winningLine.indexOf(index);
-      return [{ index, player, winOrder, x: box.x, y: box.y }];
+      return [
+        {
+          index,
+          player: isPlayingCrosses.value ? SWAPPED_MARKS[player] : player,
+          winOrder,
+          x: box.x,
+          y: box.y,
+        },
+      ];
     });
   });
 
@@ -175,7 +186,11 @@ export const useGomokuMatch = (
     const next = playerMove(current, index);
     if (next === current) return;
 
-    if (!game.value) grid.pauseCrosses();
+    if (!game.value) {
+      // Read before pauseCrosses hides the crosses
+      if (grid.isCrossShown(index)) isPlayingCrosses.value = true;
+      grid.pauseCrosses();
+    }
     grid.flashBox(index);
     setGame(next);
 
@@ -240,6 +255,7 @@ export const useGomokuMatch = (
     const { computer, player } = score.value;
     if (Math.max(computer, player) >= FINALE_WINS) {
       score.value = { computer: 0, player: 0 };
+      isPlayingCrosses.value = false;
     }
   };
 
