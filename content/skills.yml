@@ -1,14 +1,60 @@
 groups:
   - title: { cs: "Frontend", en: "Frontend" }
-    items: ["TypeScript", "React", "Next.js", "Angular", "Storybook", "Sass"]
+    items:
+      - { name: "TypeScript", icon: "typescript", isCore: true }
+      - { name: "React", icon: "react", isCore: true }
+      - { name: "Next.js", icon: "nextdotjs" }
+      - { name: "Vue", icon: "vuedotjs" }
+      - { name: "Angular", icon: "angular" }
+      - { name: "Redux", icon: "redux" }
+      - { name: "React Query", icon: "reactquery" }
+      - { name: "Apollo Client", icon: "apollographql" }
+      - { name: "Storybook", icon: "storybook" }
+      - { name: "Sass", icon: "sass" }
+      - { name: "Material UI", icon: "mui" }
   - title: { cs: "Mobil", en: "Mobile" }
-    items: ["React Native", "Expo", "Firebase"]
+    items:
+      - { name: "React Native", icon: "react", isCore: true }
+      - { name: "Expo", icon: "expo" }
+      - { name: "Firebase", icon: "firebase" }
+      - { name: { cs: "Push notifikace", en: "Push notifications" }, icon: "bell" }
+      - { name: { cs: "App Store a Google Play", en: "App Store & Google Play" }, icon: "rocket" }
   - title: { cs: "Backend", en: "Backend" }
-    items: ["Node.js", "NestJS", "GraphQL", "REST API", "PostgreSQL", "Docker"]
+    items:
+      - { name: "Node.js", icon: "nodedotjs" }
+      - { name: "NestJS", icon: "nestjs", isCore: true }
+      - { name: "GraphQL", icon: "graphql" }
+      - { name: "REST API", icon: "braces" }
+      - { name: "PostgreSQL", icon: "postgresql" }
+      - { name: "TypeORM", icon: "typeorm" }
+      - { name: { cs: "Autentizace", en: "Authentication" }, icon: "shield-check" }
+      - { name: "Docker", icon: "docker" }
+      - { name: "PHP", icon: "php" }
+      - { name: { cs: "Integrace", en: "Integrations" }, icon: "arrow-left-right" }
   - title: { cs: "Testy a nástroje", en: "Testing & tools" }
-    items: ["Cypress", "Git", "CI/CD", "Nx", "Webpack"]
-  - title: { cs: "E-commerce", en: "E-commerce" }
-    items: ["WordPress", "WooCommerce", "WordPress plugins"]
+    items:
+      - { name: "Cypress", icon: "cypress" }
+      - { name: "Jest", icon: "jest" }
+      - { name: "Playwright", icon: "playwright" }
+      - { name: "Git", icon: "git" }
+      - { name: "CI/CD", icon: "githubactions" }
+      - { name: "Nx", icon: "nx" }
   - title: { cs: "AI nástroje", en: "AI tools" }
-    items: ["Claude", "Codex", "Cursor", "Grok"]
+    items:
+      - { name: "Claude", icon: "claude" }
+      - { name: "Codex", icon: "codex" }
+      - { name: "Cursor", icon: "cursor" }
+      - { name: "Grok", icon: "grok" }
+  - title: { cs: "Web a e-commerce", en: "Web & e-commerce" }
+    items:
+      - { name: "WordPress", icon: "wordpress" }
+      - { name: { cs: "Pluginy", en: "Plugins" }, icon: "plug" }
+      - { name: "WooCommerce", icon: "woocommerce" }
+      - { name: "Twig", icon: "code-xml" }
+  - title: { cs: "Design", en: "Design" }
+    items:
+      - { name: "Figma", icon: "figma" }
+      - { name: "UI design", icon: "layout-template" }
+      - { name: { cs: "Responzivní design", en: "Responsive design" }, icon: "monitor-smartphone" }
+      - { name: { cs: "Spolupráce s designéry", en: "Working with designers" }, icon: "pen-tool" }
 courses: []

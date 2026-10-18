@@ -47,11 +47,17 @@ export default defineNuxtConfig({
     "@nuxt/icon",
   ],
 
-  // Inline SVG icons from app/assets/icons, bundled for the static client
+  // Inline SVG icons, bundled for the static client. Tech logos come from
+  // simple-icons (CC0), LobeHub icons and Devicon (MIT), generic ones from
+  // Lucide (ISC). They are referenced from content, so the scan can't see them
   icon: {
     mode: "svg",
-    customCollections: [{ prefix: "local", dir: "./app/assets/icons" }],
+    customCollections: [
+      { prefix: "local", dir: "./app/assets/icons" },
+      { prefix: "tech", dir: "./app/assets/tech-icons" },
+    ],
     clientBundle: {
+      includeCustomCollections: true,
       scan: true,
     },
   },

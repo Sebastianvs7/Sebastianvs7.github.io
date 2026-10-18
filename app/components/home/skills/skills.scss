@@ -1,16 +1,83 @@
 #skills {
+  .skills-hint {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin: -0.5rem 0 1.5rem 0;
+    max-width: 640px;
+  }
+
+  // Columns balance groups of different heights without an orphan last row
   .skills-groups {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    column-gap: 1.25rem;
+    columns: 3 260px;
+  }
+
+  .skills-group {
+    background: var(--color-surface);
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.25rem;
   }
 
   h3 {
     font-size: 1rem;
-    margin: 0 0 0.6rem 0;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .skill-tag {
+    align-items: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-text-body);
+    display: inline-flex;
+    font-size: 0.8rem;
+    gap: 0.35rem;
+    line-height: 1.4;
+    padding: 0.25rem 0.7rem;
+
+    :deep(svg) {
+      flex-shrink: 0;
+      height: 0.95rem;
+      width: 0.95rem;
+    }
+
+    // Main stack
+    &.is-core {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-on-accent);
+      font-weight: 600;
+    }
   }
 
   .skills-courses {
     margin-top: 2rem;
+  }
+
+  // Set only on the client, so the content stays visible without JavaScript
+  &.reveal-ready .skills-group {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+    transition-delay: calc(var(--reveal-index) * 80ms);
+  }
+
+  &.is-revealed .skills-group {
+    opacity: 1;
+    transform: none;
   }
 }

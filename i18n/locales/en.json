@@ -50,7 +50,8 @@
     "current": "Current"
   },
   "skills": {
-    "courses": "Courses"
+    "courses": "Courses",
+    "hint": "Highlighted technologies are the ones I use most."
   },
   "footer": "Sebastian Šanda. All rights reserved.",
   "error": {

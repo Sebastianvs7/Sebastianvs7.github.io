@@ -49,7 +49,19 @@ export default defineContentConfig({
         groups: z.array(
           z.object({
             title: z.object({ cs: z.string(), en: z.string() }),
-            items: z.array(z.string()),
+            items: z.array(
+              z.object({
+                // Brand names stay as strings, descriptive skills are localized
+                name: z.union([
+                  z.string(),
+                  z.object({ cs: z.string(), en: z.string() }),
+                ]),
+                // File name in app/assets/tech-icons
+                icon: z.string().optional(),
+                // Main stack, highlighted in the section
+                isCore: z.boolean().optional(),
+              })
+            ),
           })
         ),
         courses: z.array(
