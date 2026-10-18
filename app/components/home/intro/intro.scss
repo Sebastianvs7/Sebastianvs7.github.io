@@ -74,8 +74,18 @@
     align-items: flex-end;
     display: flex;
     gap: 2rem;
-    height: 100px;
+    height: 52px;
     justify-content: center;
+    // Keeps the bounce clear of the text above
+    margin-top: 1.5rem;
+
+    // Level with the icons on mobile, so the bounce stays clear of the text
+    @media (max-width: 768px) {
+      align-self: flex-end;
+      gap: 1rem;
+      height: 48px;
+      margin-top: 0;
+    }
 
     .shape {
       animation-direction: alternate;
@@ -118,22 +128,29 @@
   }
 }
 
+// Shapes sit at the right edge of the text, level with the email button
 .intro-bottom {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   gap: 2rem;
+  justify-content: space-between;
   margin-top: 2rem;
 
   @media (max-width: 768px) {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 }
 
+// Email button on the first row, profile icons on the second
 .intro-cta {
+  align-items: flex-start;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intro-socials {
+  display: flex;
   gap: 1rem;
 }
 

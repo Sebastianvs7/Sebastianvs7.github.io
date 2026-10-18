@@ -16,26 +16,28 @@
           >
             {{ $t("intro.cta.email") }}
           </a>
-          <a
-            :href="data.github"
-            class="cta-button cta-secondary cta-icon"
-            :aria-label="$t('intro.cta.githubLabel')"
-            title="GitHub"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="local:github" />
-          </a>
-          <a
-            :href="data.linkedin"
-            class="cta-button cta-secondary cta-icon"
-            :aria-label="$t('intro.cta.linkedinLabel')"
-            title="LinkedIn"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="local:linkedin" />
-          </a>
+          <div class="intro-socials">
+            <a
+              :href="data.github"
+              class="cta-button cta-secondary cta-icon"
+              :aria-label="$t('intro.cta.githubLabel')"
+              title="GitHub"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="local:github" />
+            </a>
+            <a
+              :href="data.linkedin"
+              class="cta-button cta-secondary cta-icon"
+              :aria-label="$t('intro.cta.linkedinLabel')"
+              title="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="local:linkedin" />
+            </a>
+          </div>
         </div>
 
         <div id="fun-shapes">
