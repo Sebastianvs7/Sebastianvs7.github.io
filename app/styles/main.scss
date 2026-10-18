@@ -183,18 +183,25 @@ ol {
 }
 
 /* Fade in from the background color on first load; pure CSS, so it runs before hydration.
+   A fading overlay instead of a transparent page, so the content counts as painted (FCP/LCP).
    The short delay keeps the first painted frame a plain background. */
-#__nuxt {
-  animation: page-fade-in 0.6s ease-in-out 0.2s backwards;
+body::after {
+  animation: page-fade-in 0.6s ease-in-out 0.2s both;
+  background-color: var(--color-bg);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: 10000;
 }
 
 @keyframes page-fade-in {
   from {
-    opacity: 0;
+    opacity: 1;
   }
 
   to {
-    opacity: 1;
+    opacity: 0;
   }
 }
 
