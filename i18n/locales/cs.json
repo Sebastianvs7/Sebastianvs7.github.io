@@ -26,7 +26,7 @@
     "description": "Téměř 10 let stavím webové a mobilní aplikace – od frontendu v Reactu a Next.js po API v NestJS s GraphQL a PostgreSQL. Pracoval jsem na projektech pro Koh-I-Noor Deutschland, Zoetis nebo Mobile Phone Museum. AI používám každý den jako běžnou součást vývoje.",
     "cta": {
       "email": "Napište mi",
-      "emailLabel": "Odeslat email na Sebastian Šanda",
+      "emailLabel": "Napište mi e-mail",
       "linkedinLabel": "Navštívit LinkedIn profil",
       "githubLabel": "Navštívit GitHub profil"
     }
@@ -66,7 +66,7 @@
   },
   "cv": {
     "download": "Stáhnout CV",
-    "downloadLabel": "Stáhnout životopis v PDF",
+    "downloadLabel": "Stáhnout CV v PDF",
     "short": "CV"
   }
 }

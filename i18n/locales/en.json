@@ -26,7 +26,7 @@
     "description": "For almost 10 years I've been building web and mobile apps – from React and Next.js frontends to NestJS APIs with GraphQL and PostgreSQL. I've worked on projects for Koh-I-Noor Deutschland, Zoetis and the Mobile Phone Museum. AI is part of my daily development workflow.",
     "cta": {
       "email": "Get in touch",
-      "emailLabel": "Send email to Sebastian Šanda",
+      "emailLabel": "Get in touch by email",
       "linkedinLabel": "Visit LinkedIn profile",
       "githubLabel": "Visit GitHub profile"
     }
