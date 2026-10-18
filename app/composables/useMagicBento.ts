@@ -1,54 +1,22 @@
 import { gsap } from "gsap";
 
-const DEFAULT_PARTICLE_COUNT = 12;
-const DEFAULT_GLOW_COLOR = "122, 104, 83"; // Using site accent color
-
-export interface MagicBentoOptions {
-  clickEffect?: boolean;
-  disableAnimations?: boolean;
-  enableMagnetism?: boolean;
-  enableTilt?: boolean;
-  // RGB triplet, e.g. "122, 104, 83"
-  glowColor?: string;
-  particleCount?: number;
-}
+const PARTICLE_COUNT = 10;
 
 interface MagicBento {
   cardRef: Ref<HTMLElement | null>;
 }
 
-const createParticleElement = (
-  x: number,
-  y: number,
-  color: string = DEFAULT_GLOW_COLOR
-): HTMLDivElement => {
+// Look lives in project-card.scss, only the position is set here
+const createParticleElement = (x: number, y: number): HTMLDivElement => {
   const el = document.createElement("div");
   el.className = "magic-particle";
-  el.style.cssText = `
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(${color}, 1);
-    box-shadow: 0 0 6px rgba(${color}, 0.6);
-    pointer-events: none;
-    z-index: 100;
-    left: ${x}px;
-    top: ${y}px;
-  `;
+  el.style.left = `${x}px`;
+  el.style.top = `${y}px`;
   return el;
 };
 
-export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
-  const {
-    particleCount = DEFAULT_PARTICLE_COUNT,
-    glowColor = DEFAULT_GLOW_COLOR,
-    enableTilt = true,
-    clickEffect = true,
-    enableMagnetism = false,
-    disableAnimations = false,
-  } = options;
-
+// Glow, tilt, particles and click ripple on a hovered card
+export const useMagicBento = (): MagicBento => {
   const cardRef = ref<HTMLElement | null>(null);
 
   // Imperative effect state, never rendered
@@ -57,17 +25,12 @@ export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
   let isHovered = false;
   let particleTemplates: HTMLElement[] = [];
   let particlesInitialized = false;
-  let magnetismTween: gsap.core.Tween | null = null;
 
   const initializeParticles = () => {
     if (particlesInitialized || !cardRef.value) return;
     const { width, height } = cardRef.value.getBoundingClientRect();
-    particleTemplates = Array.from({ length: particleCount }, () =>
-      createParticleElement(
-        Math.random() * width,
-        Math.random() * height,
-        glowColor
-      )
+    particleTemplates = Array.from({ length: PARTICLE_COUNT }, () =>
+      createParticleElement(Math.random() * width, Math.random() * height)
     );
     particlesInitialized = true;
   };
@@ -75,7 +38,6 @@ export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
   const clearAllParticles = () => {
     timeouts.forEach(clearTimeout);
     timeouts = [];
-    magnetismTween?.kill();
     particles.forEach((particle) => {
       gsap.to(particle, {
         scale: 0,
@@ -138,7 +100,6 @@ export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
 
   // Effects need a hovering pointer and are skipped for users preferring reduced motion
   const shouldAnimate = () =>
-    !disableAnimations &&
     window.matchMedia("(hover: hover)").matches &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -151,45 +112,28 @@ export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
     const handleMouseEnter = () => {
       isHovered = true;
       animateParticles();
-      if (enableTilt) {
-        gsap.to(element, {
-          rotateX: 5,
-          rotateY: 5,
-          duration: 0.3,
-          ease: "power2.out",
-          transformPerspective: 1000,
-        });
-      }
+      gsap.to(element, {
+        rotateX: 5,
+        rotateY: 5,
+        duration: 0.3,
+        ease: "power2.out",
+        transformPerspective: 1000,
+      });
     };
 
     const handleMouseLeave = () => {
       isHovered = false;
       clearAllParticles();
-      if (enableTilt) {
-        gsap.to(element, {
-          rotateX: 0,
-          rotateY: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-      if (enableMagnetism) {
-        gsap.to(element, {
-          x: 0,
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
+      gsap.to(element, {
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
       element.style.setProperty("--glow-intensity", "0");
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!enableTilt && !enableMagnetism) {
-        updateGlowProperties(e.clientX, e.clientY);
-        element.style.setProperty("--glow-intensity", "1");
-        return;
-      }
       const rect = element.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -199,32 +143,18 @@ export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
       updateGlowProperties(e.clientX, e.clientY);
       element.style.setProperty("--glow-intensity", "1");
 
-      if (enableTilt) {
-        const rotateX = ((y - centerY) / centerY) * -10;
-        const rotateY = ((x - centerX) / centerX) * 10;
-        gsap.to(element, {
-          rotateX,
-          rotateY,
-          duration: 0.1,
-          ease: "power2.out",
-          transformPerspective: 1000,
-        });
-      }
-
-      if (enableMagnetism) {
-        const magnetX = (x - centerX) * 0.05;
-        const magnetY = (y - centerY) * 0.05;
-        magnetismTween = gsap.to(element, {
-          x: magnetX,
-          y: magnetY,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+      gsap.to(element, {
+        rotateX,
+        rotateY,
+        duration: 0.1,
+        ease: "power2.out",
+        transformPerspective: 1000,
+      });
     };
 
     const handleClick = (e: MouseEvent) => {
-      if (!clickEffect) return;
       const rect = element.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -238,17 +168,11 @@ export const useMagicBento = (options: MagicBentoOptions = {}): MagicBento => {
         60
       );
       const ripple = document.createElement("div");
-      ripple.style.cssText = `
-        position: absolute;
-        width: ${maxDistance * 2}px;
-        height: ${maxDistance * 2}px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
-        left: ${x - maxDistance}px;
-        top: ${y - maxDistance}px;
-        pointer-events: none;
-        z-index: 1000;
-      `;
+      ripple.className = "magic-ripple";
+      ripple.style.width = `${maxDistance * 2}px`;
+      ripple.style.height = `${maxDistance * 2}px`;
+      ripple.style.left = `${x - maxDistance}px`;
+      ripple.style.top = `${y - maxDistance}px`;
       element.appendChild(ripple);
       gsap.fromTo(
         ripple,

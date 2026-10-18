@@ -89,21 +89,33 @@
 
   // Magic particle styles
   :deep(.magic-particle) {
-    position: absolute;
+    background: rgba(var(--glow-color), 1);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(var(--glow-color), 0.6);
+    height: 4px;
     pointer-events: none;
+    position: absolute;
+    width: 4px;
     z-index: 100;
   }
 
-  &.hidden-project {
-    display: none; // Completely remove from layout
-    opacity: 0;
-    transform: translateY(20px);
+  :deep(.magic-ripple) {
+    background: radial-gradient(
+      circle,
+      rgba(var(--glow-color), 0.4) 0%,
+      rgba(var(--glow-color), 0.2) 30%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1000;
+  }
 
-    &.show {
-      display: block; // Show in layout again
-      opacity: 1;
-      transform: translateY(0);
-    }
+  // Cards revealed by "show more" fade in one after another
+  &.is-revealing {
+    animation: project-reveal 0.5s ease calc(var(--reveal-order) * 100ms)
+      backwards;
   }
 
   .project-image {
@@ -313,7 +325,9 @@
       }
 
       svg {
+        height: 16px;
         transition: transform 0.3s ease;
+        width: 16px;
       }
 
       &:hover svg {
@@ -351,5 +365,12 @@
     font-size: 0.75rem;
     line-height: 1.4;
     padding: 0.15rem 0.6rem;
+  }
+}
+
+@keyframes project-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
 }

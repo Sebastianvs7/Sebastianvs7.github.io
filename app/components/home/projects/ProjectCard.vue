@@ -2,7 +2,8 @@
   <div
     ref="cardRef"
     class="project-card magic-bento-card"
-    :class="{ 'hidden-project': isHidden }"
+    :class="{ 'is-revealing': revealOrder !== undefined }"
+    :style="{ '--reveal-order': revealOrder }"
   >
     <div class="project-card-inner">
       <div class="project-image">
@@ -22,27 +23,18 @@
           <strong>{{ $t("projects.role") }}:</strong> {{ project.role }}
         </p>
         <div class="project-description-container">
-          <p
-            class="project-description"
-            :class="{ truncated: !expandedDescriptions[project.slug] }"
-          >
+          <p class="project-description" :class="{ truncated: !isExpanded }">
             {{ project.description }}
           </p>
           <button
-            v-if="shouldShowMoreButton"
+            v-if="canExpand"
             class="show-more-desc-btn"
-            @click="$emit('toggleDescription', project.slug)"
+            @click="handleDescriptionToggle"
           >
-            <span
-              class="show-more-desc-text"
-              :class="{ hidden: expandedDescriptions[project.slug] }"
-            >
+            <span class="show-more-desc-text" :class="{ hidden: isExpanded }">
               {{ $t("projects.showMore") }}
             </span>
-            <span
-              class="show-less-desc-text"
-              :class="{ hidden: !expandedDescriptions[project.slug] }"
-            >
+            <span class="show-less-desc-text" :class="{ hidden: !isExpanded }">
               {{ $t("projects.showLess") }}
             </span>
           </button>
@@ -60,20 +52,7 @@
             "
             class="project-link detail-link"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M9 12l2 2 4-4" />
-              <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3" />
-              <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3" />
-              <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3" />
-              <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3" />
-            </svg>
+            <Icon name="local:details" />
             {{ $t("projects.viewDetails") }}
           </NuxtLink>
           <a
@@ -84,20 +63,7 @@
             rel="noopener noreferrer"
             class="project-link"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-              />
-              <polyline points="15,3 21,3 21,9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
+            <Icon name="local:external-link" />
             {{ link.text }}
           </a>
         </div>
@@ -110,33 +76,27 @@
 import type { ProjectSummary } from "~/types/project";
 
 interface ProjectCardProps {
-  expandedDescriptions?: Record<string, boolean>;
-  isHidden?: boolean;
   project: ProjectSummary;
-  shouldShowMoreButton?: boolean;
+  // Position among the cards revealed by "show more", unset for the rest
+  revealOrder?: number;
 }
 
+const DESCRIPTION_PREVIEW_LENGTH = 150;
+
+const props = defineProps<ProjectCardProps>();
+
 const localePath = useLocalePath();
+const { cardRef } = useMagicBento();
 
-withDefaults(defineProps<ProjectCardProps>(), {
-  expandedDescriptions: () => ({}),
-  isHidden: false,
-  shouldShowMoreButton: false,
-});
+const isExpanded = ref(false);
 
-defineEmits<{
-  toggleDescription: [slug: string];
-}>();
+const canExpand = computed(
+  () => props.project.description.length > DESCRIPTION_PREVIEW_LENGTH
+);
 
-// Magic Bento effect
-const { cardRef } = useMagicBento({
-  particleCount: 10,
-  glowColor: "122, 104, 83", // Site accent color
-  enableTilt: true,
-  clickEffect: true,
-  enableMagnetism: false,
-  disableAnimations: false,
-});
+const handleDescriptionToggle = () => {
+  isExpanded.value = !isExpanded.value;
+};
 </script>
 
 <style scoped lang="scss" src="./project-card.scss"></style>

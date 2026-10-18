@@ -1,5 +1,10 @@
 <template>
-  <section id="projects" tabindex="-1" aria-labelledby="projects-title">
+  <section
+    id="projects"
+    ref="sectionRef"
+    tabindex="-1"
+    aria-labelledby="projects-title"
+  >
     <div class="projects-header">
       <h2 id="projects-title">{{ $t("sections.projects") }}</h2>
     </div>
@@ -9,10 +14,11 @@
         v-for="(project, index) in visibleProjects"
         :key="project.slug"
         :project="project"
-        :is-hidden="index >= VISIBLE_PROJECT_COUNT"
-        :should-show-more-button="shouldShowMoreButton(project)"
-        :expanded-descriptions="expandedDescriptions"
-        @toggle-description="toggleDescription"
+        :reveal-order="
+          index >= VISIBLE_PROJECT_COUNT
+            ? index - VISIBLE_PROJECT_COUNT
+            : undefined
+        "
       />
     </div>
 
@@ -34,74 +40,39 @@
 
     <HomeProjectsShowMoreButton
       v-if="hasHiddenProjects"
-      :show-all-projects="showAllProjects"
+      :is-expanded="showAllProjects"
       @toggle="handleShowMoreToggle"
     />
   </section>
 </template>
 
 <script setup lang="ts">
-import type { ProjectSummary } from "~/types/project";
-
 const VISIBLE_PROJECT_COUNT = 6;
-const DESCRIPTION_PREVIEW_LENGTH = 150;
 
 const { projects } = await useProjects();
 const { logos } = await useOtherProjects();
+
+const sectionRef = ref<HTMLElement | null>(null);
 const showAllProjects = ref(false);
-const expandedDescriptions = ref<Record<string, boolean>>({});
 
-const visibleProjects = computed(() => {
-  if (showAllProjects.value) {
-    return projects.value;
-  }
+const visibleProjects = computed(() =>
+  showAllProjects.value
+    ? projects.value
+    : projects.value.slice(0, VISIBLE_PROJECT_COUNT)
+);
 
-  return projects.value.slice(0, VISIBLE_PROJECT_COUNT);
-});
+const hasHiddenProjects = computed(
+  () => projects.value.length > VISIBLE_PROJECT_COUNT
+);
 
-const hasHiddenProjects = computed(() => {
-  return projects.value.length > VISIBLE_PROJECT_COUNT;
-});
-
-const shouldShowMoreButton = (project: ProjectSummary): boolean => {
-  return project.description.length > DESCRIPTION_PREVIEW_LENGTH;
-};
-
-const toggleDescription = (slug: string) => {
-  expandedDescriptions.value[slug] = !expandedDescriptions.value[slug];
-};
-
-const handleShowMoreToggle = () => {
+const handleShowMoreToggle = async () => {
   showAllProjects.value = !showAllProjects.value;
+  if (showAllProjects.value) return;
 
-  if (showAllProjects.value) {
-    // Add staggered animation for showing projects
-    nextTick(() => {
-      const hiddenProjects = document.querySelectorAll(".hidden-project");
-      hiddenProjects.forEach((project, index) => {
-        setTimeout(() => {
-          project.classList.add("show");
-        }, index * 100); // 100ms delay between each project
-      });
-    });
-  } else {
-    // Remove show class from all hidden projects
-    const hiddenProjects = document.querySelectorAll(".hidden-project");
-    hiddenProjects.forEach((project) => {
-      project.classList.remove("show");
-    });
-
-    // Scroll to top of projects section when showing less
-    nextTick(() => {
-      const projectsSection = document.getElementById("projects");
-      if (projectsSection) {
-        projectsSection.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    });
-  }
+  // Showing less removes the cards below, so bring the section back into view
+  // once the page has shrunk
+  await nextTick();
+  sectionRef.value?.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 </script>
 
