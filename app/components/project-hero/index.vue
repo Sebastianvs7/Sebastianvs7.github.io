@@ -84,7 +84,7 @@
       </button>
     </div>
     <Teleport to="body">
-      <AnimatedSectionBackgroundFinale
+      <ProjectHeroFinale
         v-if="finaleStart"
         v-bind="finaleStart"
         @covered="handleGameClear"
@@ -164,7 +164,7 @@ const IDLE_DELAY = 2500;
 
 // Pause before the computer answers, so its move reads as a reply
 const COMPUTER_MOVE_DELAY = 400;
-// Win reveal timing in seconds, passed to styles.scss through revealStyle
+// Win reveal timing in seconds, passed to project-hero.scss through revealStyle
 const SWIRL_STAGGER = 0.1;
 const SWIRL_DURATION = 0.6;
 const STRIKE_DURATION = 0.35;
@@ -718,4 +718,4 @@ function handleGameClear() {
 }
 </script>
 
-<style scoped lang="scss" src="./styles.scss"></style>
+<style scoped lang="scss" src="./project-hero.scss"></style>

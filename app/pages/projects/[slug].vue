@@ -3,12 +3,12 @@
     <div class="project-content">
       <!-- Hero Section with Animated Background -->
       <section class="project-hero">
-        <AnimatedSectionBackground />
+        <ProjectHero />
       </section>
 
       <!-- Decrypted Title -->
       <div class="project-title-wrapper">
-        <DecryptedText :text="project.title" :duration="1500" />
+        <UiDecryptedText :text="project.title" :duration="1500" />
       </div>
       <!-- Render markdown content using ContentRenderer -->
       <ContentRenderer :value="project" tag="section" class="project-info" />
