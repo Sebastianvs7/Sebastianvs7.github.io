@@ -15,7 +15,7 @@
         v-for="mark in marks"
         :key="mark.index"
         class="mark"
-        :class="[`mark--${mark.mark}`, { 'mark--win': mark.winOrder !== -1 }]"
+        :class="[`mark--${mark.player}`, { 'mark--win': mark.winOrder !== -1 }]"
         :style="{
           left: `${mark.x}px`,
           top: `${mark.y}px`,
@@ -23,7 +23,7 @@
         }"
       >
         <svg viewBox="0 0 26 26">
-          <circle v-if="mark.mark === 'o'" cx="13" cy="13" r="7" pathLength="1" />
+          <circle v-if="mark.player === 'o'" cx="13" cy="13" r="7" pathLength="1" />
           <template v-else>
             <line x1="7" y1="7" x2="19" y2="19" pathLength="1" />
             <line x1="19" y1="7" x2="7" y2="19" pathLength="1" />
@@ -61,13 +61,13 @@
         class="game-button"
         @click="handleGameClear"
       >
-        {{ $t("game.clear") }}
+        {{ $t("gomoku.clear") }}
       </button>
       <button
         v-else-if="game"
         type="button"
         class="game-button game-button--icon"
-        :aria-label="$t('game.stop')"
+        :aria-label="$t('gomoku.quit')"
         @click="handleGameClear"
       >
         <svg viewBox="0 0 12 12" aria-hidden="true">
@@ -115,7 +115,7 @@ interface FinaleStart {
 
 interface GameMarkView {
   index: number;
-  mark: GomokuMark;
+  player: GomokuMark;
   // Position in the winning line, -1 for marks outside it
   winOrder: number;
   x: number;
@@ -167,13 +167,13 @@ const STRIKE_DURATION = 0.35;
 // Wins that end a match, then the score starts over
 const FINALE_WINS = 3;
 const SCORE_SIDES: readonly ScoreSide[] = [
-  { key: "player", labelKey: "game.you" },
-  { key: "computer", labelKey: "game.computer" },
+  { key: "player", labelKey: "gomoku.you" },
+  { key: "computer", labelKey: "gomoku.computer" },
 ];
 const GAME_RESULT_KEYS: Partial<Record<GomokuStatus, string>> = {
-  draw: "game.draw",
-  lost: "game.lost",
-  won: "game.won",
+  draw: "gomoku.draw",
+  lost: "gomoku.lost",
+  won: "gomoku.won",
 };
 
 const colorMode = useColorMode();
@@ -209,11 +209,11 @@ const marks = computed<GameMarkView[]>(() => {
   const current = game.value;
   if (!current) return [];
 
-  return current.board.flatMap((mark, index) => {
+  return current.board.flatMap((player, index) => {
     const box = boxes[index];
-    if (!mark || !box) return [];
+    if (!player || !box) return [];
     const winOrder = current.winningLine.indexOf(index);
-    return [{ index, mark, winOrder, x: box.x, y: box.y }];
+    return [{ index, player, winOrder, x: box.x, y: box.y }];
   });
 });
 // Runs from half a box before the first winning centre to half a box past the last

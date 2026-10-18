@@ -66,8 +66,8 @@
     "downloadLabel": "Download CV as PDF",
     "short": "CV"
   },
-  "game": {
-    "stop": "Quit game",
+  "gomoku": {
+    "quit": "Quit game",
     "clear": "Clear",
     "you": "You",
     "computer": "Computer",

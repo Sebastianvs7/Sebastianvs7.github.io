@@ -66,8 +66,8 @@
     "downloadLabel": "Stáhnout CV v PDF",
     "short": "CV"
   },
-  "game": {
-    "stop": "Ukončit hru",
+  "gomoku": {
+    "quit": "Ukončit hru",
     "clear": "Vyčistit",
     "you": "Ty",
     "computer": "Počítač",
