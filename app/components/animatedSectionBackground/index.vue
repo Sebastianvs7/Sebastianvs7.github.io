@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 
-import { computerMove, createGame, playerMove } from "~/utils/gomoku";
+import { computerMove, createGomokuGame, playerMove } from "~/utils/gomoku";
 import type { GomokuGame, GomokuMark, GomokuStatus } from "~/utils/gomoku";
 
 interface GridBox {
@@ -647,7 +647,7 @@ function handleGameMove(index: number) {
   if (!gridMetrics) return;
 
   const current =
-    game.value ?? createGame(gridMetrics.cols, gridMetrics.rows);
+    game.value ?? createGomokuGame(gridMetrics.cols, gridMetrics.rows);
   const next = playerMove(current, index);
   if (next === current) return;
 

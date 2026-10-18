@@ -39,7 +39,7 @@ const WINDOW_SCORES = [1, 10, 100, 1000, 10000];
 // so a casual player can win
 const DEFENSE_WEIGHT = 0.08;
 
-export function createGame(cols: number, rows: number): GomokuGame {
+export function createGomokuGame(cols: number, rows: number): GomokuGame {
   return {
     board: Array<GomokuCell>(cols * rows).fill(null),
     cols,
