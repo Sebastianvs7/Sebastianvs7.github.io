@@ -11,7 +11,7 @@
       :aria-label="$t('navigation.toggleMenu')"
       :aria-expanded="isMobileMenuOpen"
       aria-controls="mobile-menu"
-      @click="toggleMobileMenu"
+      @click="handleMobileMenuToggle"
     >
       <div />
       <div />
@@ -25,7 +25,7 @@
       :aria-label="$t('navigation.mobileLabel')"
       :aria-hidden="!isMobileMenuOpen"
     >
-      <HeaderNavItems @navigate="closeMobileMenu" />
+      <HeaderNavItems @navigate="handleNavigate" />
     </nav>
   </header>
 </template>
@@ -43,11 +43,11 @@ watch(
   }
 );
 
-const toggleMobileMenu = () => {
+const handleMobileMenuToggle = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
-const closeMobileMenu = () => {
+const handleNavigate = () => {
   isMobileMenuOpen.value = false;
 };
 </script>
