@@ -28,7 +28,8 @@ useHead({
     ...i18nHead.value.meta,
     {
       name: "theme-color",
-      content: colorMode.value === "dark" ? THEME_COLOR_DARK : THEME_COLOR_LIGHT,
+      content:
+        colorMode.value === "dark" ? THEME_COLOR_DARK : THEME_COLOR_LIGHT,
     },
   ]),
 });
