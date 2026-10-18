@@ -2,7 +2,7 @@
 title: "Kristian"
 type: "Weby a microsites · October CMS"
 role: "Webdesigner / Frontend kodér"
-description: "Kristian je reklamní agentura, která se zabývá celkovým servisem v oblasti médií a kreativity. Nabízí široké spektrum služeb. Strategické mediální plánování a vytváření kreativních konceptů (ideamaking), digitální marketing, weby, PPC, sociální sítě a produkci (eventy, konference). Působí také v oboru grafického designu, DTP, videa, fotografie a audio."
+description: "Kristian je reklamní agentura, která se zabývá celkovým servisem v oblasti médií a kreativity. Nabízí strategické mediální plánování a tvorbu kreativních konceptů (ideamaking), digitální marketing, weby, PPC, sociální sítě a produkci eventů a konferencí. Působí také v grafickém designu, DTP, videu, fotografii a audiu."
 link: "https://kristian.cz/"
 image: "/images/logo-kristian.svg"
 position: 8
