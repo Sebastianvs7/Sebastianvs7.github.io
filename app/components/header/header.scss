@@ -18,6 +18,11 @@ header {
   transition: background-color 0.3s ease;
   width: 100%;
   z-index: 1100;
+
+  // Line the hamburger up with the main content gutter
+  @media (max-width: 768px) {
+    padding-inline: 1.5rem;
+  }
 }
 
 nav {
@@ -41,7 +46,6 @@ nav {
   flex-direction: column;
   height: 22px;
   justify-content: space-around;
-  margin-left: 1rem;
   padding: 0;
   width: 24px;
   z-index: 1100;
