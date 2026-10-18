@@ -2,29 +2,16 @@
   <section id="contact" tabindex="-1" aria-labelledby="contact-title">
     <h2 id="contact-title">{{ $t("navigation.contact") }}</h2>
     <div class="contact-links">
-      <a
-        :href="`mailto:${data.email}`"
-        :aria-label="$t('intro.cta.emailLabel')"
-      >
+      <a :href="`mailto:${data.email}`">
         <Icon name="local:mail" /> {{ data.email }}
       </a>
-      <a
-        :href="data.linkedin"
-        target="_blank"
-        rel="noopener noreferrer"
-        :aria-label="$t('intro.cta.linkedinLabel')"
-      >
+      <a :href="data.linkedin" target="_blank" rel="noopener noreferrer">
         <Icon name="local:linkedin" /> LinkedIn
       </a>
-      <a
-        :href="data.github"
-        target="_blank"
-        rel="noopener noreferrer"
-        :aria-label="$t('intro.cta.githubLabel')"
-      >
+      <a :href="data.github" target="_blank" rel="noopener noreferrer">
         <Icon name="local:github" /> GitHub
       </a>
-      <a :href="data.cv[locale]" :aria-label="$t('cv.downloadLabel')" download>
+      <a :href="data.cv[locale]" download>
         <Icon name="local:download" /> {{ $t("cv.short") }}
       </a>
     </div>
