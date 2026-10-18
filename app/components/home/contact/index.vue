@@ -24,7 +24,7 @@
       >
         <Icon name="local:github" /> GitHub
       </a>
-      <a :href="data.cv" :aria-label="$t('cv.downloadLabel')" download>
+      <a :href="data.cv[locale]" :aria-label="$t('cv.downloadLabel')" download>
         <Icon name="local:download" /> {{ $t("cv.short") }}
       </a>
     </div>
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+const { locale } = useI18n();
 const data = useData();
 </script>
 

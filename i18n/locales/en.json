@@ -65,8 +65,8 @@
     "imageAlt": "Sebastian Šanda – Full-Stack Developer (TypeScript, React, React Native, NestJS)"
   },
   "cv": {
-    "download": "Download CV (CZ)",
-    "downloadLabel": "Download CV as PDF, in Czech",
-    "short": "CV (CZ)"
+    "download": "Download CV",
+    "downloadLabel": "Download CV as PDF",
+    "short": "CV"
   }
 }
