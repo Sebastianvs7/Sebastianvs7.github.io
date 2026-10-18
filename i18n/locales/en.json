@@ -28,9 +28,7 @@
       "email": "Get in touch",
       "emailLabel": "Send email to Sebastian Šanda",
       "linkedinLabel": "Visit LinkedIn profile",
-      "githubLabel": "Visit GitHub profile",
-      "cv": "Download CV (CZ)",
-      "cvLabel": "Download CV as PDF, in Czech"
+      "githubLabel": "Visit GitHub profile"
     }
   },
   "projects": {
@@ -66,5 +64,10 @@
     "tagline": "Full-Stack Developer (TypeScript, React, React Native, NestJS)",
     "description": "Full-stack developer with almost 10 years of experience. Web and mobile apps in React, Next.js and React Native, backend in NestJS, GraphQL and PostgreSQL.",
     "imageAlt": "Sebastian Šanda – Full-Stack Developer (TypeScript, React, React Native, NestJS)"
+  },
+  "cv": {
+    "download": "Download CV (CZ)",
+    "downloadLabel": "Download CV as PDF, in Czech",
+    "short": "CV (CZ)"
   }
 }

@@ -24,6 +24,9 @@
       >
         <Icon name="local:github" /> GitHub
       </a>
+      <a :href="data.cv" :aria-label="$t('cv.downloadLabel')" download>
+        <Icon name="local:download" /> {{ $t("cv.short") }}
+      </a>
     </div>
   </section>
 </template>

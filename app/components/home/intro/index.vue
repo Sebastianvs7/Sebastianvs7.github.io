@@ -17,14 +17,6 @@
             {{ $t("intro.cta.email") }}
           </a>
           <a
-            href="/cv/sebastian-sanda-cs.pdf"
-            class="cta-button cta-secondary"
-            :aria-label="$t('intro.cta.cvLabel')"
-            download
-          >
-            {{ $t("intro.cta.cv") }}
-          </a>
-          <a
             :href="data.github"
             class="cta-button cta-secondary cta-icon"
             :aria-label="$t('intro.cta.githubLabel')"

@@ -42,12 +42,19 @@
         </div>
       </div>
     </div>
+
+    <div class="experiences-cv">
+      <a :href="data.cv" :aria-label="$t('cv.downloadLabel')" download>
+        <Icon name="local:download" /> {{ $t("cv.download") }}
+      </a>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
 const { experiencesData } = await useExperiencesData();
 const { locale } = useI18n();
+const data = useData();
 
 const getPositionClass = (index: number): "left" | "right" => {
   return index % 2 === 0 ? "right" : "left";
