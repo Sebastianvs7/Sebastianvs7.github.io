@@ -23,32 +23,43 @@ Checks (the same ones CI runs):
 
 ```bash
 npm run lint
+npm run format:check   # npm run format to fix
 npm run typecheck
-npm run generate   # static site in .output/public
-npm run preview    # serve the generated site
+npm test               # self-checks in scripts/ for the hero grid and gomoku logic
+npm run generate       # static site in .output/public
+npm run preview        # serve the generated site
 ```
 
 ## Structure
 
 ```
 app/
-├── components/      # Vue components, styles in sibling .scss files
-│   ├── header/
+├── components/        # Vue components, styles in sibling .scss files
+│   ├── header/        # navigation, theme toggle
 │   ├── footer/
-│   └── home/        # page sections: intro, projects, experiences, skills, about, contact
-├── composables/     # data access (content queries, site contacts)
+│   ├── home/          # page sections: intro, projects, experiences, skills, about, contact
+│   ├── project-hero/  # animated grid with the gomoku game on project pages
+│   └── ui/            # generic: DecryptedText, LogoLoop
+├── composables/       # content queries, site links, hero grid and match state
+├── layouts/           # header + page + footer
 ├── pages/
-└── styles/main.scss # theme tokens and global styles
+├── styles/main.scss   # theme tokens and global styles
+├── types/             # domain types shared across layers, derived from the content schemas
+└── utils/             # pure logic (gomoku, hero grid geometry)
 content/
-├── cs/projects/     # Czech project pages
-├── en/projects/     # English project pages
-├── experiences/     # one file per position, both locales
+├── cs/projects/       # Czech project pages
+├── en/projects/       # English project pages
+├── experiences/       # one file per position, both locales
+├── other-projects/    # logos in the "other projects" loop
 └── skills.yml
-i18n/locales/        # UI texts (cs.json, en.json)
-public/cv/           # CV PDFs
-content.config.ts    # content collection schemas
+i18n/locales/          # UI texts (cs.json, en.json)
+public/cv/             # CV PDFs
+scripts/               # self-checks run by npm test
+content.config.ts      # content collection schemas
 ```
+
+Types live next to the code that owns them: component props in the component, logic types in their module. Only types shared by several layers go to `app/types/`.
 
 ## Deployment
 
-Every push to `main` runs `.github/workflows/deploy.yml` (lint, typecheck, generate) and publishes `.output/public` to GitHub Pages. Pull requests to `main` run the same checks without deploying. The custom domain is configured in the repository's Pages settings.
+Every push to `main` runs `.github/workflows/deploy.yml` (lint, format check, typecheck, test, generate) and publishes `.output/public` to GitHub Pages. Pull requests to `main` run the same checks without deploying. The custom domain is configured in the repository's Pages settings.
