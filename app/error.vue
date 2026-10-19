@@ -21,12 +21,23 @@ const props = defineProps<ErrorPageProps>();
 const { t } = useI18n();
 const localePath = useLocalePath();
 
+// error.vue replaces app.vue, so its head setup doesn't run here.
+// No `seo: true`: canonical and hreflang must not point at a missing URL
+const i18nHead = useLocaleHead();
+
 const message = computed(() =>
   props.error.statusCode === 404 ? t("error.notFound") : t("common.error")
 );
 
 useHead({
+  htmlAttrs: {
+    lang: computed(() => i18nHead.value.htmlAttrs.lang),
+  },
   title: computed(() => `${props.error.statusCode} - ${message.value}`),
+});
+
+useSeoMeta({
+  description: () => t("seo.description"),
 });
 </script>
 
