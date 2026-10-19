@@ -93,6 +93,12 @@
       margin-top: 0;
     }
 
+    // Below the buttons once the photo wraps, with room for the bounce under the icons
+    @media (max-width: 609px) {
+      align-self: auto;
+      margin-top: 2.5rem;
+    }
+
     .shape {
       animation-direction: alternate;
       animation-iteration-count: infinite;
@@ -144,6 +150,12 @@
 
   @media (max-width: 768px) {
     gap: 1rem;
+  }
+
+  // The photo wraps below 610px (350px text + 2rem gap + 180px photo + main padding), stack the shapes then
+  @media (max-width: 609px) {
+    flex-direction: column;
+    gap: 0;
   }
 }
 
