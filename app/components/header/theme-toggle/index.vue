@@ -17,13 +17,21 @@
             <circle cx="12" cy="11" r="3.5" fill="currentColor" />
 
             <g class="theme-icon-rays">
-              <path
+              <g
                 class="theme-icon-rays-spin"
-                d="M12 4.5V6M12 16v1.5M4.5 11H6M18 11h1.5M6.7 5.7l1.1 1.1M16.2 15.2l1.1 1.1M6.7 16.3l1.1-1.1M16.2 6.8l1.1-1.1"
                 stroke="currentColor"
                 stroke-width="1.8"
                 stroke-linecap="round"
-              />
+              >
+                <path
+                  class="theme-icon-ray"
+                  d="M12 4.5V6M12 16v1.5M4.5 11H6M18 11h1.5"
+                />
+                <path
+                  class="theme-icon-ray"
+                  d="M6.7 5.7l1.1 1.1M16.2 15.2l1.1 1.1M6.7 16.3l1.1-1.1M16.2 6.8l1.1-1.1"
+                />
+              </g>
             </g>
           </g>
 
